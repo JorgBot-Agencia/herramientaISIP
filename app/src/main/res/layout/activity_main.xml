@@ -20,7 +20,7 @@
         android:layout_marginTop="50sp"
         android:layout_height="120sp"
         android:layout_width="match_parent"
-        android:src="@drawable/background2" />
+        android:src="@drawable/logo" />
 
     <LinearLayout
         android:layout_marginTop="60sp"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox" >
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtContrasena"
@@ -63,6 +63,8 @@
             android:id="@+id/btnIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="60sp"
+            android:background="@drawable/boton"
+            android:textColor="@color/colorLetraBlanco"
             android:text="Iniciar Sesión" />
 
         <TextView
