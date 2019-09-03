@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".informacionEmpresarial"></activity>
+        <activity
+            android:name=".menuprincipal"
+            android:label="@string/title_activity_me"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".informacionEmpresarial" />
         <activity android:name=".principal" />
         <activity android:name=".MainActivity">
             <intent-filter>
