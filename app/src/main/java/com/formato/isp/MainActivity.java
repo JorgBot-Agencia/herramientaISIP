@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void iniciarSesion(){
-        Intent intent = new Intent(this, principal.class);
+        Intent intent = new Intent(this, menuprincipal.class);
         startActivity(intent);
     }
 }
