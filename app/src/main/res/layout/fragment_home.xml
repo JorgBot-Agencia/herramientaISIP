@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,4 +17,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+        <Button
+            android:id="@+id/por_confirmar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Por confirmar"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/colorLetraBlanco"
+            android:background="@drawable/boton"/>
+
+        <Button
+            android:id="@+id/formato_isp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Formato ISP"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/colorLetraBlanco"
+            android:background="@drawable/boton"/>
+        <Button
+            android:id="@+id/gestion_documental"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gestion documental"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/colorLetraBlanco"
+            android:background="@drawable/boton"/>
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

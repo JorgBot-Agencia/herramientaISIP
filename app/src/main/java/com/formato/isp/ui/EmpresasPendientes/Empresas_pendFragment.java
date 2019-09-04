@@ -1,4 +1,4 @@
-package com.formato.isp.ui.slideshow;
+package com.formato.isp.ui.EmpresasPendientes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.formato.isp.R;
 
-public class SlideshowFragment extends Fragment {
+public class Empresas_pendFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private Empresas_pendViewModel empresaspendViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        empresaspendViewModel =
+                ViewModelProviders.of(this).get(Empresas_pendViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        final TextView textView = root.findViewById(R.id.text_gallery);
+        empresaspendViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

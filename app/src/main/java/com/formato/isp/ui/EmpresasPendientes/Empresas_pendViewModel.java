@@ -1,16 +1,16 @@
-package com.formato.isp.ui.send;
+package com.formato.isp.ui.EmpresasPendientes;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SendViewModel extends ViewModel {
+public class Empresas_pendViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SendViewModel() {
+    public Empresas_pendViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is send fragment");
+        mText.setValue("Ver empresas pendientes");
     }
 
     public LiveData<String> getText() {
