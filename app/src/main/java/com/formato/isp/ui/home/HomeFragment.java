@@ -27,8 +27,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         btnFormatoIsp = root.findViewById(R.id.formato_isp);

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background4"
     tools:context=".MainActivity">
 
     <TextView
@@ -17,19 +16,21 @@
         android:text="Inicio de Sesión" />
 
     <ImageView
-        android:layout_marginTop="50sp"
-        android:layout_height="120sp"
-        android:layout_width="match_parent"
-        android:src="@drawable/logo" />
+        android:layout_marginTop="40sp"
+        android:layout_height="150sp"
+        android:layout_width="150sp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center"/>
 
     <LinearLayout
-        android:layout_marginTop="60sp"
-        android:layout_marginHorizontal="40sp"
+        android:layout_marginHorizontal="30sp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center" >
 
         <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="40sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Usuario"
@@ -68,12 +69,12 @@
             android:text="Iniciar Sesión" />
 
         <TextView
+            android:layout_marginTop="15sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="¿Aún no te has registrado como fundación?" />
 
     </LinearLayout>
-
 
 </LinearLayout>
