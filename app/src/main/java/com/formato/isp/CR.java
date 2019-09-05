@@ -1,4 +1,4 @@
-package com.formato.isp.ui;
+package com.formato.isp;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,17 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.formato.isp.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link buscarempresa.OnFragmentInteractionListener} interface
+ * {@link CR.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link buscarempresa#newInstance} factory method to
+ * Use the {@link CR#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class buscarempresa extends Fragment {
+public class CR extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,7 +31,7 @@ public class buscarempresa extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public buscarempresa() {
+    public CR() {
         // Required empty public constructor
     }
 
@@ -42,11 +41,11 @@ public class buscarempresa extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment buscarempresa.
+     * @return A new instance of fragment CR.
      */
     // TODO: Rename and change types and number of parameters
-    public static buscarempresa newInstance(String param1, String param2) {
-        buscarempresa fragment = new buscarempresa();
+    public static CR newInstance(String param1, String param2) {
+        CR fragment = new CR();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,7 +66,7 @@ public class buscarempresa extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_buscarempresa, container, false);
+        return inflater.inflate(R.layout.fragment_cr, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
