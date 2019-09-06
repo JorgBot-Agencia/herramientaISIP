@@ -5,6 +5,11 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
 
+    <!--- Un comentario de una sola línea
+     Aquí se agregan todos los fragmentos con sus atributos de referencia al codigo del
+     fragmento y a su vista
+     -->
+
     <fragment
         android:id="@+id/nav_home"
         android:name="com.formato.isp.ui.home.HomeFragment"
@@ -28,16 +33,13 @@
         android:name="com.formato.isp.ui.EncuestasRealizadas.EncuestasFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
-
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.formato.isp.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:id="@+id/gestion_documentalnavigation"
+        android:name="com.formato.isp.Gestion_documental"
+        android:label="gestion documental"
+        tools:layout="@layout/gestion_documental_fragment" />
+    />
 
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.formato.isp.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+
+
 </navigation>

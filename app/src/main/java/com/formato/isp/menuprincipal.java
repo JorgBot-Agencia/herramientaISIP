@@ -37,9 +37,12 @@ public class menuprincipal extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools)
+                R.id.nav_tools,R.id.gestion_documentalnavigation)
                 .setDrawerLayout(drawer)
                 .build();
+        //dentro de la linea anterior se debe incluir los id de los fragmentos en los
+        //que se quiera visualizar el menu principal de la izquierda.
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
