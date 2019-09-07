@@ -37,7 +37,8 @@ public class menuprincipal extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools,R.id.gestion_documentalnavigation)
+                R.id.nav_tools,R.id.opcionesPrincipales, R.id.informacionPrincipal,
+                R.id.encuesta,R.id.gestion_documentalnavigation)
                 .setDrawerLayout(drawer)
                 .build();
         //dentro de la linea anterior se debe incluir los id de los fragmentos en los

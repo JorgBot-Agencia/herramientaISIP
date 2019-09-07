@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/logo"/>
+    <TextView
+        android:id="@+id/nombre_empresa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="Calzado Campeón"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/logo"/>
+    <TextView
+        android:id="@+id/direccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textSize="12dp"
+        android:text="Cúcuta"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/nombre_empresa"/>
+    <LinearLayout
+        android:id="@+id/botones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/direccion"
+        android:gravity="center">
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="INFORMACIÓN GENERAL"
+            android:background="@android:color/transparent"/>
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="UBICACIÓN"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/informacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/botones"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorAccent">
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Gerente general:"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Andres Jaimes"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/iniciarEncuesta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INICIAR ENCUESTA"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/colorLetraBlanco"
+        android:layout_below="@id/informacion"
+        android:background="@drawable/boton"/>
+</RelativeLayout>

@@ -34,22 +34,11 @@ public class HomeFragment extends Fragment {
 
 
         btnFormatoIsp = root.findViewById(R.id.formato_isp);
-        btnGestionDocumental = root.findViewById(R.id.btnGestionDocumental);
-
-        btnGestionDocumental.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Navigation.findNavController(view).navigate(R.id.gestion_documentalnavigation);//Abre el fragmento
-                //destino desde un fragmento origen.
-            }
-        });
-
         btnFormatoIsp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), informacionEmpresarial.class);
-                startActivity(intent);
+                Navigation.findNavController(view).navigate(R.id.opcionesPrincipales);//Abre el fragmento
+                //destino desde un fragmento origen.
             }
         });
         return root;

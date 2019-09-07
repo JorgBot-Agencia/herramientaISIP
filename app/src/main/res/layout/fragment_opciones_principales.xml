@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CR">
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -44,7 +44,7 @@
         android:textColor="@color/colorLetraBlanco"
         android:text="Registrar Empresa"/>
     <Button
-        android:id="@+id/button02"
+        android:id="@+id/btnConsultarEmpresa"
         android:layout_width="match_parent"
         android:layout_marginLeft="30dp"
         android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
 
-    <!--- Un comentario de una sola línea
+    <!-- Un comentario de una sola línea
      Aquí se agregan todos los fragmentos con sus atributos de referencia al codigo del
      fragmento y a su vista
      -->
@@ -38,6 +38,24 @@
         android:name="com.formato.isp.Gestion_documental"
         android:label="gestion documental"
         tools:layout="@layout/gestion_documental_fragment" />
+    />
+    <fragment
+        android:id="@+id/opcionesPrincipales"
+        android:name="com.formato.isp.opcionesPrincipales"
+        android:label="Principal"
+        tools:layout="@layout/fragment_opciones_principales" />
+    />
+    <fragment
+        android:id="@+id/informacionPrincipal"
+        android:name="com.formato.isp.informacionPrincipal"
+        android:label="Empresa"
+        tools:layout="@layout/fragment_informacion_principal" />
+    />
+    <fragment
+        android:id="@+id/encuesta"
+        android:name="com.formato.isp.encuesta"
+        android:label="Empresa"
+        tools:layout="@layout/fragment_encuesta" />
     />
 
 
