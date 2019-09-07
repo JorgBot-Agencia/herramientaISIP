@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnIniciarSesion = (Button) findViewById(R.id.btnIniciarSesion);
+        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

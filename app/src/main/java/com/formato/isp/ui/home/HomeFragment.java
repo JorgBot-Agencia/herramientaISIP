@@ -26,13 +26,12 @@ public class HomeFragment extends Fragment {
     Button btnGestionDocumental;
     private HomeViewModel homeViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        final View root = inflater.inflate(R.layout.fragment_home, container, false);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         btnFormatoIsp = root.findViewById(R.id.formato_isp);
         btnGestionDocumental = root.findViewById(R.id.btnGestionDocumental);
@@ -49,18 +48,10 @@ public class HomeFragment extends Fragment {
         btnFormatoIsp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                            Intent intent = new Intent(getActivity(), informacionEmpresarial.class);
-                            startActivity(intent);
-
+                Intent intent = new Intent(getActivity(), informacionEmpresarial.class);
+                startActivity(intent);
             }
         });
-
-
         return root;
-
-
     }
-
-
 }
