@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".registroFundacion">
+
+    <LinearLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Formulario de inscripcion para fundaciones"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="NIT"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de la fundacion"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Direccion de la fundacion"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefono de la fundacion"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_below="@id/contenedor"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/foto_gallery"
+                android:layout_width="90dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_camera_alt_black_24dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/boton"
+                android:textColor="@color/colorLetraBlanco"
+                android:text="Seleccionar logo"/>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnSeleccionar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/boton"
+            android:textColor="@color/colorLetraBlanco"
+            android:text="Registrar"/>
+    </LinearLayout>
+</RelativeLayout>

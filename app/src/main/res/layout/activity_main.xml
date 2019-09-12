@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background4"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -73,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="¿Aún no te has registrado como fundación?" />
+            android:text="@string/messageWithLink"/>
 
     </LinearLayout>
 
