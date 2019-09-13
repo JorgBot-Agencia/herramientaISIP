@@ -10,72 +10,83 @@
 
 
     <androidx.cardview.widget.CardView
+
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/colorAccent"
+        app:cardBackgroundColor="@color/colorLetraBlanco"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        style="@style/CardView">
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/formato_isp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/boton"
-            android:text="Formato ISP"
-            android:textColor="@color/colorLetraBlanco"
-            android:textSize="24dp"
-            />
+                    <Button
+                        android:id="@+id/formato_isp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/botones_inicio"
+                        android:drawableLeft="@drawable/icon_btn_formatoisp"
+                        android:text="Formato ISP"
 
-        <Button
-            android:id="@+id/btnGestionDocumental"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/boton"
-            android:text="Gestion documental"
-            android:textColor="@color/colorLetraBlanco"
-            android:textSize="24dp"/>
+                        android:textSize="24dp" />
 
-        <Button
-            android:id="@+id/por_confirmar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/boton"
-            android:text="Por confirmar"
-            android:textColor="@color/colorLetraBlanco"
-            android:textSize="24dp"/>
+                    <Button
+                        android:id="@+id/btnGestionDocumental"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/botones_inicio"
+                        android:text="Gestion documental"
+                        android:textSize="24dp"
+                        android:drawableLeft="@drawable/icon_btn_gestion_documental"/>/>
+
+                    <Button
+                        android:id="@+id/por_confirmar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/botones_inicio"
+                        android:text="Por confirmar"
+                        android:textSize="24dp"
+                        android:drawableLeft="@drawable/icon_btn_confirmar"/>
+
+
+
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
 
-        </LinearLayout>
+
+
+
     </androidx.cardview.widget.CardView>
 
 

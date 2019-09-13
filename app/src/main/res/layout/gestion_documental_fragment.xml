@@ -13,14 +13,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="50dp"
-            android:text="Hello" />
+            android:textSize="30dp"
+            android:text="Frangment de Gestion Documental" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="hola mundito"
-            ></Button>
+
 
 
     </LinearLayout>

@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/gestion_documentalnavigation"
         android:name="com.formato.isp.Gestion_documental"
-        android:label="gestion documental"
+        android:label="Gestion documental"
         tools:layout="@layout/gestion_documental_fragment" />
     />
     <fragment

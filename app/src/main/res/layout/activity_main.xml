@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background4"
+    android:orientation="vertical"
     tools:context=".MainActivity">
         <TextView
             android:layout_height="wrap_content"
@@ -58,7 +58,6 @@
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
             <Button
                 android:layout_marginTop="50sp"
                 android:id="@+id/btnIniciarSesion"
@@ -67,13 +66,11 @@
                 android:background="@drawable/boton"
                 android:textColor="@color/colorLetraBlanco"
                 android:text="Iniciar Sesión" />
-
-            <TextView
-                android:layout_marginTop="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="¿Aún no te has registrado como fundación?" />
-
+        <TextView
+            android:layout_marginTop="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/messageWithLink"/>
         </LinearLayout>
 </LinearLayout>
