@@ -57,7 +57,4 @@
         android:label="Empresa"
         tools:layout="@layout/fragment_encuesta" />
     />
-
-
-
 </navigation>

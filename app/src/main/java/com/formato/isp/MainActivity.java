@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnIniciarSesion;
+    TextView txtLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +25,20 @@ public class MainActivity extends AppCompatActivity {
                 iniciarSesion();
             }
         });
+
+        txtLink = findViewById(R.id.link);
+        txtLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent abrir = new Intent(view.getContext(), registroFundacion.class);
+                startActivity(abrir);
+            }
+        });
+
+
     }
     public void iniciarSesion(){
-        Intent intent = new Intent(this, registroFundacion.class);
+        Intent intent = new Intent(this, menuprincipal.class);
         startActivity(intent);
     }
 }
