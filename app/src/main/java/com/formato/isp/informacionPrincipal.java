@@ -2,6 +2,7 @@ package com.formato.isp;
 
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,7 +41,8 @@ public class informacionPrincipal extends Fragment {
         iniciarEncuesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopup();
+                Intent intent = new Intent(view.getContext(), preguntasEncuesta.class);
+                startActivity(intent);
             }
         });
 
