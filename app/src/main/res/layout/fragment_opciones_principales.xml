@@ -1,62 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    android:background="@color/grey_10"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-                <LinearLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+                android:layout_weight="1"/>
+        <LinearLayout
+            android:id="@+id/layoutDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center_horizontal"
+            android:minHeight="35dp"
+            android:orientation="horizontal" />
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+                <Button
+                    android:id="@+id/btn_next"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                        <ImageView
-                            android:id="@+id/logo"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_marginTop="40dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/background3"/>
-                        <TextView
-                            android:id="@+id/text_view_id"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginLeft="50dp"
-                            android:layout_marginRight="50dp"
-                            android:text="Lea detenidamente las instrucciones para una correcta realización del formato ISP"/>
-                        <TextView
-                            android:id="@+id/instrucciones"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginLeft="50dp"
-                            android:layout_marginRight="50dp"
-                            android:text="Instrucciones:"/>
-                        <Button
-                            android:id="@+id/button01"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="180dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/boton"
-                            android:textColor="@color/colorLetraBlanco"
-                            android:text="Registrar Empresa"/>
-                        <Button
-                            android:id="@+id/btnConsultarEmpresa"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/boton"
-                            android:textColor="@color/colorLetraBlanco"
-                            android:text="Consultar Empresa"/>
-                </LinearLayout>
-        </ScrollView>
-</RelativeLayout>
+                    android:layout_height="50dp"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="SIGUIENTE"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+</LinearLayout>

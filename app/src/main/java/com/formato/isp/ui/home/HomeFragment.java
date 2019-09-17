@@ -19,6 +19,7 @@ import com.formato.isp.Gestion_documental;
 import com.formato.isp.R;
 import com.formato.isp.menuprincipal;
 import com.formato.isp.informacionEmpresarial;
+import com.formato.isp.opcionPrincipal;
 
 public class HomeFragment extends Fragment {
     View vista;
@@ -45,8 +46,8 @@ public class HomeFragment extends Fragment {
         btnFormatoIsp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.opcionesPrincipales);//Abre el fragmento
-                //destino desde un fragmento origen.
+                Intent intent = new Intent(view.getContext(), opcionPrincipal.class);
+                startActivity(intent);
             }
         });
         return root;
