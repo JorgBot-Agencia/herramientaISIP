@@ -98,7 +98,7 @@ public class opcionPrincipal extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
+        
         btninicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +108,13 @@ public class opcionPrincipal extends AppCompatActivity {
         });
 
 
+        btnAnterior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent abrirRegistro = new Intent(view.getContext(), registroEmpresa.class);
+                startActivity(abrirRegistro);
+            }
+        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,8 +123,8 @@ public class opcionPrincipal extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    Intent intent = new Intent(v.getContext(), menuprincipal.class);
-                    intent.putExtra("direccion","2");
+
+                    Intent intent = new Intent(v.getContext(), infoDetallada.class);
                     startActivity(intent);
                     //Navigation.findNavController(v).navigate(R.id.consultar_empresa);//Abre el fragmento
 

@@ -19,7 +19,7 @@
             android:layout_above="@id/barra"
             android:layout_alignParentTop="true"
             android:layout_margin="20dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="15dp">
 
             <LinearLayout

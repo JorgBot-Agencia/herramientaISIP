@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(abrir);
             }
         });
-
-
     }
     public void iniciarSesion(){
         Intent intent = new Intent(this, menuprincipal.class);

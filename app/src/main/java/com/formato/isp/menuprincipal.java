@@ -44,7 +44,6 @@ public class menuprincipal extends AppCompatActivity {
                 .build();
         //dentro de la linea anterior se debe incluir los id de los fragmentos en los
         //que se quiera visualizar el menu principal de la izquierda.
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

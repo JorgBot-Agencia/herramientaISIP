@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -42,7 +43,7 @@ public class registroFundacion extends AppCompatActivity {
 
     Uri imageUri;
     ImageView foto_gallery;
-    Button btnSeleccionar;
+    FloatingActionButton btnSeleccionar;
     RelativeLayout rlView;
     ContactsContract.Contacts.Photo photo;
 
