@@ -86,7 +86,13 @@ public class opcionPrincipal extends AppCompatActivity {
             }
         });
 
-
+        btnAnterior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent abrirRegistro = new Intent(view.getContext(), registroEmpresa.class);
+                startActivity(abrirRegistro);
+            }
+        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
