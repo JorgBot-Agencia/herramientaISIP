@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), opcionPrincipal.class);
                 startActivity(intent);
+                //Navigation.findNavController(view).navigate(R.id.botonISP);//Abre el fragmento
             }
         });
         return root;

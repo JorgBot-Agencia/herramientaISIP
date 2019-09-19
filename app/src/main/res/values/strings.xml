@@ -16,6 +16,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="messageWithLink">¿Aún no te has registrado como fundación?</string>
+    <string name="IniciarEn">"@id/nav_home"</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

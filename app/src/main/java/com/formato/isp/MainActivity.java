@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void iniciarSesion(){
         Intent intent = new Intent(this, menuprincipal.class);
+        intent.putExtra("direccion","1");
         startActivity(intent);
     }
 }

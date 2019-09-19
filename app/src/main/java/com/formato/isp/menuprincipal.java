@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 public class menuprincipal extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class menuprincipal extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
                 R.id.nav_tools,R.id.opcionesPrincipales, R.id.informacionPrincipal,
-                R.id.encuesta,R.id.gestion_documentalnavigation)
+                R.id.encuesta,R.id.gestion_documentalnavigation,R.id.consultar_empresa_navigation)
                 .setDrawerLayout(drawer)
                 .build();
         //dentro de la linea anterior se debe incluir los id de los fragmentos en los
@@ -47,6 +48,7 @@ public class menuprincipal extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
 
@@ -56,4 +58,7 @@ public class menuprincipal extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+
 }

@@ -57,4 +57,17 @@
         android:label="Empresa"
         tools:layout="@layout/fragment_encuesta" />
     />
+    <fragment
+        android:id="@+id/consultar_empresa_navigation"
+        android:name="com.formato.isp.ConsultarEmpresa.ConsultaEmpresaFragment"
+        android:label="Consultar Empresa"
+        tools:layout="@layout/consulta_empresa_fragment" />
+    />
+
+    <fragment
+        android:id="@+id/botonISP"
+        android:name="com.formato.isp.botonISP.OpcionPrincipal"
+        android:label="Formato ISP"
+        tools:layout="@layout/opcion_principal_fragment" />
+    />
 </navigation>

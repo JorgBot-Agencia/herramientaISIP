@@ -1,10 +1,16 @@
 package com.formato.isp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -17,14 +23,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.formato.isp.ConsultarEmpresa.ConsultaEmpresaFragment;
+import com.formato.isp.ConsultarEmpresa.ConsultaEmpresaViewModel;
 import com.formato.isp.utils.Tools;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 public class opcionPrincipal extends AppCompatActivity {
 
     private static final int MAX_STEP = 4;
-
+    private AppBarConfiguration mAppBarConfiguration;
+    private opcionPrincipal actividad;
     private ViewPager viewPager;
     private Button btnNext, btnAnterior;
+    FloatingActionButton btninicio;
     private MyViewPagerAdapter myViewPagerAdapter;
     private String about_title_array[] = {
             "Verifique los datos empresariales",
@@ -49,10 +61,11 @@ public class opcionPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opcion_principal);
-
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         btnNext = (Button) findViewById(R.id.btn_next);
         btnAnterior = findViewById(R.id.btn_anterior);
+        btninicio = findViewById(R.id.fab);
+
 
         // adding bottom dots
         bottomProgressDots(0);
@@ -86,6 +99,14 @@ public class opcionPrincipal extends AppCompatActivity {
             }
         });
 
+        btninicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,17 +117,17 @@ public class opcionPrincipal extends AppCompatActivity {
                     viewPager.setCurrentItem(current);
                 } else {
                     Intent intent = new Intent(v.getContext(), menuprincipal.class);
+                    intent.putExtra("direccion","2");
                     startActivity(intent);
+                    //Navigation.findNavController(v).navigate(R.id.consultar_empresa);//Abre el fragmento
+
                 }
             }
         });
 
-        Tools.setSystemBarColor(this, R.color.grey_10);
-        Tools.setSystemBarLight(this);
     }
 
     private int getItem(int i) { return viewPager.getCurrentItem() + i; }
-
     private void bottomProgressDots(int current_index) {
         LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         ImageView[] dots = new ImageView[MAX_STEP];
