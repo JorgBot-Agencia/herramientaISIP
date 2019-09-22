@@ -8,16 +8,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:orientation="vertical">
-        <TextView
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Idrecycleview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"
-            android:text="Frangment de Gestion Documental" />
+            android:scrollbars="vertical"
+            android:scrollingCache="true">
 
-
-
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

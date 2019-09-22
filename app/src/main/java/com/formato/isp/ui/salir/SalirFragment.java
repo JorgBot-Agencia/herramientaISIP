@@ -1,5 +1,6 @@
 package com.formato.isp.ui.salir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.formato.isp.MainActivity;
 import com.formato.isp.R;
 
 public class SalirFragment extends Fragment {
@@ -30,6 +32,9 @@ public class SalirFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        Intent intent = new Intent(root.getContext(), MainActivity.class);
+        startActivity(intent);
         return root;
     }
 }

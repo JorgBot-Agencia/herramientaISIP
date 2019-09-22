@@ -64,10 +64,4 @@
         tools:layout="@layout/consulta_empresa_fragment" />
     />
 
-    <fragment
-        android:id="@+id/botonISP"
-        android:name="com.formato.isp.botonISP.OpcionPrincipal"
-        android:label="Formato ISP"
-        tools:layout="@layout/opcion_principal_fragment" />
-    />
 </navigation>

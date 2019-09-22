@@ -98,7 +98,7 @@ public class opcionPrincipal extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        
+
         btninicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
