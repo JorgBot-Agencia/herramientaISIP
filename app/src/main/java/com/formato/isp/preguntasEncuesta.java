@@ -2,6 +2,7 @@ package com.formato.isp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
@@ -49,10 +50,14 @@ public class preguntasEncuesta extends AppCompatActivity {
         status.setText(str_progress);
     }
     private void nextStep(int progress) {
-        if (progress < MAX_STEP) {
+        if (progress <= MAX_STEP) {
             progress++;
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
+        }
+        if(progress == 21){
+            Intent abrirProgress = new Intent(this, cargando.class);
+            startActivity(abrirProgress);
         }
         String str_progress = String.format("Pregunta %1$d", current_step, MAX_STEP);
         status.setText(str_progress);
@@ -61,7 +66,7 @@ public class preguntasEncuesta extends AppCompatActivity {
 
     private void backStep(int progress) {
         if (progress > 1) {
-            progress++;
+            progress--;
             current_step = progress;
         }
         String str_progress = String.format("Pregunta %1$d", current_step, MAX_STEP);

@@ -3,19 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/inicio">
 
     <!-- Un comentario de una sola línea
      Aquí se agregan todos los fragmentos con sus atributos de referencia al codigo del
      fragmento y a su vista
      -->
-
     <fragment
         android:id="@+id/nav_home"
         android:name="com.formato.isp.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
+    <fragment
+        android:id="@+id/inicio"
+        android:name="com.formato.isp.inicio"
+        android:label="Inicio"
+        tools:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.formato.isp.ui.EmpresasPendientes.Empresas_pendFragment"

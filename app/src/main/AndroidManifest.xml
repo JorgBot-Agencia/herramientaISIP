@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".infoDetallada"></activity>
+        <activity android:name=".cargando" />
+        <activity android:name=".buscar_empresa" />
+        <activity android:name=".infoDetallada" />
         <activity android:name=".registroEmpresa" />
         <activity android:name=".opcionPrincipal" />
         <activity android:name=".preguntasEncuesta" />
