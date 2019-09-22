@@ -270,6 +270,5 @@
             app:layout_anchorGravity="top|end|right"
             app:rippleColor="@android:color/white"
             android:src="@drawable/ic_photo_camera" />
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </RelativeLayout>

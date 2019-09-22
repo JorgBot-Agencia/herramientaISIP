@@ -123,7 +123,6 @@ public class opcionPrincipal extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-
                     Intent intent = new Intent(v.getContext(), infoDetallada.class);
                     startActivity(intent);
                     //Navigation.findNavController(v).navigate(R.id.consultar_empresa);//Abre el fragmento

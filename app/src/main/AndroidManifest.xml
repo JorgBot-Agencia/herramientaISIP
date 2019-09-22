@@ -16,6 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".GestionDocumental.GestionDocumental"></activity>
+        <activity android:name=".cargando" />
+        <activity android:name=".buscar_empresa" />
         <activity android:name=".infoDetallada" />
         <activity android:name=".registroEmpresa" />
         <activity android:name=".opcionPrincipal" />
