@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,12 +44,14 @@ public class AdapterListFolderFile extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView name;
         public TextView date;
         public View lyt_parent;
+        public ProgressBar cantidad;
 
         public OriginalViewHolder(View v) {
             super(v);
             image = (ImageView) v.findViewById(R.id.image);
             name = (TextView) v.findViewById(R.id.name);
             date = (TextView) v.findViewById(R.id.date);
+            cantidad = v.findViewById(R.id.cantidad);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }
     }
@@ -85,6 +88,7 @@ public class AdapterListFolderFile extends RecyclerView.Adapter<RecyclerView.Vie
             view.name.setText(p.name);
             view.date.setText(p.date);
             view.image.setImageResource(p.image);
+            view.cantidad.setProgress(p.cantidad);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

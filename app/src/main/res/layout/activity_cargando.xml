@@ -13,9 +13,9 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/barraPrincipal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -27,6 +27,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -34,9 +35,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scrollbars="vertical"
-                android:scrollingCache="true" />
+                android:scrollingCache="true"></androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout
                 android:id="@+id/lyt_progress"
@@ -62,17 +63,13 @@
                     android:indeterminate="true" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/botones"
-                android:layout_marginTop="30dp"
-                android:layout_below="@id/lyt_progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
+                android:layout_margin="5dp"
+                android:orientation="vertical"></LinearLayout>
         </RelativeLayout>
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
