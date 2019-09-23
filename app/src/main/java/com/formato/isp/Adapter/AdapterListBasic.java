@@ -40,12 +40,14 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView name;
+        public TextView email;
         public View lyt_parent;
 
         public OriginalViewHolder(View v) {
             super(v);
             image = (ImageView) v.findViewById(R.id.image);
             name = (TextView) v.findViewById(R.id.name);
+            email = (TextView) v.findViewById(R.id.email);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }
     }
@@ -66,6 +68,7 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             People p = items.get(position);
             view.name.setText(p.name);
+            view.email.setText(p.email);
             Tools.displayImageRound(ctx, view.image, p.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override

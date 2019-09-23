@@ -51,8 +51,7 @@ public class Gestion_documental extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         List<People> items = DataGenerator.getPeopleData(root.getContext());
-        items.addAll(DataGenerator.getPeopleData(root.getContext()));
-        items.addAll(DataGenerator.getPeopleData(root.getContext()));
+        //items.addAll(DataGenerator.getPeopleData(root.getContext()));
 
         //set data and list adapter
         mAdapter = new AdapterListBasic(root.getContext(), items);
