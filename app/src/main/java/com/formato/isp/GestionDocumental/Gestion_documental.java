@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,6 +64,13 @@ public class Gestion_documental extends Fragment {
             public void onItemClick(View view, People obj, int position) {
                 //Snackbar.make(parent_view, "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
                 Snackbar.make(root, "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("nombre", obj.name);
+                bundle.putString("email", obj.email);
+                bundle.putInt("foto",obj.image);
+                //bundle.putString("foto", obj.image);
+
+                Navigation.findNavController(root).navigate(R.id.detalle_gestion,bundle);
             }
         });
 

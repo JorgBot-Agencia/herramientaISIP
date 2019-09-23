@@ -37,4 +37,10 @@
         android:label="Gestion documental"
         tools:layout="@layout/gestion_documental_fragment" />
     />
+    <fragment
+        android:id="@+id/detalle_gestion"
+        android:name="com.formato.isp.GestionDocumental.DetalleGestionDocumental"
+        android:label="Informacion detallada"
+        tools:layout="@layout/fragment_detalle_gestion_documental" />
+    />
 </navigation>
