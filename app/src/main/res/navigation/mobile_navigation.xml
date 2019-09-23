@@ -43,4 +43,9 @@
         android:label="Informacion detallada"
         tools:layout="@layout/fragment_detalle_gestion_documental" />
     />
+    <fragment
+        android:id="@+id/acerca"
+        android:name="com.formato.isp.acerca"
+        android:label="Acerca de"
+        tools:layout="@layout/fragment_acerca" />
 </navigation>

@@ -89,7 +89,7 @@
                     android:layout_marginTop="30sp"
                     android:textSize="18sp"
                     android:clickable="true"
-                    android:text="¿Aún no haz registrado tu fundación? Haz click aquí." />
+                    android:text="¿Aún no haz registrado tu organización? Haz click aquí." />
 
             </LinearLayout>
         </LinearLayout>
