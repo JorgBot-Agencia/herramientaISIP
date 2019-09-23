@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.formato.isp.GestionFundacion.registroFundacion;
+import com.formato.isp.MenuLateral.menuprincipal;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnIniciarSesion;

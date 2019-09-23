@@ -1,16 +1,16 @@
-package com.formato.isp.ui.EmpresasPendientes;
+package com.formato.isp.MenuLateral.EncuestasRealizadas;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class Empresas_pendViewModel extends ViewModel {
+public class EncuestasViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public Empresas_pendViewModel() {
+    public EncuestasViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Ver empresas pendientes");
+        mText.setValue("Ver encuestas realizadas");
     }
 
     public LiveData<String> getText() {

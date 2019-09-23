@@ -1,4 +1,4 @@
-package com.formato.isp;
+package com.formato.isp.GestionEmpresa;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.formato.isp.R;
 
 public class buscar_empresa extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.formato.isp;
+package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.formato.isp.R;
 import com.formato.isp.utils.ViewAnimation;
 
 public class preguntasEncuesta extends AppCompatActivity {

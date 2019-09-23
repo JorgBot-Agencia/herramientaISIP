@@ -11,55 +11,30 @@
      -->
     <fragment
         android:id="@+id/inicio"
-        android:name="com.formato.isp.inicio"
+        android:name="com.formato.isp.MenuLateral.Inicio.inicio"
         android:label="Inicio"
         tools:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.formato.isp.ui.EmpresasPendientes.Empresas_pendFragment"
+        android:name="com.formato.isp.MenuLateral.EmpresasPendientes.Empresas_pendFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.formato.isp.ui.salir.SalirFragment"
+        android:name="com.formato.isp.MenuLateral.salir.SalirFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_tools"
-        android:name="com.formato.isp.ui.EncuestasRealizadas.EncuestasFragment"
+        android:name="com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
     <fragment
         android:id="@+id/gestion_documentalnavigation"
-        android:name="com.formato.isp.Gestion_documental"
+        android:name="com.formato.isp.GestionDocumental.Gestion_documental"
         android:label="Gestion documental"
         tools:layout="@layout/gestion_documental_fragment" />
     />
-    <fragment
-        android:id="@+id/opcionesPrincipales"
-        android:name="com.formato.isp.opcionesPrincipales"
-        android:label="Principal"
-        tools:layout="@layout/fragment_opciones_principales" />
-    />
-    <fragment
-        android:id="@+id/informacionPrincipal"
-        android:name="com.formato.isp.informacionPrincipal"
-        android:label="Empresa"
-        tools:layout="@layout/fragment_informacion_principal" />
-    />
-    <fragment
-        android:id="@+id/encuesta"
-        android:name="com.formato.isp.encuesta"
-        android:label="Empresa"
-        tools:layout="@layout/fragment_encuesta" />
-    />
-    <fragment
-        android:id="@+id/consultar_empresa_navigation"
-        android:name="com.formato.isp.ConsultarEmpresa.ConsultaEmpresaFragment"
-        android:label="Consultar Empresa"
-        tools:layout="@layout/consulta_empresa_fragment" />
-    />
-
 </navigation>

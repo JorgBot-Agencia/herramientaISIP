@@ -1,4 +1,4 @@
-package com.formato.isp;
+package com.formato.isp.MenuLateral.Inicio;
 
 
 import android.content.Intent;
@@ -10,8 +10,9 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.formato.isp.R;
+import com.formato.isp.DesarrolloEncuesta.opcionPrincipal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 

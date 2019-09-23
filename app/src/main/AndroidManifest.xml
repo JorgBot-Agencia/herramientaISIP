@@ -15,16 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GestionDocumental.GestionDocumental"></activity>
-        <activity android:name=".cargando" />
-        <activity android:name=".buscar_empresa" />
-        <activity android:name=".infoDetallada" />
-        <activity android:name=".registroEmpresa" />
-        <activity android:name=".opcionPrincipal" />
-        <activity android:name=".preguntasEncuesta" />
-        <activity android:name=".registroFundacion" />
+        <activity android:name=".DesarrolloEncuesta.cargando" />
+        <activity android:name=".GestionEmpresa.buscar_empresa" />
+        <activity android:name=".GestionEmpresa.infoDetallada" />
+        <activity android:name=".GestionEmpresa.registroEmpresa" />
+        <activity android:name=".DesarrolloEncuesta.opcionPrincipal" />
+        <activity android:name=".DesarrolloEncuesta.preguntasEncuesta" />
+        <activity android:name=".GestionFundacion.registroFundacion" />
         <activity
-            android:name=".menuprincipal"
+            android:name=".MenuLateral.menuprincipal"
             android:label="@string/title_activity_me"
             android:theme="@style/NoActionBar" />
         <activity android:name=".informacionEmpresarial" />

@@ -1,16 +1,16 @@
-package com.formato.isp.ui.salir;
+package com.formato.isp.MenuLateral.EmpresasPendientes;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SalirViewModel extends ViewModel {
+public class Empresas_pendViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SalirViewModel() {
+    public Empresas_pendViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Menu Salir");
+        mText.setValue("Ver empresas pendientes");
     }
 
     public LiveData<String> getText() {

@@ -1,8 +1,10 @@
-package com.formato.isp;
+package com.formato.isp.GestionEmpresa;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.formato.isp.R;
 
 public class registroEmpresa extends AppCompatActivity {
 

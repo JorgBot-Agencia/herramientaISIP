@@ -1,16 +1,16 @@
-package com.formato.isp.ui.EncuestasRealizadas;
+package com.formato.isp.MenuLateral.salir;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class EncuestasViewModel extends ViewModel {
+public class SalirViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public EncuestasViewModel() {
+    public SalirViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Ver encuestas realizadas");
+        mText.setValue("Menu Salir");
     }
 
     public LiveData<String> getText() {

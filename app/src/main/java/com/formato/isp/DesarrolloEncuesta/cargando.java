@@ -1,4 +1,4 @@
-package com.formato.isp;
+package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.formato.isp.R;
 import com.formato.isp.utils.ViewAnimation;
 import com.google.android.material.snackbar.Snackbar;
 

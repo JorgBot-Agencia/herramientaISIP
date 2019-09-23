@@ -1,16 +1,10 @@
-package com.formato.isp;
+package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -23,11 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.formato.isp.ConsultarEmpresa.ConsultaEmpresaFragment;
-import com.formato.isp.ConsultarEmpresa.ConsultaEmpresaViewModel;
-import com.formato.isp.utils.Tools;
+import com.formato.isp.GestionEmpresa.buscar_empresa;
+import com.formato.isp.GestionEmpresa.registroEmpresa;
+import com.formato.isp.MenuLateral.menuprincipal;
+import com.formato.isp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 
 public class opcionPrincipal extends AppCompatActivity {
 
@@ -36,7 +30,6 @@ public class opcionPrincipal extends AppCompatActivity {
     private opcionPrincipal actividad;
     private ViewPager viewPager;
     private Button btnNext, btnAnterior;
-    FloatingActionButton btninicio;
     private MyViewPagerAdapter myViewPagerAdapter;
     private String about_title_array[] = {
             "Verifique los datos empresariales",
@@ -64,7 +57,6 @@ public class opcionPrincipal extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         btnNext = (Button) findViewById(R.id.btn_next);
         btnAnterior = findViewById(R.id.btn_anterior);
-        btninicio = findViewById(R.id.fab);
 
 
         // adding bottom dots
@@ -99,13 +91,6 @@ public class opcionPrincipal extends AppCompatActivity {
             }
         });
 
-        btninicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), menuprincipal.class);
-                startActivity(intent);
-            }
-        });
 
 
         btnAnterior.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +108,7 @@ public class opcionPrincipal extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    Intent intent = new Intent(v.getContext(), infoDetallada.class);
+                    Intent intent = new Intent(v.getContext(), buscar_empresa.class);
                     startActivity(intent);
                     //Navigation.findNavController(v).navigate(R.id.consultar_empresa);//Abre el fragmento
 

@@ -1,4 +1,4 @@
-package com.formato.isp;
+package com.formato.isp.GestionDocumental;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.formato.isp.Adapter.AdapterListBasic;
+import com.formato.isp.R;
 import com.formato.isp.data.DataGenerator;
 import com.formato.isp.model.People;
 import com.google.android.material.snackbar.Snackbar;

@@ -1,4 +1,4 @@
-package com.formato.isp.ui.salir;
+package com.formato.isp.MenuLateral.salir;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,13 +26,6 @@ public class SalirFragment extends Fragment {
                 ViewModelProviders.of(this).get(SalirViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        salirViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-
         Intent intent = new Intent(root.getContext(), MainActivity.class);
         startActivity(intent);
         return root;

@@ -7,7 +7,7 @@
     android:background="@color/grey_10"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".opcionPrincipal">
+    tools:context=".DesarrolloEncuesta.opcionPrincipal">
 
 
     <androidx.viewpager.widget.ViewPager
@@ -36,15 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:layout_marginEnd="12dp"
-                app:srcCompat="@drawable/iconmenuhome"
-                tools:ignore="VectorDrawableCompat" />
             <Button
                 android:id="@+id/btn_anterior"
                 android:layout_width="match_parent"
