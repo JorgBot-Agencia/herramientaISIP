@@ -78,8 +78,8 @@ public class opcionPrincipal extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (viewPager.getCurrentItem() == about_title_array.length - 1) {
-                    btnNext.setText("CONSULTAR EMPRESA");
-                    btnAnterior.setText("REGISTRAR EMPRESA");
+                    btnNext.setText("CONSULTAR UNIDAD PRODUCTIVA");
+                    btnAnterior.setText("REGISTRAR UNIDAD PRODUCTIVA");
 
                 } else {
                     btnNext.setText("SIGUIENTE");
