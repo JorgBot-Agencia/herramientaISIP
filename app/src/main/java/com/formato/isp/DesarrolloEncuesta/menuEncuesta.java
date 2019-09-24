@@ -53,13 +53,6 @@ public class menuEncuesta extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_setting, menu);
-        Tools.changeMenuIconColor(menu, getResources().getColor(R.color.colorPrimary));
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -115,7 +108,8 @@ public class menuEncuesta extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
-                Snackbar.make(parent_view, "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
+                Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
+                startActivity(abrirEncuesta);
             }
         });
     }

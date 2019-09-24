@@ -54,7 +54,7 @@ public class infoDetallada extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(PlaceholderFragment.newInstance(1), "Información general");
-        adapter.addFragment(PlaceholderFragment.newInstance(2), "Ubicación");
+        adapter.addFragment(PlaceholderFragment.newInstance(2), "Personal");
         viewPager.setAdapter(adapter);
     }
 

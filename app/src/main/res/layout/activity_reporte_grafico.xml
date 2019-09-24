@@ -242,6 +242,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <include layout="@layout/include_store_simple" />
+
                         <Button
                             android:id="@+id/btnExcel"
                             android:layout_width="match_parent"
