@@ -58,7 +58,6 @@ public class opcionPrincipal extends AppCompatActivity {
         btnNext = (Button) findViewById(R.id.btn_next);
         btnAnterior = findViewById(R.id.btn_anterior);
 
-
         // adding bottom dots
         bottomProgressDots(0);
 
@@ -96,22 +95,31 @@ public class opcionPrincipal extends AppCompatActivity {
         btnAnterior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abrirRegistro = new Intent(view.getContext(), registroEmpresa.class);
-                startActivity(abrirRegistro);
+                if(btnAnterior.getText().equals("REGISTRAR UNIDAD PRODUCTIVA")){
+                    Intent abrirRegistro = new Intent(view.getContext(), registroEmpresa.class);
+                    startActivity(abrirRegistro);
+                }else {
+                    int current = viewPager.getCurrentItem() - 1;
+                    if (current < MAX_STEP) {
+                        // move to next screen
+                        viewPager.setCurrentItem(current);
+                    }
+                }
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int current = viewPager.getCurrentItem() + 1;
-                if (current < MAX_STEP) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
+                if(btnNext.getText().equals("CONSULTAR UNIDAD PRODUCTIVA")){
                     Intent intent = new Intent(v.getContext(), buscar_empresa.class);
                     startActivity(intent);
-                    //Navigation.findNavController(v).navigate(R.id.consultar_empresa);//Abre el fragmento
-
+                }
+                else{
+                    int current = viewPager.getCurrentItem() + 1;
+                    if (current < MAX_STEP) {
+                        // move to next screen
+                        viewPager.setCurrentItem(current);
+                    }
                 }
             }
         });

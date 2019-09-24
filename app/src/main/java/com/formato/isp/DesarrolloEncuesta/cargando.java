@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,6 +69,8 @@ public class cargando extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(parent_view.getContext(),reporteGrafico.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
