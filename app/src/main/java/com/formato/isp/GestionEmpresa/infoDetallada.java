@@ -1,6 +1,7 @@
 package com.formato.isp.GestionEmpresa;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -9,14 +10,18 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
+import com.formato.isp.DesarrolloEncuesta.reporteGrafico;
 import com.formato.isp.R;
 import com.formato.isp.DesarrolloEncuesta.preguntasEncuesta;
+import com.formato.isp.utils.Tools;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -41,13 +46,28 @@ public class infoDetallada extends AppCompatActivity {
                 startActivity(abrirEncuesta);
             }
         });
+        initToolbar();
         initComponent();
     }
 
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void initComponent() {
         view_pager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(view_pager);
-
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.setupWithViewPager(view_pager);
     }
