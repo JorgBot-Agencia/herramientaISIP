@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.R;
 import com.formato.isp.DesarrolloEncuesta.preguntasEncuesta;
 import com.google.android.material.tabs.TabLayout;
@@ -36,7 +37,7 @@ public class infoDetallada extends AppCompatActivity {
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
+                Intent abrirEncuesta = new Intent(view.getContext(), menuEncuesta.class);
                 startActivity(abrirEncuesta);
             }
         });

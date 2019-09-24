@@ -15,7 +15,7 @@ public class FolderFile {
     public FolderFile() {
     }
 
-    public FolderFile(String name, String date, int image, int cantidad,boolean folder) {
+    public FolderFile(String name, String date, int image, int cantidad, boolean folder) {
         this.image = image;
         this.name = name;
         this.date = date;
