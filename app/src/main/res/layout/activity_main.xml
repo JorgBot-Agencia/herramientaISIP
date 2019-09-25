@@ -89,7 +89,31 @@
                     android:layout_marginTop="30sp"
                     android:textSize="18sp"
                     android:clickable="true"
+                    android:textStyle="italic"
                     android:text="¿Aún no haz registrado tu organización? Haz click aquí." />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/logopnud"/>
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/logofrontera"/>
+                    <ImageView
+                        android:layout_width="140dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/logoweb3"/>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

@@ -1,6 +1,7 @@
 package com.formato.isp.GestionEmpresa;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.R;
+import com.formato.isp.utils.Tools;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,8 +34,12 @@ public class buscar_empresa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
 
+<<<<<<< HEAD
         queue = Volley.newRequestQueue(this);
 
+=======
+        initToolbar();
+>>>>>>> 495bdd09dde163db67c0566463dbf51ebb94a6e8
         img = findViewById(R.id.image_1);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,5 +77,12 @@ public class buscar_empresa extends AppCompatActivity {
             }
         });
         queue.add(req);
+    }
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this, R.color.colorSecondary);
     }
 }
