@@ -42,14 +42,10 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
 
-
         queue = Volley.newRequestQueue(this);
-
         lvItems = (ListView)findViewById(R.id.lv_items);
 
-
         initToolbar();
-
        /* img = findViewById(R.id.image_1);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +54,6 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
                 startActivity(abrirInfo);
             }
         });*/
-
         obtenerEmpresas();
     }
 

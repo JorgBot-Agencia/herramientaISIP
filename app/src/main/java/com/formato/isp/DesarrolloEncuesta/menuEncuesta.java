@@ -70,6 +70,11 @@ public class menuEncuesta extends AppCompatActivity {
 
         initComponent();
     }
+
+
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
         recyclerView.setVisibility(View.VISIBLE);
@@ -77,6 +82,9 @@ public class menuEncuesta extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         List<FolderFile> items = new ArrayList<>();
+
+
+
 
         items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
         items.add(new FolderFile("Técnica y productiva", "Sin iniciar", R.drawable.ic_settings_black_24dp, 0,true));
