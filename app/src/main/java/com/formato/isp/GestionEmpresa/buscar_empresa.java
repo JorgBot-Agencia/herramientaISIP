@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class buscar_empresa extends AppCompatActivity {
 
@@ -33,13 +34,8 @@ public class buscar_empresa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
-
-<<<<<<< HEAD
         queue = Volley.newRequestQueue(this);
-
-=======
         initToolbar();
->>>>>>> 495bdd09dde163db67c0566463dbf51ebb94a6e8
         img = findViewById(R.id.image_1);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,36 +44,8 @@ public class buscar_empresa extends AppCompatActivity {
                 startActivity(abrirInfo);
             }
         });
-
-        obtenerEmpresas();
     }
 
-    private void obtenerEmpresas() {
-        String url = "https://formatoisp-api.herokuapp.com/api/empresa";
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject res) {
-                try {
-                    JSONArray jsonArr = res.getJSONArray("data");
-                    for (int i = 0; i < jsonArr.length(); i++) {
-                        JSONObject jsonObj = jsonArr.getJSONObject(i);
-                        String empr_nit = jsonObj.getString("empr_nit");
-                        String empr_nombre = jsonObj.getString("empr_nombre");
-                        Toast.makeText(getApplicationContext(),"Nombre", Toast.LENGTH_LONG).show();
-                        Toast.makeText(getApplicationContext(),"Nombre de la empresa: " + empr_nombre, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        queue.add(req);
-    }
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);

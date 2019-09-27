@@ -16,6 +16,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.formato.isp.R;
 import com.formato.isp.utils.AdapterListFolderFile;
 import com.formato.isp.utils.FolderFile;
@@ -24,6 +30,10 @@ import com.formato.isp.utils.Tools;
 import com.formato.isp.utils.ViewAnimation;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,19 +41,29 @@ public class menuEncuesta extends AppCompatActivity {
 
     private View parent_view;
     private RecyclerView recyclerView;
+    private RequestQueue queue;
     private AdapterListFolderFile mAdapter;
+    ArrayList<Integer> listComponentes;
+    List<FolderFile> items;
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_encuesta);
+
         parent_view = findViewById(android.R.id.content);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        queue = Volley.newRequestQueue(this);
+        listComponentes = new ArrayList();
+        items = new ArrayList<>();
 
         initToolbar();
         loadingAndDisplayContent();
     }
+
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,7 +78,7 @@ public class menuEncuesta extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(parent_view.getContext(),reporteGrafico.class);
+            Intent intent = new Intent(parent_view.getContext(), reporteGrafico.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -70,25 +90,59 @@ public class menuEncuesta extends AppCompatActivity {
 
         initComponent();
     }
+
+    private void obtenerComponente() {
+        String url = "https://formatoisp-api.herokuapp.com/api/area/?opt=1";
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject res) {
+                try {
+                    int numeroComponente = 0;
+                    int contador = 0;
+                    JSONArray jsonArr = res.getJSONArray("data");
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("componente");
+                        if (jsonObj.getInt("comp_id") != numeroComponente) {
+                            numeroComponente = jsonObj.getInt("comp_id");
+                            listComponentes.add(numeroComponente);
+                        }
+                    }
+                    obtenerArea(listComponentes, jsonArr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(req);
+    }
+
+    private void obtenerArea(ArrayList listComponente, JSONArray jsonComponente) throws JSONException {
+        for (int i = 0; i < listComponente.size(); i++) {
+            items.add(new FolderFile(listComponente.get(i).toString(), true));  // add section
+            Toast.makeText(getApplicationContext(), "COMP: "+listComponente.get(i).toString(), Toast.LENGTH_SHORT).show();
+            for (int j = 0; j < jsonComponente.length(); j++) {
+                JSONObject jsonComp = jsonComponente.getJSONObject(j);
+                JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
+                if (Integer.parseInt(listComponente.get(i).toString()) == jsonObj.getInt("comp_id")) {
+                    Toast.makeText(getApplicationContext(), jsonComp.getString("area_nombre"), Toast.LENGTH_SHORT).show();
+                    items.add(new FolderFile(jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
+                }
+            }
+        }
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-
-        List<FolderFile> items = new ArrayList<>();
-
-        items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
-        items.add(new FolderFile("Técnica y productiva", "Sin iniciar", R.drawable.ic_settings_black_24dp, 0,true));
-        items.add(new FolderFile("Financiera y administrativa", "Sin iniciar", R.drawable.ic_attach_money_black_24dp, 0,true));
-        items.add(new FolderFile("Cultura empresarial e innovación", "Sin iniciar", R.drawable.ic_track_changes_black_24dp, 0,true));
-        items.add(new FolderFile("Recursos de inversión", "Sin iniciar", R.drawable.ic_equalizer_black_24dp, 0,true));
-        items.add(new FolderFile("Imagen e identidad corporativa", "Sin iniciar", R.drawable.ic_group_black_24dp, 0,true));
-        items.add(new FolderFile("Presentación de producto", "Sin iniciar", R.drawable.ic_spa_black_24dp, 0,true));
-        items.add(new FolderFile("Sellos de calidad", "Sin iniciar", R.drawable.ic_assignment_turned_in_black_24dp, 0,true));
-        items.add(new FolderFile("Política de identificación de precios", "Sin iniciar", R.drawable.ic_style_black_24dp, 0,true));
-        items.add(new FolderFile("Acceso a nuevas tecnologías", "Sin iniciar", R.drawable.ic_laptop_mac_black_24dp, 0,true));
-
+        obtenerComponente();
         //set data and list adapter
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
