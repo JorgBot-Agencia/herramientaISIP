@@ -35,12 +35,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/status"
+                        android:id="@+id/numero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:text="TÉCNICA Y PRODUCTIVA"
+                        android:text="Pregunta 1"
                         android:textAlignment="center"
                         android:textSize="25dp"
                         android:textStyle="bold" />

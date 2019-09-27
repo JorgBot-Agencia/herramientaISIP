@@ -16,6 +16,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.formato.isp.R;
 import com.formato.isp.utils.AdapterListFolderFile;
 import com.formato.isp.utils.FolderFile;
@@ -23,6 +28,10 @@ import com.formato.isp.utils.ItemAnimation;
 import com.formato.isp.utils.Tools;
 import com.formato.isp.utils.ViewAnimation;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +41,9 @@ public class menuEncuesta extends AppCompatActivity {
     private View parent_view;
     private RecyclerView recyclerView;
     private AdapterListFolderFile mAdapter;
+    private RequestQueue queue;
+    List<FolderFile> items = new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
     @Override
@@ -70,25 +82,42 @@ public class menuEncuesta extends AppCompatActivity {
 
         initComponent();
     }
+
+    //private void obtenerAreas() {
+        //String url = "https://formatoisp-api.herokuapp.com/api/area";
+        //JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            //@Override
+            //public void onResponse(JSONObject res) {
+                //try {
+                    //JSONArray jsonArr = res.getJSONArray("data");
+                    //items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
+                    //for (int i = 0; i < jsonArr.length(); i++) {
+                        //JSONObject jsonObj = jsonArr.getJSONObject(i);
+                        //items.add(new FolderFile(jsonObj.getString("area_nombre"), "Sin iniciar", jsonObj.getInt("area_logo"), 0,true));
+                    //}
+                //} catch (JSONException e) {
+                    //e.printStackTrace();
+                //}
+            //}
+        //}, new Response.ErrorListener() {
+            //@Override
+            //public void onErrorResponse(VolleyError error) {
+
+            //}
+        //});
+        //queue.add(req);
+    //}
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-
-        List<FolderFile> items = new ArrayList<>();
-
         items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
-        items.add(new FolderFile("Técnica y productiva", "Sin iniciar", R.drawable.ic_settings_black_24dp, 0,true));
-        items.add(new FolderFile("Financiera y administrativa", "Sin iniciar", R.drawable.ic_attach_money_black_24dp, 0,true));
-        items.add(new FolderFile("Cultura empresarial e innovación", "Sin iniciar", R.drawable.ic_track_changes_black_24dp, 0,true));
-        items.add(new FolderFile("Recursos de inversión", "Sin iniciar", R.drawable.ic_equalizer_black_24dp, 0,true));
-        items.add(new FolderFile("Imagen e identidad corporativa", "Sin iniciar", R.drawable.ic_group_black_24dp, 0,true));
-        items.add(new FolderFile("Presentación de producto", "Sin iniciar", R.drawable.ic_spa_black_24dp, 0,true));
-        items.add(new FolderFile("Sellos de calidad", "Sin iniciar", R.drawable.ic_assignment_turned_in_black_24dp, 0,true));
-        items.add(new FolderFile("Política de identificación de precios", "Sin iniciar", R.drawable.ic_style_black_24dp, 0,true));
-        items.add(new FolderFile("Acceso a nuevas tecnologías", "Sin iniciar", R.drawable.ic_laptop_mac_black_24dp, 0,true));
+        items.add(new FolderFile("Técnica y productiva", "Incompleto", R.drawable.ic_settings_black_24dp, 50,true));
 
+        //obtenerAreas();
         //set data and list adapter
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);

@@ -34,12 +34,8 @@ public class buscar_empresa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
 
-<<<<<<< HEAD
         queue = Volley.newRequestQueue(this);
-
-=======
         initToolbar();
->>>>>>> 495bdd09dde163db67c0566463dbf51ebb94a6e8
         img = findViewById(R.id.image_1);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +45,6 @@ public class buscar_empresa extends AppCompatActivity {
             }
         });
 
-        obtenerEmpresas();
     }
 
     private void obtenerEmpresas() {
