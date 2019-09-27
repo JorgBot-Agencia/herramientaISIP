@@ -83,7 +83,7 @@ public class Gestion_documental extends Fragment {
         recyclerView = (RecyclerView) root.findViewById(R.id.Idrecycleview);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setHasFixedSize(true);
-        
+
         //set data and list adapter
         mAdapter = new AdapterListBasic(root.getContext(), lista);
         recyclerView.setAdapter(mAdapter);
