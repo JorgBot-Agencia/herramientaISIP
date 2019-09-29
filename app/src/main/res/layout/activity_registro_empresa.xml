@@ -327,7 +327,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btn_anterior"
+                    android:id="@+id/btnRegistrarEmpresa"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/boton"
