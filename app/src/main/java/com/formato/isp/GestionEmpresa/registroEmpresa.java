@@ -109,7 +109,6 @@ public class registroEmpresa extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    pu
 
 
 }
