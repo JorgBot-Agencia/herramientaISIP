@@ -37,6 +37,7 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
     private ListView lvItems;
     private Adaptador adaptador;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,30 +46,24 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
         img = findViewById(R.id.image_1);
         queue = Volley.newRequestQueue(this);
 
-        //lvItems = (ListView)findViewById(R.id.lv_items);
+        lvItems = (ListView)findViewById(R.id.lv_items);
 
 
         initToolbar();
 
        /* img = findViewById(R.id.image_1);
->>>>>>> febab302033fbbf54b23bff88c4bd5f1753175d7
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent abrirInfo = new Intent(view.getContext(), infoDetallada.class);
                 startActivity(abrirInfo);
-            }
-<<<<<<< HEAD
-        });
-    }
-
-=======
-        });*/
+            } */
 
         obtenerEmpresas();
     }
 
     private void obtenerEmpresas() {
+        Toast.makeText(this,"Metodo obtener empresas", Toast.LENGTH_SHORT).show();
         String url = "https://formatoisp-api.herokuapp.com/api/empresa";
         req = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         queue.add(req);
@@ -83,6 +78,7 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        Toast.makeText(this,"ERROOOOOOOOOOOOOOOOOR", Toast.LENGTH_SHORT).show();
         if (error instanceof NetworkError) {
             Toast.makeText(this,"Verifique su conexión a Internet", Toast.LENGTH_SHORT).show();
         }
@@ -90,6 +86,7 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
 
     @Override
     public void onResponse(JSONObject response) {
+        Toast.makeText(this,"DATOS", Toast.LENGTH_SHORT).show();
         try {
             datosEmpresa d = new datosEmpresa();
             dato = new ArrayList<datosEmpresa>();
@@ -101,13 +98,10 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
             String nit = "" ;
             for (int i = 0; i < jsonArr.length(); i++) {
                 jsonObj = jsonArr.getJSONObject(i);
-               /* d.setNit(jsonObj.getString("empr_nit"));
-                d.setNombre(jsonObj.getString("empr_nombre"));*/
                 barrio = jsonObj.getString("empr_barrio");
                 nombre = jsonObj.getString("empr_nombre");
                 nit = jsonObj.getString("empr_nit");
                 ciudad = jsonObj.getString("empr_ciudad");
-                //d.setUbicacion(barrio + ", " + ciudad);
                 dato.add(new datosEmpresa(nombre,nit,barrio + ", " + ciudad));
             }
             adaptador = new Adaptador(this, dato);

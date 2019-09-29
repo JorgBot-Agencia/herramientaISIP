@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.formato.isp">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".DesarrolloEncuesta.menuEncuesta"></activity>
+        <activity android:name=".GestionEmpresa.registroPersona"></activity>
+        <activity android:name=".DesarrolloEncuesta.menuEncuesta" />
         <activity android:name=".DesarrolloEncuesta.reporteGrafico" />
         <activity android:name=".DesarrolloEncuesta.cargando" />
         <activity android:name=".GestionEmpresa.buscar_empresa" />
@@ -37,5 +32,11 @@
             </intent-filter>
         </activity>
     </application>
+    <protected-broadcast android:name="android.intent.action.MEDIA_MOUNTED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

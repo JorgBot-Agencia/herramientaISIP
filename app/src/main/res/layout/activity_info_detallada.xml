@@ -264,6 +264,22 @@
             </androidx.cardview.widget.CardView>
 
             <Button
+                android:id="@+id/registro_persona"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boton"
+                android:gravity="center"
+                android:layout_marginBottom="3dp"
+                android:text="REGISTRAR PERSONAL"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/btn_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -278,6 +294,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
+
 
         </LinearLayout>
     </ScrollView>
