@@ -2,22 +2,39 @@ package com.formato.isp.data;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.formato.isp.R;
+import com.formato.isp.model.Empresa;
 import com.formato.isp.model.People;
 import com.formato.isp.utils.Tools;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import java.util.Random;
 
 @SuppressWarnings("ResourceType")
 public class DataGenerator {
+    private static List<Empresa> itemsfinal;
+    private static List<Empresa> lista;
+    public static String nombreprueba = "";
+    public static RequestQueue requestQueue;
 
     private static Random r = new Random();
 
@@ -52,5 +69,24 @@ public class DataGenerator {
         return items;
     }
 
+    public static List<Empresa> getEmpresa(Context ctx) {
+        String s = "";//obtenerEmpresas();
+        Toast.makeText(ctx, s, Toast.LENGTH_LONG).show();
+        List<Empresa> items = lista;;
+        for (int i = 0; i < lista.size(); i++) {
+            Empresa obj = new Empresa();
+            obj.empr_nombre = lista.get(i).empr_nombre;
+            obj.empr_direccion = String.valueOf(lista.get(i).empr_NIT);
+            items.add(obj);
+        }
+
+
+        Collections.shuffle(items);
+        return items;
+    }
+
 
 }
+
+
+

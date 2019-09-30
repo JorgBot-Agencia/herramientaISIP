@@ -44,15 +44,27 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
 
         queue = Volley.newRequestQueue(this);
         lvItems = (ListView)findViewById(R.id.lv_items);
+        initToolbar();
+        img = findViewById(R.id.image_1);
+        queue = Volley.newRequestQueue(this);
+
+        //lvItems = (ListView)findViewById(R.id.lv_items);
+
 
         initToolbar();
        /* img = findViewById(R.id.image_1);
+>>>>>>> febab302033fbbf54b23bff88c4bd5f1753175d7
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent abrirInfo = new Intent(view.getContext(), infoDetallada.class);
                 startActivity(abrirInfo);
             }
+<<<<<<< HEAD
+        });
+    }
+
+=======
         });*/
         obtenerEmpresas();
     }

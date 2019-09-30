@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.formato.isp.GestionEmpresa.buscar_empresa;
+import com.formato.isp.GestionEmpresa.*;
 import com.formato.isp.GestionEmpresa.registroEmpresa;
 import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
@@ -111,7 +111,7 @@ public class opcionPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btnNext.getText().equals("CONSULTAR UNIDAD PRODUCTIVA")){
-                    Intent intent = new Intent(v.getContext(), buscar_empresa.class);
+                    Intent intent = new Intent(v.getContext(), infoDetallada.class);
                     startActivity(intent);
                 }
                 else{

@@ -87,7 +87,7 @@ public class AdapterListFolderFile extends RecyclerView.Adapter<RecyclerView.Vie
 
             view.name.setText(p.name);
             view.date.setText(p.date);
-            view.image.setImageResource(p.image);
+            //view.image.setImageResource(p.image);
             view.cantidad.setProgress(p.cantidad);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
