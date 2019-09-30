@@ -35,12 +35,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/status"
+                        android:id="@+id/numero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:text="TÉCNICA Y PRODUCTIVA"
+                        android:text="Número de pregunta"
                         android:textAlignment="center"
                         android:textSize="25dp"
                         android:textStyle="bold" />
@@ -60,7 +60,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="20dp"
-                        android:text="¿Cuántas personas vinculadas a la unidad productiva han participado en cursos, talleres o eventos de capacitación técnica en el último año? (2019)"
+                        android:text="Formulación de la pregunta"
                         android:textAlignment="center"
                         android:textSize="18dp" />
 
@@ -70,7 +70,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="10dp"
-                        android:text="Personas con formación técnica"
+                        android:text="Indicador de la pregunta"
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:textStyle="bold" />

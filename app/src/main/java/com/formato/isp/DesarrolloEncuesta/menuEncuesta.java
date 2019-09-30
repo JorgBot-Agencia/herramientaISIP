@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -37,13 +38,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.formato.isp.R.color.colorLetraBlanco;
+
 public class menuEncuesta extends AppCompatActivity {
 
     private View parent_view;
     private RecyclerView recyclerView;
-    private RequestQueue queue;
     private AdapterListFolderFile mAdapter;
-    ArrayList<Integer> listComponentes;
+    ArrayList<String> listComponentes;
+    private RequestQueue queue;
     List<FolderFile> items;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -88,7 +91,7 @@ public class menuEncuesta extends AppCompatActivity {
     private void loadingAndDisplayContent() {
         recyclerView.setVisibility(View.GONE);
 
-        initComponent();
+        obtenerComponente();
     }
 
     private void obtenerComponente() {
@@ -104,7 +107,7 @@ public class menuEncuesta extends AppCompatActivity {
                         JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("componente");
                         if (jsonObj.getInt("comp_id") != numeroComponente) {
                             numeroComponente = jsonObj.getInt("comp_id");
-                            listComponentes.add(numeroComponente);
+                            listComponentes.add(numeroComponente+"-"+jsonObj.getString("comp_nombre"));
                         }
                     }
                     obtenerArea(listComponentes, jsonArr);
@@ -122,49 +125,57 @@ public class menuEncuesta extends AppCompatActivity {
     }
 
     private void obtenerArea(ArrayList listComponente, JSONArray jsonComponente) throws JSONException {
+
         for (int i = 0; i < listComponente.size(); i++) {
-            items.add(new FolderFile(listComponente.get(i).toString(), true));  // add section
-            Toast.makeText(getApplicationContext(), "COMP: "+listComponente.get(i).toString(), Toast.LENGTH_SHORT).show();
+            String[] numeroComponente = listComponente.get(i).toString().split("-");
+            items.add(new FolderFile(numeroComponente[1], true));  // add section
             for (int j = 0; j < jsonComponente.length(); j++) {
                 JSONObject jsonComp = jsonComponente.getJSONObject(j);
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
-                if (Integer.parseInt(listComponente.get(i).toString()) == jsonObj.getInt("comp_id")) {
-                    Toast.makeText(getApplicationContext(), jsonComp.getString("area_nombre"), Toast.LENGTH_SHORT).show();
-                    items.add(new FolderFile(jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
+                if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
+                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
                 }
             }
         }
+        initComponent();
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
+
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        obtenerComponente();
-        //set data and list adapter
+
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
 
-        //LinearLayout layout = findViewById(R.id.botones);
-        //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //Button but = new Button(this);
-        //but.setLayoutParams(lp);
-        //but.setBackground(getDrawable(R.drawable.boton));
-        //but.setText("Generar reporte");
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //but.setTextColor(getColor(colorLetraBlanco));
-        //}
-        //layout.addView(but);
-
-        // on item list clicked
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
                 Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
+                abrirEncuesta.putExtra("areaId", obj.id);
                 startActivity(abrirEncuesta);
             }
         });
+        crearBoton();
+    }
+    public void crearBoton(){
+        LinearLayout layout = findViewById(R.id.lyt_botonFinalizar);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button but = new Button(this);
+        but.setLayoutParams(lp);
+        but.setText("FINALIZAR");
+        but.setBackground(getDrawable(R.drawable.boton));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            but.setTextColor(getColor(colorLetraBlanco));
+        }
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent abrirCargando = new Intent(v.getContext(), cargando.class);
+                startActivity(abrirCargando);
+            }
+        });
+        layout.addView(but);
     }
 }

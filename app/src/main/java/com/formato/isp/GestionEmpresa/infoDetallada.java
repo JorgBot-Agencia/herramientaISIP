@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,9 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
-import com.formato.isp.DesarrolloEncuesta.reporteGrafico;
 import com.formato.isp.R;
-import com.formato.isp.DesarrolloEncuesta.preguntasEncuesta;
 import com.formato.isp.utils.Tools;
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,15 +29,18 @@ import java.util.List;
 
 public class infoDetallada extends AppCompatActivity {
 
-    Button btnIniciar;
+    private Button btnIniciar;
+    private Button btnRegistroPersona;
     private ViewPager view_pager;
     private TabLayout tab_layout;
+    private String nit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detallada);
 
+        cargarPref();
         btnIniciar = findViewById(R.id.btn_start);
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +49,15 @@ public class infoDetallada extends AppCompatActivity {
                 startActivity(abrirEncuesta);
             }
         });
+        btnRegistroPersona = (Button)findViewById(R.id.registro_persona);
+        btnRegistroPersona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent regis_per = new Intent(v.getContext(), registroPersona.class);
+                startActivity(regis_per);
+            }
+        });
+
         initToolbar();
         initComponent();
     }
@@ -129,5 +141,11 @@ public class infoDetallada extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    public void cargarPref(){
+        SharedPreferences pref = getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
+        nit = pref.getString("NIT","No existe");
+        //Toast.makeText(this, "Nit empresa: "+nit, Toast.LENGTH_SHORT).show();
     }
 }

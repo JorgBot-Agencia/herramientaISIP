@@ -1,20 +1,25 @@
 package com.formato.isp.GestionEmpresa;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.formato.isp.R;
 
 import java.util.ArrayList;
+import android.content.SharedPreferences;
 
 public class Adaptador extends BaseAdapter {
 
     private Context contexto;
     private ArrayList<datosEmpresa> lista;
+
 
     public Adaptador(Context contexto, ArrayList<datosEmpresa> lista) {
         this.contexto = contexto;
@@ -40,16 +45,36 @@ public class Adaptador extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+
+
         convertView = LayoutInflater.from(contexto).inflate(R.layout.include_store_simple, null);
         TextView Nombre = (TextView) convertView.findViewById(R.id.nombre);
         TextView Nit = (TextView) convertView.findViewById(R.id.nit);
         TextView Ubicacion = (TextView) convertView.findViewById(R.id.ubicacion);
+        ImageView logo = (ImageView) convertView.findViewById(R.id.image_1);
 
         Nombre.setText(lista.get(position).getNombre());
         Nit.setText(lista.get(position).getNit());
         Ubicacion.setText(lista.get(position).getUbicacion());
 
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarNit(lista.get(position).getNit());
+                Intent abrirInfo = new Intent(v.getContext(), infoDetallada.class);
+                contexto.startActivity(abrirInfo);
+            }
+        });
+
 
         return convertView;
+    }
+
+    public void guardarNit(String nit){
+        SharedPreferences pref = contexto.getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("NIT");
+        editor.putString("NIT",nit);
+        editor.commit();
     }
 }
