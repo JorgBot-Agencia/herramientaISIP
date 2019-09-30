@@ -145,7 +145,7 @@ public class cargando extends AppCompatActivity {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Button but = new Button(this);
         but.setLayoutParams(lp);
-        but.setText("Generar reporte");
+        but.setText("RUTA DE FORTALECIMIENTO");
         but.setBackground(getDrawable(R.drawable.boton));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             but.setTextColor(getColor(colorLetraBlanco));

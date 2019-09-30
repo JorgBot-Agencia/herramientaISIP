@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.formato.isp.R.color.colorLetraBlanco;
 
 public class menuEncuesta extends AppCompatActivity {
 
@@ -91,30 +94,6 @@ public class menuEncuesta extends AppCompatActivity {
         obtenerComponente();
     }
 
-    //private void obtenerAreas() {
-        //String url = "https://formatoisp-api.herokuapp.com/api/area";
-        //JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            //@Override
-            //public void onResponse(JSONObject res) {
-                //try {
-                    //JSONArray jsonArr = res.getJSONArray("data");
-                    //items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
-                    //for (int i = 0; i < jsonArr.length(); i++) {
-                        //JSONObject jsonObj = jsonArr.getJSONObject(i);
-                        //items.add(new FolderFile(jsonObj.getString("area_nombre"), "Sin iniciar", jsonObj.getInt("area_logo"), 0,true));
-                    //}
-                //} catch (JSONException e) {
-                    //e.printStackTrace();
-                //}
-            //}
-        //}, new Response.ErrorListener() {
-            //@Override
-            //public void onErrorResponse(VolleyError error) {
-
-            //}
-        //});
-        //queue.add(req);
-    //}
     private void obtenerComponente() {
         String url = "https://formatoisp-api.herokuapp.com/api/area/?opt=1";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -170,21 +149,6 @@ public class menuEncuesta extends AppCompatActivity {
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
 
-        //set data and list adapter
-
-
-        //LinearLayout layout = findViewById(R.id.botones);
-        //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //Button but = new Button(this);
-        //but.setLayoutParams(lp);
-        //but.setBackground(getDrawable(R.drawable.boton));
-        //but.setText("Generar reporte");
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //but.setTextColor(getColor(colorLetraBlanco));
-        //}
-        //layout.addView(but);
-
-        // on item list clicked
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
@@ -193,5 +157,25 @@ public class menuEncuesta extends AppCompatActivity {
                 startActivity(abrirEncuesta);
             }
         });
+        crearBoton();
+    }
+    public void crearBoton(){
+        LinearLayout layout = findViewById(R.id.lyt_botonFinalizar);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button but = new Button(this);
+        but.setLayoutParams(lp);
+        but.setText("FINALIZAR");
+        but.setBackground(getDrawable(R.drawable.boton));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            but.setTextColor(getColor(colorLetraBlanco));
+        }
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent abrirCargando = new Intent(v.getContext(), cargando.class);
+                startActivity(abrirCargando);
+            }
+        });
+        layout.addView(but);
     }
 }

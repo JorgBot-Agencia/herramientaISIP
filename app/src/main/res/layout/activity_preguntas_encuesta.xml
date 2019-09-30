@@ -70,7 +70,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="10dp"
-                        android:text="Descripción de la pregunta"
+                        android:text="Indicador de la pregunta"
                         android:textAlignment="center"
                         android:textSize="20sp"
                         android:textStyle="bold" />

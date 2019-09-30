@@ -118,7 +118,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         (findViewById(R.id.lyt_back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                backStep(current_step);
+                nextStep(current_step);
             }
         });
 
@@ -136,7 +136,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             current_step = progress;
         }
         if (progress == listaPreguntas.size()) {
-            Intent abrirProgress = new Intent(this, cargando.class);
+            Intent abrirProgress = new Intent(this, menuEncuesta.class);
             startActivity(abrirProgress);
         } else if (progress <= MAX_STEP) {
             current_step = progress;
@@ -144,14 +144,6 @@ public class preguntasEncuesta extends AppCompatActivity {
         }
         status.setText("PREGUNTA " + obtenerId(progress-1));
         contenidoPregunta.setText(obtenerContenido(progress-1));
-        progressBar.setProgress(current_step);
-    }
-
-    private void backStep(int progress) {
-        if (progress > 1) {
-            progress--;
-            current_step = progress;
-        }
         progressBar.setProgress(current_step);
     }
 }
