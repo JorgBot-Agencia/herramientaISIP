@@ -34,11 +34,6 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    /*public AdapterListBasic(Context context, List<People> items) {
-        this.items = items;
-        ctx = context;
-    }*/
-
     public AdapterListBasic(Context context, List<Empresa> items) {
         this.itemsemp = items;
         ctx = context;
@@ -47,14 +42,16 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView name;
-        public TextView email;
+        public TextView barrio;
+        public TextView telefono;
         public View lyt_parent;
 
         public OriginalViewHolder(View v) {
             super(v);
             image = (ImageView) v.findViewById(R.id.image);
             name = (TextView) v.findViewById(R.id.name);
-            email = (TextView) v.findViewById(R.id.email);
+            barrio = (TextView) v.findViewById(R.id.barrio);
+            telefono = (TextView) v.findViewById(R.id.Idtelefono);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }
     }
@@ -62,7 +59,7 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_people_chat, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lista_gestion, parent, false);
         vh = new OriginalViewHolder(v);
         return vh;
     }
@@ -75,8 +72,9 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             Empresa p = itemsemp.get(position);
             view.name.setText(p.empr_nombre);
-            view.email.setText(p.empr_barrio);
-            //Tools.displayImageRound(ctx, view.image, p.image);
+            view.barrio.setText(p.empr_barrio);
+            view.telefono.setText(p.empr_telefono);
+            Tools.displayImageRound(ctx, view.image, p.empr_image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

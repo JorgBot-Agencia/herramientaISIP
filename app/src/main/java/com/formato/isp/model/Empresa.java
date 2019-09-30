@@ -14,8 +14,9 @@ public class Empresa {
     public String empr_depart;
     public String empr_telefono;
     public String empr_paginaweb;
+    public int empr_image;
 
-    public Empresa(String empr_nombre, String empr_NIT, Date empr_fechacreacion, Date empr_fechainicio, String empr_direccion, String empr_barrio, String empr_ciudad, String empr_depart, String empr_telefono, String empr_paginaweb) {
+    public Empresa(String empr_nombre, String empr_NIT, Date empr_fechacreacion, Date empr_fechainicio, String empr_direccion, String empr_barrio, String empr_ciudad, String empr_depart, String empr_telefono, String empr_paginaweb, int empr_image) {
         this.empr_nombre = empr_nombre;
         this.empr_NIT = empr_NIT;
         this.empr_fechacreacion = empr_fechacreacion;
@@ -26,6 +27,7 @@ public class Empresa {
         this.empr_depart = empr_depart;
         this.empr_telefono = empr_telefono;
         this.empr_paginaweb = empr_paginaweb;
+        this.empr_image= empr_image;
     }
 
 

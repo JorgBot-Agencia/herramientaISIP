@@ -2,6 +2,7 @@ package com.formato.isp.GestionDocumental;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -70,9 +71,12 @@ public class Gestion_documental extends Fragment {
     public void CargarListView(JSONArray ja) throws JSONException {
         for (int i = 0; i < ja.length(); i++) {
             JSONObject jsonObj = ja.getJSONObject(i);
+            TypedArray drw_arr = root.getContext().getResources().obtainTypedArray(R.array.empr_images);
             Empresa e = new Empresa();
-            e.empr_barrio = jsonObj.getString("empr_barrio");
+            e.empr_barrio =  "Ubicación: "+jsonObj.getString("empr_ciudad")+", Barrio: "+jsonObj.getString("empr_barrio");
             e.empr_nombre = jsonObj.getString("empr_nombre");
+            e.empr_telefono ="Teléfono: " +jsonObj.getString("empr_telefono");
+            e.empr_image=drw_arr.getResourceId(0, -1);;
             lista.add(e);
 
         }
@@ -96,8 +100,7 @@ public class Gestion_documental extends Fragment {
                 bundle.putString("nombre", obj.empr_nombre);
 
                 bundle.putString("email", obj.empr_barrio);
-                //bundle.putInt("foto",obj.image);
-                //bundle.putString("foto", obj.image);
+                bundle.putInt("foto",obj.empr_image);
 
                 Navigation.findNavController(root).navigate(R.id.detalle_gestion,bundle);
             }

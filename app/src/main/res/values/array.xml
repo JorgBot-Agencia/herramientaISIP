@@ -6,6 +6,11 @@
         <item>@drawable/charcuteria</item>
         <item>@drawable/calzado</item>
     </integer-array>
+    <integer-array name="empr_images">
+        <item>@drawable/empresas</item>
+        <item>@drawable/charcuteria</item>
+        <item>@drawable/calzado</item>
+    </integer-array>
 
     <string-array name="people_names">
 
