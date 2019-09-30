@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.formato.isp.R;
+import com.formato.isp.model.Empresa;
 import com.formato.isp.model.People;
 import com.formato.isp.utils.Tools;
 
@@ -20,20 +21,26 @@ import java.util.List;
 public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<People> items = new ArrayList<>();
+    private List<Empresa> itemsemp = new ArrayList<>();
 
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, People obj, int position);
+        void onItemClick(View view, Empresa obj, int position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public AdapterListBasic(Context context, List<People> items) {
+    /*public AdapterListBasic(Context context, List<People> items) {
         this.items = items;
+        ctx = context;
+    }*/
+
+    public AdapterListBasic(Context context, List<Empresa> items) {
+        this.itemsemp = items;
         ctx = context;
     }
 
@@ -66,15 +73,15 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
 
-            People p = items.get(position);
-            view.name.setText(p.name);
-            view.email.setText(p.email);
-            Tools.displayImageRound(ctx, view.image, p.image);
+            Empresa p = itemsemp.get(position);
+            view.name.setText(p.empr_nombre);
+            view.email.setText(p.empr_barrio);
+            //Tools.displayImageRound(ctx, view.image, p.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, items.get(position), position);
+                        mOnItemClickListener.onItemClick(view, itemsemp.get(position), position);
                     }
                 }
             });
@@ -83,7 +90,7 @@ public class AdapterListBasic extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return itemsemp.size();
     }
 
 }

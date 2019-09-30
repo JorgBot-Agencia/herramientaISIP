@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.formato.isp.R;
 import com.formato.isp.utils.AdapterListFolderFile;
 import com.formato.isp.utils.FolderFile;
@@ -42,7 +43,8 @@ public class menuEncuesta extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AdapterListFolderFile mAdapter;
     private RequestQueue queue;
-    List<FolderFile> items = new ArrayList<>();
+    ArrayList<Integer> listComponentes;
+    List<FolderFile> items;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
@@ -50,12 +52,18 @@ public class menuEncuesta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_encuesta);
+
         parent_view = findViewById(android.R.id.content);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        queue = Volley.newRequestQueue(this);
+        listComponentes = new ArrayList();
+        items = new ArrayList<>();
 
         initToolbar();
         loadingAndDisplayContent();
     }
+
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,7 +78,7 @@ public class menuEncuesta extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(parent_view.getContext(),reporteGrafico.class);
+            Intent intent = new Intent(parent_view.getContext(), reporteGrafico.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -107,17 +115,57 @@ public class menuEncuesta extends AppCompatActivity {
         //});
         //queue.add(req);
     //}
+    private void obtenerComponente() {
+        String url = "https://formatoisp-api.herokuapp.com/api/area/?opt=1";
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject res) {
+                try {
+                    int numeroComponente = 0;
+                    int contador = 0;
+                    JSONArray jsonArr = res.getJSONArray("data");
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("componente");
+                        if (jsonObj.getInt("comp_id") != numeroComponente) {
+                            numeroComponente = jsonObj.getInt("comp_id");
+                            listComponentes.add(numeroComponente);
+                        }
+                    }
+                    obtenerArea(listComponentes, jsonArr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
+            }
+        });
+        queue.add(req);
+    }
+
+    private void obtenerArea(ArrayList listComponente, JSONArray jsonComponente) throws JSONException {
+        for (int i = 0; i < listComponente.size(); i++) {
+            items.add(new FolderFile(listComponente.get(i).toString(), true));  // add section
+            Toast.makeText(getApplicationContext(), "COMP: "+listComponente.get(i).toString(), Toast.LENGTH_SHORT).show();
+            for (int j = 0; j < jsonComponente.length(); j++) {
+                JSONObject jsonComp = jsonComponente.getJSONObject(j);
+                JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
+                if (Integer.parseInt(listComponente.get(i).toString()) == jsonObj.getInt("comp_id")) {
+                    Toast.makeText(getApplicationContext(), jsonComp.getString("area_nombre"), Toast.LENGTH_SHORT).show();
+                    items.add(new FolderFile(jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
+                }
+            }
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
-        items.add(new FolderFile("Técnica y productiva", "Incompleto", R.drawable.ic_settings_black_24dp, 50,true));
 
-        //obtenerAreas();
         //set data and list adapter
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
