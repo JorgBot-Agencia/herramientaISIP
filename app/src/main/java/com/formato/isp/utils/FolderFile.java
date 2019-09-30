@@ -7,7 +7,7 @@ public class FolderFile {
     public int image;
     public Drawable imageDrw;
     public String name;
-    public String date;
+    public String estado;
     public boolean section = false;
     public boolean folder = true;
     public int cantidad;
@@ -19,7 +19,7 @@ public class FolderFile {
     public FolderFile(int id, String name, String date, int image, int cantidad, boolean folder) {
         this.image = image;
         this.name = name;
-        this.date = date;
+        this.estado = estado;
         this.cantidad = cantidad;
         this.folder = folder;
         this.id = id;

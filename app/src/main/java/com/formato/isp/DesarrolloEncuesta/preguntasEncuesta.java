@@ -1,6 +1,8 @@
 package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -18,7 +20,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.Pregunta;
 import com.formato.isp.R;
-import com.formato.isp.utils.ViewAnimation;
+import com.formato.isp.utils.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +52,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preguntas_encuesta);
 
-        status = findViewById(R.id.status);
+        status = findViewById(R.id.numero);
         contenidoPregunta = findViewById(R.id.messageTv);
         progressBar = findViewById(R.id.progress);
         queue = Volley.newRequestQueue(this);
@@ -100,6 +109,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     }
 
     private void initComponent() {
+        progressBar = findViewById(R.id.progress);
         progressBar.setMax(MAX_STEP);
         progressBar.setProgress(current_step);
         progressBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
@@ -121,8 +131,11 @@ public class preguntasEncuesta extends AppCompatActivity {
     }
 
     private void nextStep(int progress) {
-        progress = progress + 1;
-        if (progress == listaPreguntas.size()+1) {
+        if (progress <= MAX_STEP) {
+            progress++;
+            current_step = progress;
+        }
+        if (progress == listaPreguntas.size()) {
             Intent abrirProgress = new Intent(this, cargando.class);
             startActivity(abrirProgress);
         } else if (progress <= MAX_STEP) {
@@ -139,8 +152,6 @@ public class preguntasEncuesta extends AppCompatActivity {
             progress--;
             current_step = progress;
         }
-        String str_progress = String.format("Pregunta %1$d", current_step, MAX_STEP);
-        status.setText(str_progress);
         progressBar.setProgress(current_step);
     }
 }

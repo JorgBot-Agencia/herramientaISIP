@@ -41,9 +41,9 @@ public class menuEncuesta extends AppCompatActivity {
 
     private View parent_view;
     private RecyclerView recyclerView;
-    private RequestQueue queue;
     private AdapterListFolderFile mAdapter;
     ArrayList<String> listComponentes;
+    private RequestQueue queue;
     List<FolderFile> items;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -91,6 +91,30 @@ public class menuEncuesta extends AppCompatActivity {
         obtenerComponente();
     }
 
+    //private void obtenerAreas() {
+        //String url = "https://formatoisp-api.herokuapp.com/api/area";
+        //JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            //@Override
+            //public void onResponse(JSONObject res) {
+                //try {
+                    //JSONArray jsonArr = res.getJSONArray("data");
+                    //items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
+                    //for (int i = 0; i < jsonArr.length(); i++) {
+                        //JSONObject jsonObj = jsonArr.getJSONObject(i);
+                        //items.add(new FolderFile(jsonObj.getString("area_nombre"), "Sin iniciar", jsonObj.getInt("area_logo"), 0,true));
+                    //}
+                //} catch (JSONException e) {
+                    //e.printStackTrace();
+                //}
+            //}
+        //}, new Response.ErrorListener() {
+            //@Override
+            //public void onErrorResponse(VolleyError error) {
+
+            //}
+        //});
+        //queue.add(req);
+    //}
     private void obtenerComponente() {
         String url = "https://formatoisp-api.herokuapp.com/api/area/?opt=1";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -142,6 +166,7 @@ public class menuEncuesta extends AppCompatActivity {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
 
