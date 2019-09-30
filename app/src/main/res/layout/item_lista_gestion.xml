@@ -19,7 +19,7 @@
             android:layout_marginLeft="@dimen/spacing_large"
             android:layout_marginRight="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_middle"
-            android:src="@drawable/photo_female_1" />
+            android:src="@drawable/empresas" />
 
         <View
             android:layout_width="@dimen/spacing_medium"
@@ -48,7 +48,19 @@
                     android:textColor="@color/grey_90" />
 
                 <TextView
-                    android:id="@+id/email"
+                    android:id="@+id/barrio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_middle"
+                    android:layout_marginRight="@dimen/spacing_middle"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:maxLines="2"
+                    android:text="Descripcion de la persona"
+
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/grey_40" />
+                <TextView
+                    android:id="@+id/Idtelefono"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_middle"
