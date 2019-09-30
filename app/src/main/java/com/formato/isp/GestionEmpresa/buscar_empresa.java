@@ -42,9 +42,13 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
+
+        queue = Volley.newRequestQueue(this);
+        lvItems = (ListView)findViewById(R.id.lv_items);
         initToolbar();
         img = findViewById(R.id.image_1);
         queue = Volley.newRequestQueue(this);
+
 
 
         lvItems = (ListView)findViewById(R.id.lv_items);
@@ -52,15 +56,6 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         obtenerEmpresas();
 
         initToolbar();
-
-       /* img = findViewById(R.id.image_1);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent abrirInfo = new Intent(view.getContext(), infoDetallada.class);
-                startActivity(abrirInfo);
-
-            } */
 
 
     }

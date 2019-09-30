@@ -41,9 +41,9 @@ public class menuEncuesta extends AppCompatActivity {
 
     private View parent_view;
     private RecyclerView recyclerView;
-    private RequestQueue queue;
     private AdapterListFolderFile mAdapter;
-    ArrayList<Integer> listComponentes;
+    ArrayList<String> listComponentes;
+    private RequestQueue queue;
     List<FolderFile> items;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -88,9 +88,33 @@ public class menuEncuesta extends AppCompatActivity {
     private void loadingAndDisplayContent() {
         recyclerView.setVisibility(View.GONE);
 
-        initComponent();
+        obtenerComponente();
     }
 
+    //private void obtenerAreas() {
+        //String url = "https://formatoisp-api.herokuapp.com/api/area";
+        //JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            //@Override
+            //public void onResponse(JSONObject res) {
+                //try {
+                    //JSONArray jsonArr = res.getJSONArray("data");
+                    //items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
+                    //for (int i = 0; i < jsonArr.length(); i++) {
+                        //JSONObject jsonObj = jsonArr.getJSONObject(i);
+                        //items.add(new FolderFile(jsonObj.getString("area_nombre"), "Sin iniciar", jsonObj.getInt("area_logo"), 0,true));
+                    //}
+                //} catch (JSONException e) {
+                    //e.printStackTrace();
+                //}
+            //}
+        //}, new Response.ErrorListener() {
+            //@Override
+            //public void onErrorResponse(VolleyError error) {
+
+            //}
+        //});
+        //queue.add(req);
+    //}
     private void obtenerComponente() {
         String url = "https://formatoisp-api.herokuapp.com/api/area/?opt=1";
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -104,7 +128,7 @@ public class menuEncuesta extends AppCompatActivity {
                         JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("componente");
                         if (jsonObj.getInt("comp_id") != numeroComponente) {
                             numeroComponente = jsonObj.getInt("comp_id");
-                            listComponentes.add(numeroComponente);
+                            listComponentes.add(numeroComponente+"-"+jsonObj.getString("comp_nombre"));
                         }
                     }
                     obtenerArea(listComponentes, jsonArr);
@@ -122,30 +146,32 @@ public class menuEncuesta extends AppCompatActivity {
     }
 
     private void obtenerArea(ArrayList listComponente, JSONArray jsonComponente) throws JSONException {
+
         for (int i = 0; i < listComponente.size(); i++) {
-            items.add(new FolderFile(listComponente.get(i).toString(), true));  // add section
-            Toast.makeText(getApplicationContext(), "COMP: "+listComponente.get(i).toString(), Toast.LENGTH_SHORT).show();
+            String[] numeroComponente = listComponente.get(i).toString().split("-");
+            items.add(new FolderFile(numeroComponente[1], true));  // add section
             for (int j = 0; j < jsonComponente.length(); j++) {
                 JSONObject jsonComp = jsonComponente.getJSONObject(j);
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
-                if (Integer.parseInt(listComponente.get(i).toString()) == jsonObj.getInt("comp_id")) {
-                    Toast.makeText(getApplicationContext(), jsonComp.getString("area_nombre"), Toast.LENGTH_SHORT).show();
-                    items.add(new FolderFile(jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
+                if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
+                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
                 }
             }
         }
+        initComponent();
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
+
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        obtenerComponente();
-        //set data and list adapter
+
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
+
+        //set data and list adapter
+
 
         //LinearLayout layout = findViewById(R.id.botones);
         //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -163,6 +189,7 @@ public class menuEncuesta extends AppCompatActivity {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
                 Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
+                abrirEncuesta.putExtra("areaId", obj.id);
                 startActivity(abrirEncuesta);
             }
         });

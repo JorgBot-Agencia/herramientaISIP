@@ -28,48 +28,53 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:scrollingCache="true"></androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/lyt_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text="Procesando información"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/grey_80" />
-
-                <ProgressBar
-                    android:id="@+id/progress_indeterminate"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:indeterminate="true" />
+                    android:scrollbars="vertical"
+                    android:scrollingCache="true"></androidx.recyclerview.widget.RecyclerView>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lyt_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/botones"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical"></LinearLayout>
-        </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:text="Procesando información"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/grey_80" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_indeterminate"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lyt_boton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
