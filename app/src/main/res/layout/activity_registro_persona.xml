@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".GestionEmpresa.registroPersona">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/barraPrincipalPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarRegPersona"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,9 +43,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="60dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:background="@color/grey_10"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:id="@+id/foto_gallery"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_personal" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/lyt_form"
@@ -37,15 +67,7 @@
                     android:orientation="vertical"
                     android:padding="15dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Registro de Personal"
-                        android:textSize="29dp"
-                        android:textAlignment="center"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginBottom="40dp"
-                        />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -161,6 +183,32 @@
                         android:orientation="horizontal">
 
                         <ImageButton
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_40"
+                            android:layout_gravity="top"/>
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent" />
+
+                            <Spinner
+                                android:id="@+id/sp_rol"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Seleccione Rol"
+                                android:textColorHint="@color/grey_40" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageButton
                             android:id="@+id/dep"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
@@ -246,13 +294,13 @@
                     android:layout_height="50dp"
                     android:background="@drawable/boton"
                     android:gravity="center"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="70dp"
                     android:text="REGISTRAR PERSONA"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:layout_margin="20dp"/>
+                    />
 
             </LinearLayout>
 

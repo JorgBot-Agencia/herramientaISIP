@@ -3,9 +3,9 @@ package com.formato.isp.GestionEmpresa;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,15 +25,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
-public class buscar_empresa extends AppCompatActivity implements  Response.ErrorListener, Response.Listener<JSONObject>{
+
+public class buscar_empresa extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject>{
 
     ArrayList<datosEmpresa> dato;
     ImageView img;
-    RequestQueue queue;
-    JsonRequest req;
+    private RequestQueue queue;
+    private JsonRequest req;
     private ListView lvItems;
     private Adaptador adaptador;
 
@@ -46,8 +46,10 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
         img = findViewById(R.id.image_1);
         queue = Volley.newRequestQueue(this);
 
+
         lvItems = (ListView)findViewById(R.id.lv_items);
 
+        obtenerEmpresas();
 
         initToolbar();
 
@@ -57,19 +59,20 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
             public void onClick(View view) {
                 Intent abrirInfo = new Intent(view.getContext(), infoDetallada.class);
                 startActivity(abrirInfo);
+
             } */
 
-        obtenerEmpresas();
+
     }
 
     private void obtenerEmpresas() {
-        Toast.makeText(this,"Metodo obtener empresas", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Metodo obtener empresas", Toast.LENGTH_SHORT).show();
         String url = "https://formatoisp-api.herokuapp.com/api/empresa";
         req = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         queue.add(req);
     }
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar2);
+        Toolbar toolbar = findViewById(R.id.toolbarListEmp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,15 +81,18 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(this,"ERROOOOOOOOOOOOOOOOOR", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"ERROOOOOOOOOOOOOOOOOR", Toast.LENGTH_SHORT).show();
         if (error instanceof NetworkError) {
-            Toast.makeText(this,"Verifique su conexión a Internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onResponse(JSONObject response) {
-        Toast.makeText(this,"DATOS", Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(this,"DATOS", Toast.LENGTH_SHORT).show();
         try {
             datosEmpresa d = new datosEmpresa();
             dato = new ArrayList<datosEmpresa>();
@@ -111,4 +117,6 @@ public class buscar_empresa extends AppCompatActivity implements  Response.Error
             e.printStackTrace();
         }
     }
+
+
 }
