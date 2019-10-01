@@ -160,7 +160,7 @@ public class menuEncuesta extends AppCompatActivity {
         crearBoton();
     }
     public void crearBoton(){
-        LinearLayout layout = findViewById(R.id.lyt_botonFinalizar);
+        LinearLayout layout = findViewById(R.id.botonFinalizar_lyt);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Button but = new Button(this);
         but.setLayoutParams(lp);
