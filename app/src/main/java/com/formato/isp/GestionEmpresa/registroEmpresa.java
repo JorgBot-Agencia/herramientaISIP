@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class registroEmpresa extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
-    private final String URI = source.URLAPI + "empresa";
+    private final String URI = R.string.URLAPI + "/empresa";
     private Button btnRegistrar_Empresa;
 
     RequestQueue queue;

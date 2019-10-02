@@ -180,7 +180,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:textColor="@color/grey_40">
 
                         <ImageButton
                             android:layout_width="25dp"
@@ -198,8 +199,7 @@
                                 android:id="@+id/sp_rol"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Seleccione Rol"
-                                android:textColorHint="@color/grey_40" />
+                                style="@android:style/Widget.Holo.Light.Spinner"/>
 
                     </LinearLayout>
 
@@ -227,10 +227,10 @@
                             android:textColorHint="@color/grey_40">
 
                             <androidx.appcompat.widget.AppCompatEditText
-                                android:id="@+id/departamento"
+                                android:id="@+id/dir_persona"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Departamento" />
+                                android:hint="Dirección" />
 
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
@@ -268,7 +268,7 @@
                                 android:textColorHint="@color/grey_40">
 
                                 <androidx.appcompat.widget.AppCompatEditText
-                                    android:id="@+id/telefono"
+                                    android:id="@+id/tel_persona"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Número de teléfono" />
@@ -289,7 +289,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btn_anterior"
+                    android:id="@+id/regis_persona"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/boton"
