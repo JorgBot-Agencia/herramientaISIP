@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -120,7 +121,9 @@ public class DetalleGestionDocumental extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                if(error instanceof NetworkError){
+                    Toast.makeText(root.getContext(), "Verifique su conexion a internet", Toast.LENGTH_LONG).show();
+                }
             }
         });
         queue.add(rs);

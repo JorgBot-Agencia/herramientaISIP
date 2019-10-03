@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -134,6 +135,10 @@ public class Gestion_documental extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                if(error instanceof NetworkError){
+                    Toast.makeText(root.getContext(), "Verifique su conexion a internet", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
