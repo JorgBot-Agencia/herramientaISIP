@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#A569C6</color>
+    <color name="colorTarjeta">#B695C8</color>
     <color name="colorSecondary">#9954BE</color>
     <color name="colorGris">#8891A1</color>
     <color name="colorAccent">#cad2e9</color>
