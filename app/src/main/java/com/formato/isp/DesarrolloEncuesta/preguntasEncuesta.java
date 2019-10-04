@@ -43,6 +43,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView status;
     private TextView contenidoPregunta;
+    private TextView indicadorContenido;
     private RequestQueue queue;
     private int numeroArea;
     List<Pregunta> listaPreguntas;
@@ -53,8 +54,10 @@ public class preguntasEncuesta extends AppCompatActivity {
         setContentView(R.layout.activity_preguntas_encuesta);
 
         status = findViewById(R.id.numero);
-        contenidoPregunta = findViewById(R.id.messageTv);
+        contenidoPregunta = findViewById(R.id.formulacion);
+        indicadorContenido = findViewById(R.id.indicador);
         progressBar = findViewById(R.id.progress);
+
         queue = Volley.newRequestQueue(this);
         listaPreguntas = new ArrayList<>();
         numeroArea = getIntent().getExtras().getInt("areaId");
@@ -63,7 +66,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     }
 
     private void obtenerPreguntas() {
-        String url = "https://formatoisp-api.herokuapp.com/api/pregunta/?area="+numeroArea;
+        String url = "https://formatoisp-api.herokuapp.com/api/indicador/?area="+numeroArea;
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject res) {
@@ -71,7 +74,9 @@ public class preguntasEncuesta extends AppCompatActivity {
                     JSONArray jsonArr = res.getJSONArray("data");
                     for (int i = 0; i < jsonArr.length(); i++) {
                         JSONObject jsonObj = jsonArr.getJSONObject(i);
-                        listaPreguntas.add(new Pregunta(jsonObj.getInt("preg_id"), jsonObj.getString("preg_contenido"), jsonObj.getString("preg_descrip")));
+                        JSONObject jsonPreguntum = jsonArr.getJSONObject(i).getJSONObject("preguntum");
+                        JSONObject jsonArea = jsonArr.getJSONObject(i).getJSONObject("preguntum").getJSONObject("area");
+                        listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"),jsonObj.getInt("indi_id"), jsonObj.getString("indi_contenido")));
                     }
                     MAX_STEP = listaPreguntas.size();
                 } catch (JSONException e) {
@@ -103,6 +108,16 @@ public class preguntasEncuesta extends AppCompatActivity {
         for (int i = 0; i < listaPreguntas.size(); i++) {
             if (i == parametro) {
                 preguntaContenido = listaPreguntas.get(i).getPreguntaContenido();
+            }
+        }
+        return preguntaContenido;
+    }
+
+    private String obtenerContenidoIndicador(int parametro) {
+        String preguntaContenido = "";
+        for (int i = 0; i < listaPreguntas.size(); i++) {
+            if (i == parametro) {
+                preguntaContenido = listaPreguntas.get(i).getIndicadorContenido();
             }
         }
         return preguntaContenido;
@@ -144,6 +159,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         }
         status.setText("PREGUNTA " + obtenerId(progress-1));
         contenidoPregunta.setText(obtenerContenido(progress-1));
+        indicadorContenido.setText(obtenerContenidoIndicador(progress-1));
         progressBar.setProgress(current_step);
     }
 }

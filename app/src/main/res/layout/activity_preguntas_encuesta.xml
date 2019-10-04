@@ -35,15 +35,26 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/componente"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="Componente"
+                        android:textAlignment="center"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+                    <TextView
                         android:id="@+id/numero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
                         android:text="Número de pregunta"
+                        android:textStyle="italic"
                         android:textAlignment="center"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
+                        android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/close"
@@ -54,7 +65,7 @@
                         android:src="@drawable/ic_local_bar_black_24dp" />
 
                     <TextView
-                        android:id="@+id/messageTv"
+                        android:id="@+id/formulacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -63,8 +74,20 @@
                         android:text="Formulación de la pregunta"
                         android:textAlignment="center"
                         android:textSize="18dp" />
+                    <TextView
+                        android:id="@+id/descripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Descripción de la pregunta"
+                        android:textStyle="italic"
+                        android:textAlignment="center"
+                        android:textSize="14dp" />
 
                     <TextView
+                        android:id="@+id/indicador"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"

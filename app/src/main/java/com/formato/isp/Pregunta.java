@@ -2,6 +2,17 @@ package com.formato.isp;
 
 public class Pregunta {
 
+
+
+    public Pregunta(int preguntaId, String preguntaContenido, String preguntaDescripcion, int indicadorId, String indicadorContenido) {
+        this.preguntaId = preguntaId;
+        this.preguntaContenido = preguntaContenido;
+        this.preguntaDescripcion = preguntaDescripcion;
+        this.indicadorId = indicadorId;
+        this.indicadorContenido = indicadorContenido;
+    }
+    private int preguntaId;
+
     public int getPreguntaId() {
         return preguntaId;
     }
@@ -26,16 +37,26 @@ public class Pregunta {
         this.preguntaDescripcion = preguntaDescripcion;
     }
 
-    private int preguntaId;
+    public int getIndicadorId() {
+        return indicadorId;
+    }
 
-    public Pregunta(int preguntaId, String preguntaContenido, String preguntaDescripcion) {
-        this.preguntaId = preguntaId;
-        this.preguntaContenido = preguntaContenido;
-        this.preguntaDescripcion = preguntaDescripcion;
+    public void setIndicadorId(int indicadorId) {
+        this.indicadorId = indicadorId;
+    }
+
+    public String getIndicadorContenido() {
+        return indicadorContenido;
+    }
+
+    public void setIndicadorContenido(String indicadorContenido) {
+        this.indicadorContenido = indicadorContenido;
     }
 
     private String preguntaContenido;
     private String preguntaDescripcion;
+    private int indicadorId;
+    private String indicadorContenido;
 
 
 }
