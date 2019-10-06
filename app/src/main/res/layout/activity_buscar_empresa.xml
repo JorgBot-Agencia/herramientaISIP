@@ -56,7 +56,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hey There"
+                    android:text="Búsqueda de unidad productiva"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Let's experience Paris together"
+                    android:text="Seleccione la unidad productiva"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:textColor="@android:color/white" />
 
@@ -101,7 +101,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="Buscar empresa"
+                        android:hint="Buscar unidad productiva"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
                         android:singleLine="true">

@@ -111,7 +111,7 @@ public class opcionPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btnNext.getText().equals("CONSULTAR UNIDAD PRODUCTIVA")){
-                    Intent intent = new Intent(v.getContext(), infoDetallada.class);
+                    Intent intent = new Intent(v.getContext(), buscar_empresa.class);
                     startActivity(intent);
                 }
                 else{
@@ -185,7 +185,6 @@ public class opcionPrincipal extends AppCompatActivity {
             View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
             ((TextView) view.findViewById(R.id.title)).setText(about_title_array[position]);
             ((TextView) view.findViewById(R.id.description)).setText(about_description_array[position]);
-            ((ImageView) view.findViewById(R.id.image)).setImageResource(about_images_array[position]);
 
             container.addView(view);
             return view;

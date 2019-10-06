@@ -4,6 +4,7 @@ package com.formato.isp.GestionDocumental;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
@@ -13,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,6 +31,7 @@ import com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasViewModel;
 import com.formato.isp.R;
 import com.formato.isp.model.Revision;
 import com.formato.isp.utils.Tools;
+import com.formato.isp.utils.ViewAnimation;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONArray;
@@ -40,8 +45,8 @@ import java.util.ArrayList;
  */
 public class DetalleGestionDocumental extends Fragment {
 
-    private View root;
-    public  TextView nombre, correo;
+    public View root;
+    public  TextView nombre, info;
     private RequestQueue queue;
     private ArrayList<Revision> lista ;
     private RecyclerView recyclerView;
@@ -59,22 +64,20 @@ public class DetalleGestionDocumental extends Fragment {
         root = inflater.inflate(R.layout.fragment_detalle_gestion_documental, container, false);
         queue = Volley.newRequestQueue(root.getContext());
         nombre = root.findViewById(R.id.IdNombre);
-        correo = root.findViewById(R.id.IdInformacion);
+        info = root.findViewById(R.id.IdInformacion);
         foto = root.findViewById(R.id.IdImagen);
         lista =  new ArrayList<>();
-        Toast.makeText(root.getContext(),"crea la lista",Toast.LENGTH_LONG);
-        consultar_revEmp();
-
-        //final TextView textView =  info.setText("TEXTO"); info.setText("TEXTO");root.findViewById(R.id.nombre);
 
         if (getArguments() != null) {
+            String id=getArguments().getString("nit");
             String n = getArguments().getString("nombre");
             String c = getArguments().getString("email");
             int f = getArguments().getInt("foto");
 
             nombre.setText(n);
-            correo.setText(c);
+            info.setText(c);
             Tools.displayImageRound(root.getContext(), foto ,f);
+            consultar_revEmp(id);
         }
 
 
@@ -87,22 +90,17 @@ public class DetalleGestionDocumental extends Fragment {
             TypedArray drw_arr = root.getContext().getResources().obtainTypedArray(R.array.empr_images);
             Revision e = new Revision();
             e.setRevi_id(jsonObj.getString("revi_descripcion"));
-            e.setRevi_fechainicio(jsonObj.getString("revi_fechainicio"));
-            e.setRevi_fechafinal(jsonObj.getString("revi_fechafinal"));
+            e.setRevi_fechainicio("Fecha de inicio: "+jsonObj.getString("revi_fechainicio"));
+            e.setRevi_fechafinal("Fecha Final:          "+jsonObj.getString("revi_fechafinal"));
             lista.add(e);
 
-        }
-        if(lista.size()==0){
-            Toast.makeText(root.getContext(),"nada",Toast.LENGTH_LONG);
-        }else{
-            Toast.makeText(root.getContext(),"tiene algo",Toast.LENGTH_LONG);
         }
 
         initComponent(root);
     }
 
-    public void consultar_revEmp(){
-        String url = "https://formatoisp-api.herokuapp.com/api/revision/?empr=1";
+    public void consultar_revEmp(String id){
+        String url = "https://formatoisp-api.herokuapp.com/api/revision/?empr="+id;
 
         JsonObjectRequest rs= new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>(){
             @Override
@@ -111,7 +109,6 @@ public class DetalleGestionDocumental extends Fragment {
                 JSONArray ja = null;
                 try {
                     ja = response.getJSONArray("data");
-                    Toast.makeText(root.getContext(),"nn",Toast.LENGTH_LONG);
                     CargarListView(ja);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -124,11 +121,12 @@ public class DetalleGestionDocumental extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                if(error instanceof NetworkError){
+                    Toast.makeText(root.getContext(), "Verifique su conexion a internet", Toast.LENGTH_LONG).show();
+                }
             }
         });
         queue.add(rs);
-        Toast.makeText(root.getContext(),"ready",Toast.LENGTH_LONG);
     }
 
     private void initComponent(final View root) {
@@ -137,16 +135,13 @@ public class DetalleGestionDocumental extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
-        mAdapter = new AdapterListBasicDetalleGestion(root.getContext(), lista);
-        recyclerView.setAdapter(mAdapter);
 
-        // on item list clicked
-        mAdapter.setOnItemClickListener(new AdapterListBasicDetalleGestion.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, Revision obj, int position) {
-
-            }
-        });
+        if(lista.size()==0){
+            Toast.makeText(root.getContext(), "La empresa no tiene revisiones...",Toast.LENGTH_LONG).show();
+        }else{
+            mAdapter = new AdapterListBasicDetalleGestion(root.getContext(), lista);
+            recyclerView.setAdapter(mAdapter);
+        }
     }
 
 }

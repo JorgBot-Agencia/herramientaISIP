@@ -98,21 +98,11 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="75dp"
+                            android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/logopnud" />
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/logoweb3" />
+                            android:src="@drawable/banner" />
                     </LinearLayout>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/logofront"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -19,9 +19,8 @@ import java.util.List;
 
 public class AdapterListBasicDetalleGestion extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Revision> itemsemp = new ArrayList<>();
+    private List<Revision> itemsdetemp = new ArrayList<>();
     private Context ctx;
-
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -29,7 +28,7 @@ public class AdapterListBasicDetalleGestion extends RecyclerView.Adapter<Recycle
     }
 
     public AdapterListBasicDetalleGestion(Context context, List<Revision> items) {
-        this.itemsemp = items;
+        this.itemsdetemp = items;
         ctx = context;
     }
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -67,7 +66,7 @@ public class AdapterListBasicDetalleGestion extends RecyclerView.Adapter<Recycle
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
 
-            Revision p = itemsemp.get(position);
+            Revision p = itemsdetemp.get(position);
             view.revi_id.setText(p.getRevi_id());
             view.revi_fechainicio.setText( p.getRevi_fechainicio());
             view.revi_fechafinal.setText(p.getRevi_fechafinal());
@@ -77,6 +76,6 @@ public class AdapterListBasicDetalleGestion extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return 0;
+        return itemsdetemp.size();
     }
 }
