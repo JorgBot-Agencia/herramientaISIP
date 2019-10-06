@@ -45,7 +45,7 @@ public class infoDetallada extends AppCompatActivity {
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abrirEncuesta = new Intent(view.getContext(), menuEncuesta.class);
+                Intent abrirEncuesta = new Intent(view.getContext(), registroPersona.class);
                 startActivity(abrirEncuesta);
             }
         });
