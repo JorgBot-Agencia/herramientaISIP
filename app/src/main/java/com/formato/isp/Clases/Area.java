@@ -6,13 +6,12 @@ import java.io.Serializable;
 
 public class Area implements Serializable {
 
-    public Area(int areaId, int totalIndicadores, int areaAvance) {
+    public Area(int areaId, int totalIndicadores, int areaAvance, float promedioEscala) {
         this.areaId = areaId;
         this.totalIndicadores = totalIndicadores;
         this.areaAvance = areaAvance;
+        this.promedioEscala = promedioEscala;
     }
-
-    private int areaId;
 
     public int getAreaId() {
         return areaId;
@@ -38,7 +37,17 @@ public class Area implements Serializable {
         this.areaAvance = areaAvance;
     }
 
+    public float getPromedioEscala() {
+        return promedioEscala;
+    }
+
+    public void setPromedioEscala(float promedioEscala) {
+        this.promedioEscala = promedioEscala;
+    }
+
+    private int areaId;
     private int totalIndicadores;
     private int areaAvance;
+    private float promedioEscala;
 
 }

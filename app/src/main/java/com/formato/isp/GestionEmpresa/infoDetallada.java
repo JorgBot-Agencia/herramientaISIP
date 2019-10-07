@@ -45,7 +45,7 @@ public class infoDetallada extends AppCompatActivity {
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abrirEncuesta = new Intent(view.getContext(), registroPersona.class);
+                Intent abrirEncuesta = new Intent(view.getContext(), menuEncuesta.class);
                 startActivity(abrirEncuesta);
             }
         });
@@ -53,7 +53,7 @@ public class infoDetallada extends AppCompatActivity {
         btnRegistroPersona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent abrirEncuesta = new Intent(v.getContext(), menuEncuesta.class);
+                Intent abrirEncuesta = new Intent(v.getContext(), registroPersona.class);
                 startActivity(abrirEncuesta);
             }
         });
