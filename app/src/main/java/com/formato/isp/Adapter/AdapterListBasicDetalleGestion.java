@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,18 +38,20 @@ public class AdapterListBasicDetalleGestion extends RecyclerView.Adapter<Recycle
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
-        public TextView revi_id;
+        public TextView revi_desc;
         public TextView revi_fechainicio;
         public TextView revi_fechafinal;
         public View lyt_parent;
+        public ProgressBar progreso;
 
         public OriginalViewHolder(View v) {
             super(v);
            image = (ImageView) v.findViewById(R.id.image);
-           revi_id = (TextView) v.findViewById(R.id.id_revision);
+           revi_desc = (TextView) v.findViewById(R.id.id_desc);
            revi_fechainicio= (TextView) v.findViewById(R.id.revi_fechainicio);
            revi_fechafinal= (TextView) v.findViewById(R.id.revi_fechafinal);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent_detalle_gest);
+            progreso = v.findViewById(R.id.idprogreso);
         }
     }
 
@@ -67,9 +70,10 @@ public class AdapterListBasicDetalleGestion extends RecyclerView.Adapter<Recycle
             OriginalViewHolder view = (OriginalViewHolder) holder;
 
             Revision p = itemsdetemp.get(position);
-            view.revi_id.setText(p.getRevi_id());
+            view.revi_desc.setText(p.getRevi_id());
             view.revi_fechainicio.setText( p.getRevi_fechainicio());
             view.revi_fechafinal.setText(p.getRevi_fechafinal());
+            view.progreso.setProgress(50);
 
         }
     }
