@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.R;
 import com.formato.isp.utils.Tools;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -34,6 +36,11 @@ public class infoDetallada extends AppCompatActivity {
     private ViewPager view_pager;
     private TabLayout tab_layout;
     private String nit;
+    private String nom;
+    private String ubicacion;
+    private TextView nombre_empr;
+    private TextView ubicacion_empr;
+    private AppBarLayout abl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +64,29 @@ public class infoDetallada extends AppCompatActivity {
                 startActivity(regis_per);
             }
         });
-
+        nombre_empr = (TextView)findViewById(R.id.nombre_empresa);
+        ubicacion_empr = (TextView)findViewById(R.id.ubicacion_empresa);
+        nombre_empr.setText(nom);
+        ubicacion_empr.setText(ubicacion);
         initToolbar();
         initComponent();
+        tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Toast.makeText(getApplicationContext(),tab.getText() + "1",Toast.LENGTH_SHORT).show();
+                ////////////
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Toast.makeText(getApplicationContext(),tab.getText() + "2",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Toast.makeText(getApplicationContext(),tab.getText() + "3",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initToolbar() {
@@ -70,18 +97,14 @@ public class infoDetallada extends AppCompatActivity {
         Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     private void initComponent() {
         view_pager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(view_pager);
         tab_layout = (TabLayout) findViewById(R.id.tab_layout);
         tab_layout.setupWithViewPager(view_pager);
+
+
     }
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -146,6 +169,7 @@ public class infoDetallada extends AppCompatActivity {
     public void cargarPref(){
         SharedPreferences pref = getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
         nit = pref.getString("NIT","No existe");
-        //Toast.makeText(this, "Nit empresa: "+nit, Toast.LENGTH_SHORT).show();
+        nom = pref.getString("NOMBRE","No existe");
+        ubicacion = pref.getString("UBICACION","No existe");
     }
 }

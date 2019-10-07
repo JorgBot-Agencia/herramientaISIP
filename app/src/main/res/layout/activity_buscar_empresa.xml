@@ -104,7 +104,8 @@
                         android:hint="Buscar unidad productiva"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
-                        android:singleLine="true">
+                        android:singleLine="true"
+                        android:focusable="false">
 
                         <requestFocus />
 

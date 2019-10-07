@@ -2,7 +2,6 @@ package com.formato.isp.GestionEmpresa;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,7 @@ public class Adaptador extends BaseAdapter {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarNit(lista.get(position).getNit());
+                guardarNit(lista.get(position).getNit().toString(),lista.get(position).getNombre().toString(), lista.get(position).getUbicacion().toString());
                 Intent abrirInfo = new Intent(v.getContext(), infoDetallada.class);
                 contexto.startActivity(abrirInfo);
             }
@@ -70,11 +69,15 @@ public class Adaptador extends BaseAdapter {
         return convertView;
     }
 
-    public void guardarNit(String nit){
+    public void guardarNit(String nit, String nom, String ubi){
         SharedPreferences pref = contexto.getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove("NIT");
+        editor.remove("NOMBRE");
+        editor.remove("UBICACION");
         editor.putString("NIT",nit);
-        editor.commit();
+        editor.putString("NOMBRE",nom);
+        editor.putString("UBICACION",ubi);
+        editor.apply();
     }
 }
