@@ -1,6 +1,7 @@
 package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.Clases.Area;
 import com.formato.isp.Pregunta;
 import com.formato.isp.R;
 import com.formato.isp.utils.*;
@@ -36,15 +42,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.formato.isp.R.color.colorLetraBlanco;
-
 public class preguntasEncuesta extends AppCompatActivity {
 
     private int MAX_STEP;
@@ -52,12 +49,16 @@ public class preguntasEncuesta extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView status;
     private TextView contenidoPregunta;
+    private TextView indicadorContenido;
     private TextView descripcionPregunta;
-    private TextView indicadorPregunta;
+    private TextView txtAdicional;
     private TextView indicadorId;
     private RequestQueue queue;
-    private int numeroArea;
-    List<Pregunta> listaPreguntas;
+    public static Area areaProceso;
+    public int numeroArea;
+    public static List<Pregunta> listaPreguntas= new ArrayList<>();
+    public static List<Area> areasEncuestadas = new ArrayList<>();
+    public static float valor = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,32 +67,36 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         status = findViewById(R.id.numero);
         contenidoPregunta = findViewById(R.id.formulacion);
+        indicadorContenido = findViewById(R.id.indicador);
         indicadorId = findViewById(R.id.idIndicador);
         descripcionPregunta = findViewById(R.id.descripcion);
-        indicadorPregunta = findViewById(R.id.indicador);
-
         progressBar = findViewById(R.id.progress);
+        txtAdicional = findViewById(R.id.txtAdicional);
+
         queue = Volley.newRequestQueue(this);
-        listaPreguntas = new ArrayList<>();
         numeroArea = getIntent().getExtras().getInt("areaId");
 
+        areaProceso = new Area(numeroArea, 0, 0, 0);
         obtenerPreguntas();
     }
 
     private void obtenerPreguntas() {
-        String url = "https://formatoisp-api.herokuapp.com/api/indicador/?area="+numeroArea;
+        String url = "https://formatoisp-api.herokuapp.com/api/criterio/?area=" + numeroArea;
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject res) {
                 try {
                     JSONArray jsonArr = res.getJSONArray("data");
                     for (int i = 0; i < jsonArr.length(); i++) {
-                        JSONObject jsonCriterio = jsonArr.getJSONObject(i);
-                        JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("indicadors");
-                        JSONObject jsonPreguntum = jsonObj.getJSONObject("preguntum");
-                        listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonObj.getInt("indi_id"), jsonObj.getString("indi_contenido"), jsonCriterio.getInt("crit_id")));
+                        JSONArray jsonCriterio = jsonArr.getJSONObject(i).getJSONArray("indicadors");
+                        for (int j = 0; j < jsonCriterio.length(); j++) {
+                            JSONObject jsonIndicador = jsonCriterio.getJSONObject(j);
+                            JSONObject jsonPreguntum = jsonIndicador.getJSONObject("preguntum");
+                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonIndicador.getInt("criterio_crit_id"), numeroArea,0));
+                        }
                     }
                     MAX_STEP = listaPreguntas.size();
+                    areaProceso.setTotalIndicadores(MAX_STEP);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,6 +111,14 @@ public class preguntasEncuesta extends AppCompatActivity {
         initComponent();
     }
 
+    private void asignarValor(float valor, int parametro){
+        for (int i = 0; i < listaPreguntas.size(); i++) {
+            if (i == parametro) {
+                listaPreguntas.get(i).setValor(valor);
+            }
+        }
+    }
+
     private int obtenerId(int parametro) {
         int preguntaId = 0;
         for (int i = 0; i < listaPreguntas.size(); i++) {
@@ -115,6 +128,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         }
         return preguntaId;
     }
+
     private int obtenerIdIndicador(int parametro) {
         int preguntaId = 0;
         for (int i = 0; i < listaPreguntas.size(); i++) {
@@ -124,6 +138,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         }
         return preguntaId;
     }
+
     private int obtenerIdCriterio(int parametro) {
         int preguntaId = 0;
         for (int i = 0; i < listaPreguntas.size(); i++) {
@@ -143,23 +158,22 @@ public class preguntasEncuesta extends AppCompatActivity {
         }
         return preguntaContenido;
     }
-    private String obtenerContenidoIndicador(int parametro) {
-        String preguntaContenido = "";
-        for (int i = 0; i < listaPreguntas.size(); i++) {
-            if (i == parametro) {
-                preguntaContenido = listaPreguntas.get(i).getContenidoIndicador();
-            }
-        }
-        if(preguntaContenido.isEmpty()){
-            preguntaContenido = "SIN INDICADOR";
-        }
-        return preguntaContenido;
-    }
+
     private String obtenerDescripcion(int parametro) {
         String preguntaContenido = "";
         for (int i = 0; i < listaPreguntas.size(); i++) {
             if (i == parametro) {
                 preguntaContenido = listaPreguntas.get(i).getPreguntaDescripcion();
+            }
+        }
+        return preguntaContenido;
+    }
+
+    private String obtenerContenidoIndicador(int parametro) {
+        String preguntaContenido = "";
+        for (int i = 0; i < listaPreguntas.size(); i++) {
+            if (i == parametro) {
+                preguntaContenido = listaPreguntas.get(i).getIndicadorContenido();
             }
         }
         return preguntaContenido;
@@ -175,7 +189,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         (findViewById(R.id.lyt_back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextStep(current_step);
+                backStep(current_step);
             }
         });
 
@@ -188,31 +202,129 @@ public class preguntasEncuesta extends AppCompatActivity {
     }
 
     private void nextStep(int progress) {
-        if (progress <= MAX_STEP) {
-            progress++;
-            current_step = progress;
-        }
-        if (progress == listaPreguntas.size()+1) {
-            Intent abrirProgress = new Intent(this, menuEncuesta.class);
-            startActivity(abrirProgress);
-        } else if (progress <= MAX_STEP) {
+        txtAdicional.setText("");
+        indicadorContenido.setText("Indicador de la pregunta");
+        indicadorId.setText("Número de indicador");
+        descripcionPregunta.setText("Descripción de la pregunta");
+        contenidoPregunta.setText("Formulación de pregunta");
+        status.setText("Número de pregunta");
+
+        if (progress < MAX_STEP) {
+            areaProceso.setAreaAvance(progress);
+            asignarValor(valor,progress);
+            status.setText("PREGUNTA " + obtenerId(progress));
+            contenidoPregunta.setText(obtenerContenido(progress));
+            indicadorContenido.setText(obtenerContenidoIndicador(progress));
+            descripcionPregunta.setText(obtenerDescripcion(progress));
+            indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
+            crearComponente(obtenerIdCriterio(progress));
+            progressBar.setProgress(current_step);
+
+            progress = progress + 1;
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
+        } else {
+            areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
+            Intent abrirProgress = new Intent(this, menuEncuesta.class);
+            startActivity(abrirProgress);
         }
-        status.setText("PREGUNTA " + obtenerId(progress-1));
-        contenidoPregunta.setText(obtenerContenido(progress-1));
-        descripcionPregunta.setText(obtenerDescripcion(progress-1));
-        indicadorId.setText("INDICADOR "+obtenerIdIndicador(progress-1));
-        indicadorPregunta.setText(obtenerContenidoIndicador(progress-1));
-        crearComponente(obtenerIdCriterio(progress-1));
-        progressBar.setProgress(current_step);
     }
 
-    public void crearComponente(int criterio){
+    private void backStep(int progress) {
+        txtAdicional.setText("");
+        indicadorContenido.setText("Indicador de la pregunta");
+        indicadorId.setText("Número de indicador");
+        descripcionPregunta.setText("Descripción de la pregunta");
+        contenidoPregunta.setText("Formulación de pregunta");
+        status.setText("Número de pregunta");
+        if (progress < MAX_STEP) {
+            status.setText("PREGUNTA " + obtenerId(progress));
+            contenidoPregunta.setText(obtenerContenido(progress));
+            indicadorContenido.setText(obtenerContenidoIndicador(progress));
+            descripcionPregunta.setText(obtenerDescripcion(progress));
+            indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
+            crearComponente(obtenerIdCriterio(progress));
+            progressBar.setProgress(current_step);
+
+            progress = progress + 1;
+            current_step = progress;
+            ViewAnimation.fadeOutIn(status);
+        } else {
+            areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
+            Intent abrirProgress = new Intent(this, menuEncuesta.class);
+            startActivity(abrirProgress);
+        }
+    }
+
+    public void crearComponente(int criterio) {
         LinearLayout layout = findViewById(R.id.criterio);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        switch (criterio){
+        if (layout.getChildCount() > 0) {
+            layout.removeAllViews();
+        }
+
+        LinearLayout layoutEscala = findViewById(R.id.escala);
+        LinearLayout.LayoutParams lpEscala = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        if (layoutEscala.getChildCount() > 0) {
+            layoutEscala.removeAllViews();
+        }
+
+        ViewGroup buttonLayoutEscala = findViewById(R.id.grupoRadioEscala);
+        if (buttonLayoutEscala.getChildCount() > 0) {
+            buttonLayoutEscala.removeAllViews();
+        }
+        AppCompatRadioButton[] rbEscala = new AppCompatRadioButton[4];
+        RadioGroup rgEscala = new RadioGroup(getApplicationContext());
+
+        rbEscala[0] = new AppCompatRadioButton(this);
+        rbEscala[0].setText("Nivel critico");
+        rbEscala[0].setId(R.id.radio1);
+        rgEscala.addView(rbEscala[0]);
+
+        rbEscala[1] = new AppCompatRadioButton(this);
+        rbEscala[1].setText("Nivel basico");
+        rbEscala[1].setId(R.id.radio2);
+        rgEscala.addView(rbEscala[1]);
+
+        rbEscala[2] = new AppCompatRadioButton(this);
+        rbEscala[2].setId(R.id.radio3);
+        rbEscala[2].setText("Nivel intermedio");
+        rgEscala.addView(rbEscala[2]);
+
+        rbEscala[3] = new AppCompatRadioButton(this);
+        rbEscala[3].setText("Nivel avanzado");
+        rbEscala[3].setId(R.id.radio4);
+        rgEscala.addView(rbEscala[3]);
+
+        rgEscala.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+                    case R.id.radio1:
+                        valor  = 25;
+                        areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 25);
+                        break;
+                    case R.id.radio2:
+                        valor = 50;
+                        areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 50);
+                        break;
+                    case R.id.radio3:
+                        valor = 75;
+                        areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 75);
+                        break;
+                    case R.id.radio4:
+                        valor = 100;
+                        areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 100);
+                        break;
+                }
+            }
+        });
+
+        buttonLayoutEscala.addView(rgEscala);
+
+        switch (criterio) {
             case 1:
                 TextView hombresView = new TextView(getApplicationContext());
                 hombresView.setTextAppearance(getApplicationContext(), R.style.boldText);
@@ -230,7 +342,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 hombres.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadView.setText(""+progress);
+                        cantidadView.setText("" + progress);
                     }
 
                     @Override
@@ -261,7 +373,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 mujeres.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBarMujeres, int progressMujeres, boolean fromUser) {
-                        cantidadMujeresView.setText(""+progressMujeres);
+                        cantidadMujeresView.setText("" + progressMujeres);
                     }
 
                     @Override
@@ -278,7 +390,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 break;
             case 2:
                 TextView porcentajeView = new TextView(getApplicationContext());
-                porcentajeView.setText("Porcentaje");
+                porcentajeView.setText("Seleccione el porcentaje");
                 porcentajeView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(porcentajeView);
 
@@ -293,7 +405,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 porcentajeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadPorcentajeView.setText(""+progress);
+                        cantidadPorcentajeView.setText("" + progress);
                     }
 
                     @Override
@@ -310,7 +422,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 break;
             case 3:
                 TextView dineroView = new TextView(getApplicationContext());
-                dineroView.setText("Dinero");
+                dineroView.setText("Seleccione la cantidad de dinero");
                 dineroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(dineroView);
 
@@ -325,7 +437,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 dineroSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadDineroView.setText(""+progress);
+                        cantidadDineroView.setText("" + progress);
                     }
 
                     @Override
@@ -340,8 +452,63 @@ public class preguntasEncuesta extends AppCompatActivity {
                 });
                 layout.addView(dineroSeekBar);
                 break;
-        }
+            case 4:
+                TextView radioView = new TextView(getApplicationContext());
+                radioView.setText("Seleccione una opción");
+                radioView.setTextAppearance(getApplicationContext(), R.style.boldText);
+                layout.addView(radioView);
 
+                ViewGroup buttonLayout = findViewById(R.id.grupoRadio);
+                if (buttonLayout.getChildCount() > 0) {
+                    buttonLayout.removeAllViews();
+                }
+                AppCompatRadioButton[] rb = new AppCompatRadioButton[2];
+                RadioGroup rg = new RadioGroup(getApplicationContext());
+
+                for (int i = 0; i < 2; i++) {
+                    rb[i] = new AppCompatRadioButton(this);
+                    if (i == 0) {
+                        rb[i].setText("Si");
+                    } else {
+                        rb[i].setText("No");
+                    }
+                    rg.addView(rb[i]);
+                }
+                buttonLayout.addView(rg);
+                break;
+            case 5:
+                TextView numeroView = new TextView(getApplicationContext());
+                numeroView.setText("Seleccione la cantidad");
+                numeroView.setTextAppearance(getApplicationContext(), R.style.boldText);
+                layout.addView(numeroView);
+
+                final TextView cantidadNumeroView = new TextView(getApplicationContext());
+                cantidadNumeroView.setGravity(Gravity.CENTER);
+                layout.addView(cantidadNumeroView);
+
+                AppCompatSeekBar numeroSeekBar = new AppCompatSeekBar(this);
+                numeroSeekBar.setThumb(getDrawable(R.drawable.seek_thumb_accent_outline));
+                numeroSeekBar.setMax(200);
+                numeroSeekBar.setProgress(1);
+                numeroSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        cantidadNumeroView.setText("" + progress);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+                layout.addView(numeroSeekBar);
+                break;
+        }
 
 
     }
