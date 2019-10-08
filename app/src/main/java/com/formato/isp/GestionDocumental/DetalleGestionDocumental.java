@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,7 +38,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,13 +88,20 @@ public class DetalleGestionDocumental extends Fragment {
     }
 
     public void CargarListView(JSONArray ja) throws JSONException {
+        String[] fechaInicio= new String[2];
+        String fech="";
         for (int i = 0; i < ja.length(); i++) {
             JSONObject jsonObj = ja.getJSONObject(i);
             TypedArray drw_arr = root.getContext().getResources().obtainTypedArray(R.array.empr_images);
             Revision e = new Revision();
-            e.setRevi_id(jsonObj.getString("revi_descripcion"));
-            e.setRevi_fechainicio("Fecha de inicio: "+jsonObj.getString("revi_fechainicio"));
-            e.setRevi_fechafinal("Fecha Final:          "+jsonObj.getString("revi_fechafinal"));
+            e.setRevi_id( (jsonObj.getString("revi_id")));
+            e.setRevi_descripcion((jsonObj.getString("revi_descripcion")).toUpperCase());
+            fech=jsonObj.getString("revi_fechainicio");
+            fechaInicio = fech.split("T");
+            e.setRevi_fechainicio("Fecha de inicio: "+fechaInicio[0]);
+            fech=jsonObj.getString("revi_fechafinal");
+            fechaInicio = fech.split("T");
+            e.setRevi_fechafinal("Fecha Final: "+fechaInicio[0]);
             lista.add(e);
 
         }
@@ -120,7 +131,9 @@ public class DetalleGestionDocumental extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                if(error instanceof NetworkError){
+                    Toast.makeText(root.getContext(), "Verifique su conexion a internet", Toast.LENGTH_LONG).show();
+                }
             }
         });
         queue.add(rs);

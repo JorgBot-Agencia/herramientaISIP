@@ -60,8 +60,8 @@ public class infoDetallada extends AppCompatActivity {
         btnRegistroPersona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent regis_per = new Intent(v.getContext(), registroPersona.class);
-                startActivity(regis_per);
+                Intent abrirEncuesta = new Intent(v.getContext(), registroPersona.class);
+                startActivity(abrirEncuesta);
             }
         });
         nombre_empr = (TextView)findViewById(R.id.nombre_empresa);

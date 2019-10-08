@@ -152,9 +152,13 @@ public class menuEncuesta extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
-                Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
-                abrirEncuesta.putExtra("areaId", obj.id);
-                startActivity(abrirEncuesta);
+                if(!buscarArea(obj.id)){
+                    Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
+                    abrirEncuesta.putExtra("areaId", obj.id);
+                    startActivity(abrirEncuesta);
+                }else{
+                    Toast.makeText(view.getContext(), "Ésta área ya fue evaluada", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         crearBoton();
@@ -177,5 +181,17 @@ public class menuEncuesta extends AppCompatActivity {
             }
         });
         layout.addView(but);
+    }
+
+
+    public static boolean buscarArea(int areaId){
+        boolean saber = false;
+
+        for (int i = 0; i < preguntasEncuesta.areasEncuestadas.size(); i++){
+            if(preguntasEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
+                saber = true;
+            }
+        }
+        return saber;
     }
 }
