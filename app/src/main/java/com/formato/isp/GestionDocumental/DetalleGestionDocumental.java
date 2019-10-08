@@ -94,7 +94,7 @@ public class DetalleGestionDocumental extends Fragment {
             JSONObject jsonObj = ja.getJSONObject(i);
             TypedArray drw_arr = root.getContext().getResources().obtainTypedArray(R.array.empr_images);
             Revision e = new Revision();
-            e.setRevi_id( (jsonObj.getString("revi_nit")));
+            e.setRevi_id( (jsonObj.getString("revi_id")));
             e.setRevi_descripcion((jsonObj.getString("revi_descripcion")).toUpperCase());
             fech=jsonObj.getString("revi_fechainicio");
             fechaInicio = fech.split("T");
