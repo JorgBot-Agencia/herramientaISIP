@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DesarrolloEncuesta.rutaFortalecimiento"></activity>
+        <activity android:name=".PDF.viewPDF"></activity>
+        <activity android:name=".DesarrolloEncuesta.rutaFortalecimiento" />
         <activity android:name=".GestionEmpresa.registroPersona" />
         <activity android:name=".DesarrolloEncuesta.menuEncuesta" />
         <activity android:name=".DesarrolloEncuesta.reporteGrafico" />
