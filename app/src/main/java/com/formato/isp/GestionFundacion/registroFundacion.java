@@ -4,10 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.net.*;
 import android.widget.Button;
@@ -22,12 +27,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.anychart.core.Base;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +60,8 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
 
     Uri imageUri;
     ImageView foto_gallery;
+    Bitmap bitmap;
+    String ruta;
     FloatingActionButton btnSeleccionar;
     RelativeLayout rlView;
     ContactsContract.Contacts.Photo photo;
@@ -91,6 +102,9 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
             public void onClick(View v) {
                 //registrarFundacion();
 
+                //Toast.makeText(getApplicationContext(), "ImageURI: "+ imageUri.getPath(), Toast.LENGTH_LONG).show();
+                //System.out.println("HOLAAAAAAAAAA");
+                foto_gallery.setImageDrawable(getDrawable(R.drawable.ic_location_city_black_24dp));
             }
         });
 
@@ -133,21 +147,28 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && requestCode == ACTIVITY_SELECT_IMAGE){
+        if (resultCode == RESULT_OK && requestCode == ACTIVITY_SELECT_IMAGE) {
             imageUri = data.getData();
             foto_gallery.setImageURI(imageUri);
+            /*try {
+                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUri);
+                foto_gallery.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+
         }
     }
-    //nir fundacion, nom , dir, tel, logo, usuari, contra,
-    public void registrarFundacion(){
+        public void registrarFundacion(){
         Toast.makeText(getApplicationContext(), "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCampos()) {
+            String imagen = convertirImgaString(bitmap);
             Map params = new HashMap();
             params.put("fund_nit", nit_fundacion.getText().toString());
             params.put("fund_nombre", nom_fundacion.getText().toString());
             params.put("fund_direccion", dir_fundacion.getText().toString());
             params.put("fund_telefono", tel_fundacion.getText().toString());
-            //params.put("fund_logo", foto_gallery.getDrawable();
+            params.put("fund_logo", imagen);
             params.put("cuen_username", user_fundacion.getText().toString());
             params.put("cuen_password", pass_confirm.getText().toString());
             req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
@@ -190,5 +211,18 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         pass_confirm.setText("");
         foto_gallery.setImageDrawable(getDrawable(R.drawable.ic_location_city_black_24dp));
     }
+
+    public String convertirImgaString(Bitmap bitmap1){
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, array);
+        byte[] imagenByte = array.toByteArray();
+        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
+        return imagenString;
+    }
+
+
+
+
+
 
 }
