@@ -56,8 +56,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     private RequestQueue queue;
     public static Area areaProceso;
     public int numeroArea;
-    public static List<Pregunta> listaPreguntas= new ArrayList<>();
-    public static List<Area> areasEncuestadas = new ArrayList<>();
+    public static List<Pregunta> listaPreguntas;
     public static float valor = 0;
 
     @Override
@@ -75,7 +74,7 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
         numeroArea = getIntent().getExtras().getInt("areaId");
-
+        listaPreguntas = new ArrayList<>();
         areaProceso = new Area(numeroArea, 0, 0, 0);
         obtenerPreguntas();
     }
@@ -88,11 +87,12 @@ public class preguntasEncuesta extends AppCompatActivity {
                 try {
                     JSONArray jsonArr = res.getJSONArray("data");
                     for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject jsonObject = jsonArr.getJSONObject(i);
                         JSONArray jsonCriterio = jsonArr.getJSONObject(i).getJSONArray("indicadors");
                         for (int j = 0; j < jsonCriterio.length(); j++) {
                             JSONObject jsonIndicador = jsonCriterio.getJSONObject(j);
                             JSONObject jsonPreguntum = jsonIndicador.getJSONObject("preguntum");
-                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonIndicador.getInt("criterio_crit_id"), numeroArea,0));
+                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonObject.getInt("crit_id"), numeroArea, 0));
                         }
                     }
                     MAX_STEP = listaPreguntas.size();
@@ -111,7 +111,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         initComponent();
     }
 
-    private void asignarValor(float valor, int parametro){
+    private void asignarValor(float valor, int parametro) {
         for (int i = 0; i < listaPreguntas.size(); i++) {
             if (i == parametro) {
                 listaPreguntas.get(i).setValor(valor);
@@ -211,7 +211,6 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         if (progress < MAX_STEP) {
             areaProceso.setAreaAvance(progress);
-            asignarValor(valor,progress);
             status.setText("PREGUNTA " + obtenerId(progress));
             contenidoPregunta.setText(obtenerContenido(progress));
             indicadorContenido.setText(obtenerContenidoIndicador(progress));
@@ -220,11 +219,14 @@ public class preguntasEncuesta extends AppCompatActivity {
             crearComponente(obtenerIdCriterio(progress));
             progressBar.setProgress(current_step);
 
+            if(progress > 0){
+                asignarValor(valor, progress-1);
+            }
             progress = progress + 1;
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
         } else {
-            areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
+            menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
             startActivity(abrirProgress);
         }
@@ -250,7 +252,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
         } else {
-            areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
+            menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
             startActivity(abrirProgress);
         }
@@ -303,7 +305,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.radio1:
-                        valor  = 25;
+                        valor = 25;
                         areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 25);
                         break;
                     case R.id.radio2:
