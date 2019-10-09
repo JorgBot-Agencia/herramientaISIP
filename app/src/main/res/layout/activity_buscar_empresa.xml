@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="200dp"
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -104,7 +104,8 @@
                         android:hint="Buscar unidad productiva"
                         android:imeOptions="actionSearch"
                         android:maxLines="1"
-                        android:singleLine="true">
+                        android:singleLine="true"
+                        android:focusable="false">
 
                         <requestFocus />
 
@@ -125,7 +126,7 @@
 
 
     <ListView
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="200dp"
         android:id="@+id/lv_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

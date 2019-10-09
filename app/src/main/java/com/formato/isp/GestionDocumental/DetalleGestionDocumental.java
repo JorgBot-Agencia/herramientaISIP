@@ -1,9 +1,11 @@
 package com.formato.isp.GestionDocumental;
 
 
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -28,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.Adapter.AdapterListBasicDetalleGestion;
 import com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasViewModel;
+import com.formato.isp.PDF.TemplatePDF;
 import com.formato.isp.R;
 import com.formato.isp.model.Revision;
 import com.formato.isp.utils.Tools;
@@ -43,6 +46,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.security.auth.Destroyable;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -50,11 +55,17 @@ public class DetalleGestionDocumental extends Fragment {
 
     public View root;
     public  TextView nombre, info;
+    public Button generarpdf;
     private RequestQueue queue;
     private ArrayList<Revision> lista ;
     private RecyclerView recyclerView;
     private AdapterListBasicDetalleGestion mAdapter;
+    private String[]header={"Gestión de mercados", "Capacitación", "Construccion de marca"};
+    private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
+    private String piso="_____________________________________________";
+    private TemplatePDF templatePDF;
     CircularImageView foto;
+
     public DetalleGestionDocumental() {
         // Required empty public constructor
     }
@@ -71,6 +82,35 @@ public class DetalleGestionDocumental extends Fragment {
         foto = root.findViewById(R.id.IdImagen);
         lista =  new ArrayList<>();
 
+        //Generacion de documento PDf
+        templatePDF= new TemplatePDF(root.getContext());
+        templatePDF.OpenDocument();
+        templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
+        //templatePDF.creartablaimagen();
+        templatePDF.addTitulos("Logo","","");
+        templatePDF.addTitulosizq("NOMBRE DE LA UNIDAD", "Ubicación de la unidad","Teléfono de la unidad","Correo de la unidad");
+        templatePDF.addletraroja(piso);
+        templatePDF.addtitulo("ISIP");
+        templatePDF.creartabla(infor, getinfor());
+        templatePDF.addtitulo("Descripcion de unidad Productiva");
+        templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
+        templatePDF.addtitulo("RESULTADOS");
+        templatePDF.addTitulos("","Resultado total","");
+        templatePDF.addtitulo("Resultados especificos");
+        templatePDF.creartabla(header,getResltEsp());
+        templatePDF.closeDocument();
+
+        generarpdf= root.findViewById(R.id.btngenerarpdf);
+
+        generarpdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                templatePDF.viewmPDF();
+
+            }
+        });
+
+
         if (getArguments() != null) {
             String id=getArguments().getString("nit");
             String n = getArguments().getString("nombre");
@@ -85,6 +125,23 @@ public class DetalleGestionDocumental extends Fragment {
 
 
         return root;
+    }
+
+
+
+
+
+
+    private ArrayList<String[]>getResltEsp(){
+        ArrayList<String[]>row= new ArrayList<>();
+        row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias"});
+        return row;
+    }
+
+    private ArrayList<String[]>getinfor(){
+        ArrayList<String[]>row= new ArrayList<>();
+        row.add(new String[]{"Fecha","Nombre de la funcacion","Nombre de quien o quienes atienderon la encuesta","Politica de identificación de precios"});
+        return row;
     }
 
     public void CargarListView(JSONArray ja) throws JSONException {
