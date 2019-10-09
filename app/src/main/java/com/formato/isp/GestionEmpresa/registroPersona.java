@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,9 +21,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.R;
-import com.formato.isp.source;
+import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,21 +40,22 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
 
     private Spinner sprol;
     ArrayList<String> rol;
+    ArrayList<String> idrol;
     private EditText doc_persona;
     private EditText nom_persona;
     private EditText ape_persona;
     private EditText dir_persona;
     private EditText tel_persona;
     private Button registrar_Persona;
-
-    String URI = source.URLAPI + "/persona";
+    String URI = resource.URLAPI + "/persona";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_persona);
-        //llenarSpinerRol();
         cargarPref();
+        rol = new ArrayList<>();
+        idrol = new ArrayList<>();
         sprol = (Spinner)findViewById(R.id.sp_rol);
         doc_persona = (EditText)findViewById(R.id.doc_persona);
         nom_persona = (EditText)findViewById(R.id.nom_persona);
@@ -63,6 +67,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         registrar_Persona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Position: "+idrol.get(sprol.getSelectedItemPosition()), Toast.LENGTH_SHORT).show();
                 crearPersona();
             }
         });
@@ -72,13 +77,37 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     }
 
     private void llenarSpinerRol() {
-        rol = new ArrayList<>();
+        idrol.add("0");
         rol.add("Seleccionar:");
-        rol.add("Personal");
-        rol.add("Representante Legal");
-            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, rol);
-            sprol.setAdapter(adapter);
-
+        String url = resource.URLAPI + "/rol";
+        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArr = response.getJSONArray("data");
+                    JSONObject jsonObj = null;
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        jsonObj = jsonArr.getJSONObject(i);
+                        idrol.add(jsonObj.getString("rol_id"));
+                        rol.add(jsonObj.getString("rol_nombre"));
+                    }
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, rol);
+                    sprol.setAdapter(adapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(),"Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        queue.add(req);
     }
 
     private void initToolbar() {
@@ -92,7 +121,6 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     public void crearPersona() {
         Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCamposPersona()) {
-
             Map params = new HashMap();
             params.put("empr_nit", nit);
             params.put("pers_documento", doc_persona.getText().toString());
@@ -100,6 +128,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
             params.put("pers_apellido", ape_persona.getText().toString());
             params.put("pers_direccion", dir_persona.getText().toString());
             params.put("pers_telefono", tel_persona.getText().toString());
+            params.put("rol_rol_id", idrol.get(sprol.getSelectedItemPosition()));
             req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
             queue.add(req);
         }else{
@@ -113,7 +142,6 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
                 return true;
         }
         return false;
-
     }
 
     public void limpiarCampos(){
@@ -127,7 +155,11 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+        if (error instanceof NetworkError) {
+            Toast.makeText(getApplicationContext(),"Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -139,6 +171,5 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     public void cargarPref(){
         SharedPreferences pref = getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
         nit = pref.getString("NIT","No existe");
-        //Toast.makeText(this, "Nit empresa: "+nit, Toast.LENGTH_SHORT).show();
     }
 }

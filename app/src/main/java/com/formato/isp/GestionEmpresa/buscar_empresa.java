@@ -61,7 +61,6 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     }
 
     private void obtenerEmpresas() {
-        //Toast.makeText(this,"Metodo obtener empresas", Toast.LENGTH_SHORT).show();
         String url = "https://formatoisp-api.herokuapp.com/api/empresa";
         req = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         queue.add(req);
@@ -73,10 +72,9 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorSecondary);
     }
-//37442207, nom usuario
+
     @Override
     public void onErrorResponse(VolleyError error) {
-        //Toast.makeText(this,"ERROOOOOOOOOOOOOOOOOR", Toast.LENGTH_SHORT).show();
         if (error instanceof NetworkError) {
             Toast.makeText(this, "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
         } else {
@@ -87,7 +85,6 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     @Override
     public void onResponse(JSONObject response) {
 
-        //Toast.makeText(this,"DATOS", Toast.LENGTH_SHORT).show();
         try {
             datosEmpresa d = new datosEmpresa();
             dato = new ArrayList<datosEmpresa>();
@@ -97,13 +94,23 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             String ciudad = "" ;
             String nombre = "" ;
             String nit = "" ;
+            String dep = "";
+            String tel = "";
+            String sitioweb = "";
+            String fecha_ini = "";
+            String fecha_crea = "";
             for (int i = 0; i < jsonArr.length(); i++) {
                 jsonObj = jsonArr.getJSONObject(i);
                 barrio = jsonObj.getString("empr_barrio");
                 nombre = jsonObj.getString("empr_nombre");
                 nit = jsonObj.getString("empr_nit");
                 ciudad = jsonObj.getString("empr_ciudad");
-                dato.add(new datosEmpresa(nombre,nit,barrio + ", " + ciudad));
+                dep = jsonObj.getString("empr_depart");
+                tel = jsonObj.getString("empr_telefono");
+                sitioweb = jsonObj.getString("empr_paginaweb");
+                fecha_crea = jsonObj.getString("empr_fechacreacion");
+                fecha_ini = jsonObj.getString("empr_fechainicio");
+                dato.add(new datosEmpresa(nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini));
             }
             adaptador = new Adaptador(this, dato);
             lvItems.setAdapter(adaptador);

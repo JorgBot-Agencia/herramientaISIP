@@ -1,5 +1,5 @@
 package com.formato.isp;
 
-public class source {
+public class resource {
     static public final String URLAPI = "http://formatoisp-api.herokuapp.com/api";
 }
