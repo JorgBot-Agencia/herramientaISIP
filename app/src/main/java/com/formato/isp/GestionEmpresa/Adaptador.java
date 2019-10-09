@@ -59,7 +59,9 @@ public class Adaptador extends BaseAdapter {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarNit(lista.get(position).getNit().toString(),lista.get(position).getNombre().toString(), lista.get(position).getUbicacion().toString());
+                guardarNit(lista.get(position).getNit().toString(),lista.get(position).getNombre().toString(), lista.get(position).getUbicacion().toString(),
+                        lista.get(position).getDepartamento(), lista.get(position).getTelefono(), lista.get(position).getSitioweb(),
+                        lista.get(position).getFecha_creacion(), lista.get(position).getFecha_inicio());
                 Intent abrirInfo = new Intent(v.getContext(), infoDetallada.class);
                 contexto.startActivity(abrirInfo);
             }
@@ -69,7 +71,7 @@ public class Adaptador extends BaseAdapter {
         return convertView;
     }
 
-    public void guardarNit(String nit, String nom, String ubi){
+    public void guardarNit(String nit, String nom, String ubi, String dep, String tel, String sitioweb, String f_crea, String f_ini){
         SharedPreferences pref = contexto.getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove("NIT");
@@ -78,6 +80,11 @@ public class Adaptador extends BaseAdapter {
         editor.putString("NIT",nit);
         editor.putString("NOMBRE",nom);
         editor.putString("UBICACION",ubi);
+        editor.putString("TELEFONO", tel);
+        editor.putString("DEPARTAMENTO",dep);
+        editor.putString("SITIOWEB",sitioweb);
+        editor.putString("F_CREA",f_crea);
+        editor.putString("F_INI",f_ini);
         editor.apply();
     }
 }
