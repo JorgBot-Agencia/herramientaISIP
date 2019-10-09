@@ -71,12 +71,12 @@ public class cargando extends AppCompatActivity {
         int retorno = 0;
         int valor = 0;
         float promedio = 0;
-        for (int i = 0; i < preguntasEncuesta.areasEncuestadas.size(); i++){
-            if(preguntasEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
-                valor = 100 / preguntasEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
-                retorno = valor * preguntasEncuesta.areasEncuestadas.get(i).getAreaAvance();
-                promedio = preguntasEncuesta.areasEncuestadas.get(i).getPromedioEscala() / preguntasEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
-                preguntasEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
+        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++){
+            if(menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
+                valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                retorno = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
+                promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                menuEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
             }
         }
         return retorno;

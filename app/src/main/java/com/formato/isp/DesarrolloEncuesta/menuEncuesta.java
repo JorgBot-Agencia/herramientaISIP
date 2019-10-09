@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.Clases.Area;
 import com.formato.isp.R;
 import com.formato.isp.utils.AdapterListFolderFile;
 import com.formato.isp.utils.FolderFile;
@@ -48,6 +49,7 @@ public class menuEncuesta extends AppCompatActivity {
     ArrayList<String> listComponentes;
     private RequestQueue queue;
     List<FolderFile> items;
+    public static List<Area> areasEncuestadas = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
@@ -187,8 +189,8 @@ public class menuEncuesta extends AppCompatActivity {
     public static boolean buscarArea(int areaId){
         boolean saber = false;
 
-        for (int i = 0; i < preguntasEncuesta.areasEncuestadas.size(); i++){
-            if(preguntasEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
+        for (int i = 0; i < areasEncuestadas.size(); i++){
+            if(areasEncuestadas.get(i).getAreaId() == areaId){
                 saber = true;
             }
         }
