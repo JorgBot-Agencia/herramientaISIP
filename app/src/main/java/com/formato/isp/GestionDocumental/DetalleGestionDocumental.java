@@ -86,7 +86,7 @@ public class DetalleGestionDocumental extends Fragment {
         templatePDF= new TemplatePDF(root.getContext());
         templatePDF.OpenDocument();
         templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
-        templatePDF.creartablaimagen();
+        //templatePDF.creartablaimagen();
         templatePDF.addTitulos("Logo","","");
         templatePDF.addTitulosizq("NOMBRE DE LA UNIDAD", "Ubicación de la unidad","Teléfono de la unidad","Correo de la unidad");
         templatePDF.addletraroja(piso);
