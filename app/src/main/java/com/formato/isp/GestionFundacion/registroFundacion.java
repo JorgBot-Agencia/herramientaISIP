@@ -202,14 +202,6 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         foto_gallery.setImageDrawable(getDrawable(R.drawable.ic_location_city_black_24dp));
     }
 
-    public String convertirImgaString(Bitmap bitmap1){
-        ByteArrayOutputStream array = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, array);
-        byte[] imagenByte = array.toByteArray();
-        String imagenString = Base64.encodeToString(imagenByte, Base64.DEFAULT);
-        return imagenString;
-    }
-
     private void pruebaRegistro() {
         // loading or check internet connection or something...
         // ... then
@@ -217,12 +209,14 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                Toast.makeText(getApplicationContext(), "REGISTRADOOOOOOOO", Toast.LENGTH_SHORT).show();
-                limpiarCampos();
+                //Toast.makeText(getApplicationContext(), "REGISTRADOOOOOOOO", Toast.LENGTH_SHORT).show();
+                //limpiarCampos();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Organización creada", Toast.LENGTH_LONG).show();
+                limpiarCampos();
                 NetworkResponse networkResponse = error.networkResponse;
                 String errorMessage = "Unknown error";
                 if (networkResponse == null) {
@@ -233,7 +227,6 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                     }
                 } else {
                     String result = new String(networkResponse.data);
-
 
                     if (networkResponse.statusCode == 404) {
                         errorMessage = "Resource not found";
@@ -256,12 +249,10 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                 params.put("fund_nombre", nom_fundacion.getText().toString());
                 params.put("fund_direccion", dir_fundacion.getText().toString());
                 params.put("fund_telefono", tel_fundacion.getText().toString());
-                //params.put("fund_logo", imagen);
                 params.put("cuen_username", user_fundacion.getText().toString());
                 params.put("cuen_password", pass_confirm.getText().toString());
                 return params;
             }
-
             @Override
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
@@ -271,8 +262,5 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         };
         VolleySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
     }
-
-
-
 
 }

@@ -47,7 +47,7 @@
             </com.google.android.material.appbar.AppBarLayout>
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/image2"
+                android:id="@+id/imageLogoFun"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_marginTop="-50dp"

@@ -359,7 +359,7 @@
                     android:background="@drawable/boton"
                     android:gravity="center"
                     android:layout_marginBottom="20dp"
-                    android:text="REGISTRAR FUNDACIÓN"
+                    android:text="REGISTRAR ORGANIZACIÓN"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@android:color/white"

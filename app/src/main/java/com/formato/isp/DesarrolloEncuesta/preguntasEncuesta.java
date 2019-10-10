@@ -336,6 +336,9 @@ public class preguntasEncuesta extends AppCompatActivity {
 
                 TextInputEditText cantidadHombres = new TextInputEditText(getApplicationContext());
                 cantidadHombres.setGravity(Gravity.CENTER);
+                cantidadHombres.setFocusable(true);
+                cantidadHombres.requestFocus();
+                cantidadHombres.setBackgroundColor(0x000000);
                 layout.addView(cantidadHombres);
 
                 TextView mujeresView = new TextView(getApplicationContext());
@@ -387,6 +390,8 @@ public class preguntasEncuesta extends AppCompatActivity {
 
                 TextInputEditText cantidadDinero = new TextInputEditText(getApplicationContext());
                 cantidadDinero.setGravity(Gravity.CENTER);
+                cantidadDinero.setFocusable(true);
+                cantidadDinero.requestFocus();
                 layout.addView(cantidadDinero);
                 break;
             case 4:
