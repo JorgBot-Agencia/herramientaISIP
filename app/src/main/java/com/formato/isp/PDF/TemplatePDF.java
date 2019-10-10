@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import com.formato.isp.R;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -15,11 +16,9 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.VerticalText;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -189,14 +188,18 @@ public class TemplatePDF {
 
     public void creartablaimagen(){
         try {
-            Uri uri=Uri.parse("R.drawable.isip");
+
+
+            //Uri path = Uri.parse("android.resource://com.segf4ult.test/" + R.drawable.isip);
+            //String pat = path.toString();
+            //String imageUrl =   getURLForResource(R.drawable.isip);
             paragraph = new Paragraph();
             paragraph.setSpacingBefore(10);
             paragraph.setFont(letratexto);
             Image image = null;
 
             // Obtenemos el logo de datojava
-            image = Image.getInstance(uri.toString());
+            //image = Image.getInstance(pat);
             image.scaleAbsolute(80f, 60f);
             PdfPTable pdfPTable = new PdfPTable(1);
             PdfPCell cell = new PdfPCell(image);

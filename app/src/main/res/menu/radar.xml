@@ -2,6 +2,5 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Exportar a PDF" android:id="@+id/refreshValues" />
-    <item android:title="Exportar a excel" android:id="@+id/toggleValues"/>
+
 </menu>

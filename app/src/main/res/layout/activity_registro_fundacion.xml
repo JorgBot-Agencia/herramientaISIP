@@ -92,7 +92,8 @@
                                 android:id="@+id/nit_fundacion"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Nit" />
+                                android:hint="Nit"
+                                android:inputType="number"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
