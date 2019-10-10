@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txtLink;
     EditText usuario;
     EditText contrasena;
+    ProgressDialog p;
 
     private final String URI = resource.URLAPI + "/fundacion/iniciarSesion";
 
@@ -55,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
 
-
+        p = new ProgressDialog(this);
+        p.setMessage("Cargando...");
+        p.setCancelable(false);
         usuario = (EditText)findViewById(R.id.txtUsuario);
         contrasena = (EditText)findViewById(R.id.txtContrasena);
 
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!usuario.getText().toString().isEmpty() && !contrasena.getText().toString().isEmpty() ){
                     queue = Volley.newRequestQueue(getApplicationContext());
                     iniciarSesion1();
+                    p.show();
                 }else{
                     Toast.makeText(getApplicationContext(), "Completa todos los campos", Toast.LENGTH_LONG).show();
                 }
@@ -123,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                             session.setDireccion(fundacion.getString("fund_direccion"));
                             session.setTelefono(fundacion.getString("fund_telefono"));
                             session.setLogo(fundacion.getString("fund_logo"));
+                            p.hide();
                             Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
                             startActivity(intent);
                         } else {

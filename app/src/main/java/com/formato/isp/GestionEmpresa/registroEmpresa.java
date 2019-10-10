@@ -21,7 +21,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.R;
+import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
 
 import org.json.JSONArray;
@@ -33,7 +35,7 @@ import java.util.Map;
 
 public class registroEmpresa extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
-    private final String URI = R.string.URLAPI + "/empresa";
+    private final String URI = resource.URLAPI + "/empresa";
     private Button btnRegistrar_Empresa;
 
     RequestQueue queue;
@@ -146,7 +148,10 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private void crearEmpresa() {
         Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCamposEmpresa()) {
+            Sesion session;
+            session = new Sesion(getApplicationContext());
             Map params = new HashMap();
+            params.put("fundacion_fund_id", session.getIdFun());
             params.put("empr_nit", nit.getText().toString());
             params.put("empr_nombre", nombre.getText().toString());
             params.put("empr_fechacreacion", fecha_crea.getText().toString());
@@ -156,6 +161,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
             params.put("empr_depart", departamento.getText().toString());
             params.put("empr_telefono", telefono.getText().toString());
             params.put("empr_paginaweb", sitioweb.getText().toString());
+            //params.put("empr_logo", "https://cdn.pixabay.com/photo/2016/09/02/18/38/architecture-1639990_960_720.jpg");
             req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
             queue.add(req);
         }else{

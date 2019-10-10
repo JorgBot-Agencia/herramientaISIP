@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -78,6 +79,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
     private EditText pass_fundacion;
     private EditText pass_confirm;
     private Button regis_fundacion;
+    ProgressDialog p;
 
     private String mpath;
 
@@ -97,6 +99,9 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         pass_fundacion = (EditText) findViewById(R.id.contrasena);
         pass_confirm = (EditText) findViewById(R.id.confir_contrasena);
         regis_fundacion = (Button) findViewById(R.id.btnRegistrarFundacion);
+        p = new ProgressDialog(this);
+        p.setMessage("Cargando...");
+        p.setCancelable(false);
 
 
         queue = Volley.newRequestQueue(this);
@@ -106,10 +111,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
             @Override
             public void onClick(View v) {
                 registrarFundacion();
-
-                //Toast.makeText(getApplicationContext(), "ImageURI: "+ imageUri.getPath(), Toast.LENGTH_LONG).show();
-                //System.out.println("HOLAAAAAAAAAA");
-                //foto_gallery.setImageDrawable(getDrawable(R.drawable.ic_location_city_black_24dp));
+                p.show();
             }
         });
 
@@ -160,7 +162,6 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         public void registrarFundacion(){
 
         if (validarCampos()) {
-            Toast.makeText(getApplicationContext(), "En proceso...", Toast.LENGTH_SHORT).show();
             pruebaRegistro();
 
         }else{
@@ -215,6 +216,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                p.hide();
                 Toast.makeText(getApplicationContext(), "Organización creada", Toast.LENGTH_LONG).show();
                 limpiarCampos();
                 NetworkResponse networkResponse = error.networkResponse;

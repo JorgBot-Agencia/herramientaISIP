@@ -36,7 +36,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
 
     RequestQueue queue;
     JsonObjectRequest req;
-    String nit;
+    String id;
 
     private Spinner sprol;
     ArrayList<String> rol;
@@ -122,7 +122,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCamposPersona()) {
             Map params = new HashMap();
-            params.put("empr_nit", nit);
+            params.put("empresa_empr_id", id);
             params.put("pers_documento", doc_persona.getText().toString());
             params.put("pers_nombre", nom_persona.getText().toString());
             params.put("pers_apellido", ape_persona.getText().toString());
@@ -170,6 +170,6 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
 
     public void cargarPref(){
         SharedPreferences pref = getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
-        nit = pref.getString("NIT","No existe");
+        id = pref.getString("ID","No existe");
     }
 }

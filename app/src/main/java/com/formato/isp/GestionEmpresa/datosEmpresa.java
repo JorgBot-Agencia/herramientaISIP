@@ -2,7 +2,7 @@ package com.formato.isp.GestionEmpresa;
 
 public class datosEmpresa {
 
-
+    private String id;
     private String nombre;
     private String nit;
     private String ubicacion;
@@ -16,7 +16,8 @@ public class datosEmpresa {
     public datosEmpresa(){
     }
 
-    public datosEmpresa(String nombre, String nit, String ubicacion, String departamento, String telefono, String sitioweb, String fecha_creacion, String fecha_inicio) {
+    public datosEmpresa(String id, String nombre, String nit, String ubicacion, String departamento, String telefono, String sitioweb, String fecha_creacion, String fecha_inicio) {
+        this.id = id;
         this.nombre = nombre;
         this.nit = nit;
         this.ubicacion = ubicacion;
@@ -25,6 +26,14 @@ public class datosEmpresa {
         this.sitioweb = sitioweb;
         this.fecha_creacion = fecha_creacion;
         this.fecha_inicio = fecha_inicio;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {

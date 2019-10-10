@@ -32,7 +32,6 @@ android:orientation="vertical">
                 android:id="@+id/image_1"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:background="@drawable/photo_female_4"
                 android:scaleType="centerCrop" />
 
             <LinearLayout
