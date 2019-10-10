@@ -54,6 +54,7 @@
                 android:src="@drawable/photo_male_8" />
 
             <TextView
+                android:id="@+id/nom_fundacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -77,6 +78,7 @@
                     android:tint="@color/grey_40" />
 
                 <TextView
+                    android:id="@+id/ubi_fundacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cúcuta, Norte de Santander"

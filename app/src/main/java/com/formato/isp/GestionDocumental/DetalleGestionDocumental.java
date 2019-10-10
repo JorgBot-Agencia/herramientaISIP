@@ -92,12 +92,11 @@ public class DetalleGestionDocumental extends Fragment {
         templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
         TypedArray drw_arr=root.getContext().getResources().obtainTypedArray(R.array.imgpdf);
 
-        Drawable d = drw_arr.getDrawable(0);
-        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+        //SDrawable d = drw_arr.getDrawable(0);
+        //Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
         Bitmap icon = BitmapFactory.decodeResource(root.getContext().getResources(),
                 R.drawable.banner);
-        Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(),
-                R.drawable.logo);
+        //Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(), R.drawable.logo);
         templatePDF.creartablaimagencentra(icon, "logofrontera");
         //templatePDF.creartablaimagencentra(bitmap, "isp");
         templatePDF.addTitulos("","","");

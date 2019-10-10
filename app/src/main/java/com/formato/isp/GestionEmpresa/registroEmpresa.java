@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.formato.isp.R;
 import com.formato.isp.utils.Tools;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Date;
@@ -179,6 +180,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

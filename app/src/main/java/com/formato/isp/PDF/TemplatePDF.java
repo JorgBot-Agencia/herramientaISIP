@@ -199,7 +199,7 @@ public class TemplatePDF {
 
     }
 
-    public void creartablaimagencentra(Bitmap bitmap ,String name){
+    public void creartablaimagencentra(Bitmap bitmap,String name){
         try {
 
 

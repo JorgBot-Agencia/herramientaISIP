@@ -20,9 +20,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.MenuLateral.menuprincipal;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -99,17 +102,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniciarSesion1() {
-        Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
 
             Map params = new HashMap();
             params.put("cuen_username", usuario.getText().toString());
             params.put("cuen_password", contrasena.getText().toString());
             req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(JSONObject response) {
-                    Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
-                    intent.putExtra("direccion","1");
-                    startActivity(intent);
+                public void onResponse(JSONObject res) {
+                    try {
+                        if (res.getString("message").equals("Bienvenido")) {
+                            Toast.makeText(getApplicationContext(), res.getString("message"), Toast.LENGTH_LONG).show();
+                            Sesion session;
+                            session = new Sesion(getApplicationContext());
+                            JSONObject fundacion = res.getJSONObject("data");
+                            session.setUsername(usuario.getText().toString());
+                            session.setContrasena(contrasena.getText().toString());
+                            session.setIdFun(fundacion.getString("fund_id"));
+                            session.setNitFun(fundacion.getString("fund_nit"));
+                            session.setNombreFun(fundacion.getString("fund_nombre"));
+                            session.setDireccion(fundacion.getString("fund_direccion"));
+                            session.setTelefono(fundacion.getString("fund_telefono"));
+                            session.setLogo(fundacion.getString("fund_logo"));
+                            Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), res.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
