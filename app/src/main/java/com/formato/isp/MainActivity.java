@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), res.getString("message"), Toast.LENGTH_LONG).show();
+                            p.hide();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(getApplicationContext(), "Credenciales Incorrectas", Toast.LENGTH_LONG).show();
+                    p.hide();
                 }
             });
             queue.add(req);

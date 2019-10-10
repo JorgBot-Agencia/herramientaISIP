@@ -62,7 +62,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="2dp"
-                android:src="@drawable/photo_female_4"
+                android:src="@drawable/df"
                 app:civ_border="true"
                 app:civ_border_color="@android:color/white"
                 app:civ_border_width="2dp"

@@ -172,6 +172,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
             queue.add(req);
         }else{
             Toast.makeText(this, "Revisa los campos, por favor", Toast.LENGTH_SHORT).show();
+            p.hide();
         }
     }
 
@@ -179,7 +180,8 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         if(!nit.getText().toString().isEmpty() && !nombre.getText().toString().isEmpty() && !fecha_crea.getText().toString().isEmpty()
                 && !fecha_ini.getText().toString().isEmpty() && !departamento.getText().toString().isEmpty() && !ciudad.getText().toString().isEmpty()
                 && !barrio.getText().toString().isEmpty() && !telefono.getText().toString().isEmpty() && !sitioweb.getText().toString().isEmpty() ){
-                    if(Date.valueOf(fecha_crea.getText().toString()).before(Date.valueOf(fecha_ini.getText().toString())) ){
+                    if(Date.valueOf(fecha_crea.getText().toString()).before(Date.valueOf(fecha_ini.getText().toString())) ||
+                            Date.valueOf(fecha_crea.getText().toString()).equals(Date.valueOf(fecha_ini.getText().toString()))){
                         return true;
                     }else{
                         return false;
@@ -192,7 +194,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
+        p.hide();
     }
 
     @Override

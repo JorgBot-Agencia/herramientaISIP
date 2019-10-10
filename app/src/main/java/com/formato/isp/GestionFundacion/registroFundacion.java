@@ -132,7 +132,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         if(_photoDialog == null){
             AlertDialog.Builder builder = new AlertDialog.Builder(registroFundacion.this);
             builder.setTitle("Elige una opción");
-            builder.setPositiveButton("Galeria", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Galería", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -166,6 +166,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
 
         }else{
             Toast.makeText(getApplicationContext(), "Por favor, completa todos los campos",Toast.LENGTH_SHORT).show();
+            p.hide();
         }
 
     }
@@ -175,8 +176,10 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                 && !user_fundacion.getText().toString().isEmpty() && !pass_fundacion.getText().toString().isEmpty() && !pass_confirm.getText().toString().isEmpty() ){
                 if(pass_fundacion.getText().toString().equals(pass_confirm.getText().toString()) ){
                     return true;
+                }else{
+                    Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
+                    p.hide();
                 }
-                Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -184,12 +187,14 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+        p.hide();
     }
 
     @Override
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(), "Fundación creada", Toast.LENGTH_LONG).show();
         limpiarCampos();
+        p.hide();
     }
 
     public void limpiarCampos(){
@@ -223,13 +228,15 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                 String errorMessage = "Unknown error";
                 if (networkResponse == null) {
                     if (error.getClass().equals(TimeoutError.class)) {
+                        p.hide();
                         errorMessage = "Request timeout";
                     } else if (error.getClass().equals(NoConnectionError.class)) {
+                        p.hide();
                         errorMessage = "Failed to connect server";
                     }
                 } else {
                     String result = new String(networkResponse.data);
-
+                    p.hide();
                     if (networkResponse.statusCode == 404) {
                         errorMessage = "Resource not found";
                     } else if (networkResponse.statusCode == 401) {
@@ -242,6 +249,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                 }
                 Log.i("Error", errorMessage);
                 error.printStackTrace();
+                p.hide();
             }
         }) {
             @Override

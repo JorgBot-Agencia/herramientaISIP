@@ -139,6 +139,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
             queue.add(req);
         }else{
             Toast.makeText(this, "Revisa los campos, por favor", Toast.LENGTH_SHORT).show();
+            p.hide();
         }
     }
 
@@ -161,6 +162,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        p.hide();
         if (error instanceof NetworkError) {
             Toast.makeText(getApplicationContext(),"Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
         } else {
