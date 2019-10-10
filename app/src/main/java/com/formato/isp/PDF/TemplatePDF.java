@@ -2,9 +2,16 @@ package com.formato.isp.PDF;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.formato.isp.R;
 import com.itextpdf.text.BaseColor;
@@ -20,9 +27,15 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class TemplatePDF {
 
@@ -186,7 +199,7 @@ public class TemplatePDF {
 
     }
 
-    public void creartablaimagen(){
+    public void creartablaimagencentra(Bitmap bitmap ,String name){
         try {
 
 
@@ -195,15 +208,26 @@ public class TemplatePDF {
             //String imageUrl =   getURLForResource(R.drawable.isip);
             paragraph = new Paragraph();
             paragraph.setSpacingBefore(10);
+            paragraph.setSpacingAfter(10);
             paragraph.setFont(letratexto);
             Image image = null;
+            Image image2 = null;
 
             // Obtenemos el logo de datojava
             //Environment.getExternalStorageDirectory().toString() es el directorio raiz
-            image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/sdcard/isip.png");
-            image.scaleAbsolute(80f, 60f);
+            //image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/sdcard/isip.png");
+            //image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/sdcard/isip.png");
+
+            //image = Image.getInstance("data/data/com.formato.isp//sdcard/isip.png");
+
+            SaveImage(bitmap, name);
+            //SaveImage(bitmap2, name);
+            image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name+".png");
+            //image2 = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name2+".png");
+            image.scaleAbsolute(320f, 80f);
             PdfPTable pdfPTable = new PdfPTable(1);
             PdfPCell cell = new PdfPCell(image);
+            //PdfPCell cell2 = new PdfPCell(image2);
 
             // Propiedades de la celda
             cell.setColspan(5);
@@ -229,5 +253,61 @@ public class TemplatePDF {
         intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK));
         context.startActivity(intent);
 
+    }
+
+    public void SaveImage( Bitmap ImageToSave, String name) {
+
+
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recursosisp";
+
+        File dir = new File(file_path);
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File file = new File(dir, name + ".png");
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+
+            ImageToSave.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+            MakeSureFileWasCreatedThenMakeAvabile(file);
+            AbleToSave();
+        }
+
+        catch(FileNotFoundException e) {
+            UnableToSave();
+        }
+        catch(IOException e) {
+            UnableToSave();
+        }
+
+    }
+    private void MakeSureFileWasCreatedThenMakeAvabile(File file){
+        MediaScannerConnection.scanFile(context,
+                new String[] { file.toString() } , null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+
+                    public void onScanCompleted(String path, Uri uri) {
+                    }
+                });
+    }
+
+    private String getCurrentDateAndTime() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-­ss");
+        String formattedDate = df.format(c.getTime());
+        return formattedDate;
+    }
+
+    private void UnableToSave() {
+        Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void AbleToSave() {
+        Toast.makeText(context, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
     }
 }
