@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.MenuLateral.menuprincipal;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!usuario.getText().toString().isEmpty() && !contrasena.getText().toString().isEmpty() ){
+                    queue = Volley.newRequestQueue(getApplicationContext());
                     iniciarSesion1();
                 }else{
                     Toast.makeText(getApplicationContext(), "Completa todos los campos", Toast.LENGTH_LONG).show();

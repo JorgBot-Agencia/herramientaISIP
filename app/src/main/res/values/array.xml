@@ -11,6 +11,9 @@
         <item>@drawable/charcuteria</item>
         <item>@drawable/calzado</item>
     </integer-array>
+    <integer-array name="imgpdf">
+        <item>@drawable/isip</item>
+    </integer-array>
 
     <string-array name="people_names">
 

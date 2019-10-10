@@ -3,6 +3,10 @@ package com.formato.isp.GestionDocumental;
 
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -86,7 +90,16 @@ public class DetalleGestionDocumental extends Fragment {
         templatePDF= new TemplatePDF(root.getContext());
         templatePDF.OpenDocument();
         templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
-        templatePDF.creartablaimagen();
+        TypedArray drw_arr=root.getContext().getResources().obtainTypedArray(R.array.imgpdf);
+
+        Drawable d = drw_arr.getDrawable(0);
+        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+        Bitmap icon = BitmapFactory.decodeResource(root.getContext().getResources(),
+                R.drawable.banner);
+        Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(),
+                R.drawable.logo);
+        templatePDF.creartablaimagencentra(icon, "logofrontera");
+        //templatePDF.creartablaimagencentra(bitmap, "isp");
         templatePDF.addTitulos("","","");
         templatePDF.addTitulosizq("NOMBRE DE LA UNIDAD", "Ubicación de la unidad","Teléfono de la unidad","Correo de la unidad");
         templatePDF.addletraroja(piso);
