@@ -102,7 +102,8 @@ public class Gestion_documental extends Fragment {
                 bundle.putString("nit", obj.empr_NIT);
                 bundle.putString("nombre", obj.empr_nombre);
 
-                bundle.putString("email", obj.empr_barrio);
+                bundle.putString("direccion", obj.empr_barrio);
+                bundle.putString("telefono", obj.empr_telefono);
                 bundle.putInt("foto",obj.empr_image);
 
                 Navigation.findNavController(root).navigate(R.id.detalle_gestion,bundle);
