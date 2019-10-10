@@ -66,6 +66,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
 
     Uri imageUri;
     ImageView foto_gallery;
+
     Bitmap bitmap;
     String ruta;
     FloatingActionButton btnSeleccionar;
@@ -111,7 +112,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
             @Override
             public void onClick(View v) {
                 registrarFundacion();
-                p.show();
+
             }
         });
 
@@ -163,10 +164,11 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
 
         if (validarCampos()) {
             pruebaRegistro();
-
+            p.show();
         }else{
-            Toast.makeText(getApplicationContext(), "Por favor, completa todos los campos",Toast.LENGTH_SHORT).show();
+
             p.hide();
+            Toast.makeText(getApplicationContext(), "Por favor, completa todos los campos",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -178,9 +180,11 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
-                    p.hide();
+                    p.dismiss();
                 }
+            p.dismiss();
         }
+        p.dismiss();
         return false;
     }
 

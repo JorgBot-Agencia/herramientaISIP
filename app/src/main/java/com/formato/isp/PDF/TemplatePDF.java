@@ -304,10 +304,12 @@ public class TemplatePDF {
     }
 
     private void UnableToSave() {
-        Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+        //Probar si se guarda la imagen
+        //Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
     }
 
     private void AbleToSave() {
-        Toast.makeText(context, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
+        //Probar si no se guardo la imagen
+        //Toast.makeText(context, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
     }
 }

@@ -13,11 +13,13 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -240,17 +242,17 @@ public class preguntasEncuesta extends AppCompatActivity {
 
     private void backStep(int progress) {
         txtAdicional.setText("");
-        indicadorContenido.setText("Indicador de la pregunta");
-        indicadorId.setText("Número de indicador");
+        //indicadorContenido.setText("Indicador de la pregunta");
+        //indicadorId.setText("Número de indicador");
         descripcionPregunta.setText("Descripción de la pregunta");
         contenidoPregunta.setText("Formulación de pregunta");
         status.setText("Número de pregunta");
         if (progress < MAX_STEP) {
-            status.setText("PREGUNTA " + obtenerId(progress));
+            status.setText("PREGUNTA " + cc--);
             contenidoPregunta.setText(obtenerContenido(progress));
-            indicadorContenido.setText(obtenerContenidoIndicador(progress));
+            //indicadorContenido.setText(obtenerContenidoIndicador(progress));
             descripcionPregunta.setText(obtenerDescripcion(progress));
-            indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
+            //indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
             crearComponente(obtenerIdCriterio(progress));
             progressBar.setProgress(current_step);
 
@@ -339,11 +341,12 @@ public class preguntasEncuesta extends AppCompatActivity {
                 hombresView.setText("Digite la cantidad de hombres");
                 layout.addView(hombresView);
 
-                TextInputEditText cantidadHombres = new TextInputEditText(getApplicationContext());
+                EditText cantidadHombres = new EditText(getApplicationContext());
                 cantidadHombres.setGravity(Gravity.CENTER);
-                cantidadHombres.setFocusable(true);
-                cantidadHombres.requestFocus();
-                cantidadHombres.setBackgroundColor(0x000000);
+                cantidadHombres.setTextColor(Color.WHITE);
+                cantidadHombres.setWidth(20);
+                cantidadHombres.setHeight(120);
+                cantidadHombres.setInputType(InputType.TYPE_CLASS_NUMBER );
                 layout.addView(cantidadHombres);
 
                 TextView mujeresView = new TextView(getApplicationContext());
@@ -351,8 +354,12 @@ public class preguntasEncuesta extends AppCompatActivity {
                 mujeresView.setText("Digite la cantidad de mujeres");
                 layout.addView(mujeresView);
 
-                TextInputEditText cantidadMujeres = new TextInputEditText(getApplicationContext());
+                EditText cantidadMujeres = new EditText(getApplicationContext());
                 cantidadMujeres.setGravity(Gravity.CENTER);
+                cantidadMujeres.setTextColor(Color.WHITE);
+                cantidadMujeres.setWidth(20);
+                cantidadMujeres.setHeight(120);
+                cantidadMujeres.setInputType(InputType.TYPE_CLASS_NUMBER );
                 layout.addView(cantidadMujeres);
                 break;
             case 2:
@@ -393,10 +400,13 @@ public class preguntasEncuesta extends AppCompatActivity {
                 dineroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(dineroView);
 
-                TextInputEditText cantidadDinero = new TextInputEditText(getApplicationContext());
+                EditText cantidadDinero = new EditText(getApplicationContext());
                 cantidadDinero.setGravity(Gravity.CENTER);
-                cantidadDinero.setFocusable(true);
-                cantidadDinero.requestFocus();
+                cantidadDinero.setTextColor(Color.WHITE);
+                cantidadDinero.setWidth(20);
+                cantidadDinero.setHeight(120);
+                cantidadDinero.setInputType(InputType.TYPE_CLASS_NUMBER );
+
                 layout.addView(cantidadDinero);
                 break;
             case 4:
@@ -429,8 +439,12 @@ public class preguntasEncuesta extends AppCompatActivity {
                 numeroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(numeroView);
 
-                TextInputEditText cantidad = new TextInputEditText(getApplicationContext());
+                EditText cantidad = new EditText(getApplicationContext());
                 cantidad.setGravity(Gravity.CENTER);
+                cantidad.setTextColor(Color.WHITE);
+                cantidad.setWidth(20);
+                cantidad.setHeight(120);
+                cantidad.setInputType(InputType.TYPE_CLASS_NUMBER );
                 layout.addView(cantidad);
                 break;
         }

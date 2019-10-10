@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.Adapter.AdapterListBasicDetalleGestion;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasViewModel;
 import com.formato.isp.PDF.TemplatePDF;
 import com.formato.isp.R;
@@ -56,7 +57,7 @@ import javax.security.auth.Destroyable;
  * A simple {@link Fragment} subclass.
  */
 public class DetalleGestionDocumental extends Fragment {
-
+    private Sesion session;
     public View root;
     public  TextView nombre, info;
     public Button generarpdf;
@@ -87,30 +88,7 @@ public class DetalleGestionDocumental extends Fragment {
         lista =  new ArrayList<>();
 
         //Generacion de documento PDf
-        templatePDF= new TemplatePDF(root.getContext());
-        templatePDF.OpenDocument();
-        templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
-        TypedArray drw_arr=root.getContext().getResources().obtainTypedArray(R.array.imgpdf);
 
-        //SDrawable d = drw_arr.getDrawable(0);
-        //Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-        Bitmap icon = BitmapFactory.decodeResource(root.getContext().getResources(),
-                R.drawable.banner);
-        //Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(), R.drawable.logo);
-        templatePDF.creartablaimagencentra(icon, "logofrontera");
-        //templatePDF.creartablaimagencentra(bitmap, "isp");
-        templatePDF.addTitulos("","","");
-        templatePDF.addTitulosizq("NOMBRE DE LA UNIDAD", "Ubicación de la unidad","Teléfono de la unidad","Correo de la unidad");
-        templatePDF.addletraroja(piso);
-        templatePDF.addtitulo("ISIP");
-        templatePDF.creartabla(infor, getinfor());
-        templatePDF.addtitulo("Descripcion de unidad Productiva");
-        templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
-        templatePDF.addtitulo("RESULTADOS");
-        templatePDF.addTitulos("","Resultado total","");
-        templatePDF.addtitulo("Resultados especificos");
-        templatePDF.creartabla(header,getResltEsp());
-        templatePDF.closeDocument();
 
         generarpdf= root.findViewById(R.id.btngenerarpdf);
 
@@ -126,13 +104,42 @@ public class DetalleGestionDocumental extends Fragment {
         if (getArguments() != null) {
             String id=getArguments().getString("nit");
             String n = getArguments().getString("nombre");
-            String c = getArguments().getString("email");
+            String d = getArguments().getString("direccion");
+            String t = getArguments().getString("telefono");
             int f = getArguments().getInt("foto");
 
             nombre.setText(n);
-            info.setText(c);
+            info.setText(d);
             Tools.displayImageRound(root.getContext(), foto ,f);
             consultar_revEmp(id);
+
+            templatePDF= new TemplatePDF(root.getContext());
+            templatePDF.OpenDocument();
+            templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
+            TypedArray drw_arr=root.getContext().getResources().obtainTypedArray(R.array.imgpdf);
+
+            //SDrawable d = drw_arr.getDrawable(0);
+            //Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+
+            session = new Sesion(root.getContext());
+            Bitmap icon = BitmapFactory.decodeResource(root.getContext().getResources(),
+                    R.drawable.banner);
+            //Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(), R.drawable.logo);
+            templatePDF.creartablaimagencentra(icon, "logofrontera");
+            //templatePDF.creartablaimagencentra(bitmap, "isp");
+            templatePDF.addTitulos("","","");
+            templatePDF.addTitulosizq("Nombre de la unidad: "+ n,  d,t," ");
+            templatePDF.addletraroja(piso);
+            templatePDF.addtitulo("ISIP");
+            templatePDF.creartabla(infor, getinfor());
+            templatePDF.addtitulo("Descripcion de unidad Productiva");
+            templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
+            templatePDF.addtitulo("RESULTADOS");
+            templatePDF.addTitulos("","Resultado total","");
+            templatePDF.addtitulo("Resultados especificos");
+            templatePDF.creartabla(header,getResltEsp());
+            templatePDF.closeDocument();
+
         }
 
 
@@ -152,7 +159,9 @@ public class DetalleGestionDocumental extends Fragment {
 
     private ArrayList<String[]>getinfor(){
         ArrayList<String[]>row= new ArrayList<>();
-        row.add(new String[]{"Fecha","Nombre de la funcacion","Nombre de quien o quienes atienderon la encuesta","Politica de identificación de precios"});
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaComoCadena = sdf.format(new Date());
+        row.add(new String[]{"Fecha: "+fechaComoCadena,"Nombre de la funcacion: "+session.getNombreFun(),session.getTelefono(),"Politica de identificación de precios"});
         return row;
     }
 
