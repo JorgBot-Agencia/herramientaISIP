@@ -3,6 +3,7 @@ package com.formato.isp.GestionEmpresa;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     private EditText tel_persona;
     private Button registrar_Persona;
     String URI = resource.URLAPI + "/persona";
+    ProgressDialog p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,9 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         rol = new ArrayList<>();
         idrol = new ArrayList<>();
         sprol = (Spinner)findViewById(R.id.sp_rol);
+        p = new ProgressDialog(this);
+        p.setMessage("Cargando...");
+        p.setCancelable(false);
         doc_persona = (EditText)findViewById(R.id.doc_persona);
         nom_persona = (EditText)findViewById(R.id.nom_persona);
         ape_persona = (EditText)findViewById(R.id.ape_persona);
@@ -69,6 +74,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Position: "+idrol.get(sprol.getSelectedItemPosition()), Toast.LENGTH_SHORT).show();
                 crearPersona();
+                p.show();
             }
         });
 
@@ -166,6 +172,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(), "Persona registrada", Toast.LENGTH_LONG).show();
         limpiarCampos();
+        p.hide();
     }
 
     public void cargarPref(){

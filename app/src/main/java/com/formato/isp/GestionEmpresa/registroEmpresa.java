@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +51,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private EditText barrio;
     private EditText telefono;
     private EditText sitioweb;
+    ProgressDialog p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         setContentView(R.layout.activity_registro_empresa);
 
         initToolbar();
+        p = new ProgressDialog(this);
+        p.setMessage("Cargando...");
+        p.setCancelable(false);
 
         nit = (EditText)findViewById(R.id.nit_empresa);
         nombre = (EditText)findViewById(R.id.nombre_empresa);
@@ -97,6 +102,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
             @Override
             public void onClick(View v) {
                 crearEmpresa();
+                p.show();
             }
         });
     }
@@ -193,6 +199,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(), "Empresa creada", Toast.LENGTH_LONG).show();
         limpiarCampos();
+        p.hide();
     }
 
     public void limpiarCampos(){
