@@ -48,6 +48,7 @@ import java.util.List;
 public class preguntasEncuesta extends AppCompatActivity {
 
     private int MAX_STEP;
+    private int cc;
     private int current_step = 0;
     private ProgressBar progressBar;
     private TextView status;
@@ -183,6 +184,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     }
 
     private void initComponent() {
+        cc=1;
         progressBar = findViewById(R.id.progress);
         progressBar.setMax(MAX_STEP);
         progressBar.setProgress(current_step);
@@ -207,18 +209,19 @@ public class preguntasEncuesta extends AppCompatActivity {
     private void nextStep(int progress) {
         txtAdicional.setText("");
         indicadorContenido.setText("Indicador de la pregunta");
-        indicadorId.setText("Número de indicador");
+        //indicadorId.setText("Número de indicador");
         descripcionPregunta.setText("Descripción de la pregunta");
         contenidoPregunta.setText("Formulación de pregunta");
         status.setText("Número de pregunta");
 
         if (progress < MAX_STEP) {
             areaProceso.setAreaAvance(progress);
-            status.setText("PREGUNTA " + obtenerId(progress));
+            //status.setText("PREGUNTA " + obtenerId(progress));
+            status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));
             indicadorContenido.setText(obtenerContenidoIndicador(progress));
             descripcionPregunta.setText(obtenerDescripcion(progress));
-            indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
+            //indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
             crearComponente(obtenerIdCriterio(progress));
             progressBar.setProgress(current_step);
 
