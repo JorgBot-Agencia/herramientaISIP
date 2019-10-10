@@ -50,6 +50,7 @@ public class infoDetallada extends AppCompatActivity {
     private Button btnRegistroPersona;
     private ViewPager view_pager;
     private TabLayout tab_layout;
+    private String id;
     private String nit;
     private String nom;
     private String ubicacion;
@@ -107,7 +108,7 @@ public class infoDetallada extends AppCompatActivity {
                         datosempresa();
                         break;
                     case ("Personal"):
-                        url = resource.URLAPI + "/persona/?empr="+ nit;
+                        url = resource.URLAPI + "/persona/?empr="+ id;
                         req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -241,6 +242,7 @@ public class infoDetallada extends AppCompatActivity {
 
     public void cargarPref(){
         SharedPreferences pref = getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
+        id = pref.getString("ID", "No existe");
         nit = pref.getString("NIT","No existe");
         nom = pref.getString("NOMBRE","No existe");
         ubicacion = pref.getString("UBICACION","No existe");

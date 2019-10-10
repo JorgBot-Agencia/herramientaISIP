@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +22,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.R;
+import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Date;
@@ -32,7 +36,7 @@ import java.util.Map;
 
 public class registroEmpresa extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
 
-    private final String URI = R.string.URLAPI + "/empresa";
+    private final String URI = resource.URLAPI + "/empresa";
     private Button btnRegistrar_Empresa;
 
     RequestQueue queue;
@@ -47,6 +51,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private EditText barrio;
     private EditText telefono;
     private EditText sitioweb;
+    ProgressDialog p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         setContentView(R.layout.activity_registro_empresa);
 
         initToolbar();
+        p = new ProgressDialog(this);
+        p.setMessage("Cargando...");
+        p.setCancelable(false);
 
         nit = (EditText)findViewById(R.id.nit_empresa);
         nombre = (EditText)findViewById(R.id.nombre_empresa);
@@ -94,6 +102,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
             @Override
             public void onClick(View v) {
                 crearEmpresa();
+                p.show();
             }
         });
     }
@@ -145,7 +154,10 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private void crearEmpresa() {
         Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCamposEmpresa()) {
+            Sesion session;
+            session = new Sesion(getApplicationContext());
             Map params = new HashMap();
+            params.put("fundacion_fund_id", session.getIdFun());
             params.put("empr_nit", nit.getText().toString());
             params.put("empr_nombre", nombre.getText().toString());
             params.put("empr_fechacreacion", fecha_crea.getText().toString());
@@ -155,6 +167,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
             params.put("empr_depart", departamento.getText().toString());
             params.put("empr_telefono", telefono.getText().toString());
             params.put("empr_paginaweb", sitioweb.getText().toString());
+            //params.put("empr_logo", "https://cdn.pixabay.com/photo/2016/09/02/18/38/architecture-1639990_960_720.jpg");
             req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
             queue.add(req);
         }else{
@@ -179,12 +192,14 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(), "Empresa creada", Toast.LENGTH_LONG).show();
         limpiarCampos();
+        p.hide();
     }
 
     public void limpiarCampos(){

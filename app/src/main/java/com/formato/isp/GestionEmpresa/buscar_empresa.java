@@ -18,7 +18,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.R;
+import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
 
 import org.json.JSONArray;
@@ -61,7 +63,10 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     }
 
     private void obtenerEmpresas() {
-        String url = "https://formatoisp-api.herokuapp.com/api/empresa";
+        Sesion session;
+        session = new Sesion(getApplicationContext());
+        String id = session.getIdFun();
+        String url = resource.URLAPI + "/empresa/?fund_id=" + id;
         req = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         queue.add(req);
     }
@@ -90,6 +95,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             dato = new ArrayList<datosEmpresa>();
             JSONArray jsonArr = response.getJSONArray("data");
             JSONObject jsonObj = null;
+            String id_empr = "";
             String barrio = "" ;
             String ciudad = "" ;
             String nombre = "" ;
@@ -101,6 +107,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             String fecha_crea = "";
             for (int i = 0; i < jsonArr.length(); i++) {
                 jsonObj = jsonArr.getJSONObject(i);
+                id_empr = jsonObj.getString("empr_id");
                 barrio = jsonObj.getString("empr_barrio");
                 nombre = jsonObj.getString("empr_nombre");
                 nit = jsonObj.getString("empr_nit");
@@ -110,7 +117,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
                 sitioweb = jsonObj.getString("empr_paginaweb");
                 fecha_crea = jsonObj.getString("empr_fechacreacion");
                 fecha_ini = jsonObj.getString("empr_fechainicio");
-                dato.add(new datosEmpresa(nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini));
+                dato.add(new datosEmpresa(id_empr, nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini));
             }
             adaptador = new Adaptador(this, dato);
             lvItems.setAdapter(adaptador);

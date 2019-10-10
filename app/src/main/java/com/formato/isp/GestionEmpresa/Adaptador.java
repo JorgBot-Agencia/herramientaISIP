@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.formato.isp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import android.content.SharedPreferences;
@@ -55,11 +56,13 @@ public class Adaptador extends BaseAdapter {
         Nombre.setText(lista.get(position).getNombre());
         Nit.setText(lista.get(position).getNit());
         Ubicacion.setText(lista.get(position).getUbicacion());
+        String ruta = "https://cdn.pixabay.com/photo/2016/09/02/18/38/architecture-1639990_960_720.jpg";
+        Picasso.with(convertView.getContext()).load(ruta).into(logo);
 
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarNit(lista.get(position).getNit().toString(),lista.get(position).getNombre().toString(), lista.get(position).getUbicacion().toString(),
+                guardarNit(lista.get(position).getId(), lista.get(position).getNit().toString(),lista.get(position).getNombre().toString(), lista.get(position).getUbicacion().toString(),
                         lista.get(position).getDepartamento(), lista.get(position).getTelefono(), lista.get(position).getSitioweb(),
                         lista.get(position).getFecha_creacion(), lista.get(position).getFecha_inicio());
                 Intent abrirInfo = new Intent(v.getContext(), infoDetallada.class);
@@ -71,12 +74,19 @@ public class Adaptador extends BaseAdapter {
         return convertView;
     }
 
-    public void guardarNit(String nit, String nom, String ubi, String dep, String tel, String sitioweb, String f_crea, String f_ini){
+    public void guardarNit(String id, String nit, String nom, String ubi, String dep, String tel, String sitioweb, String f_crea, String f_ini){
         SharedPreferences pref = contexto.getSharedPreferences("nitEmpresa", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
+        editor.remove("ID");
         editor.remove("NIT");
         editor.remove("NOMBRE");
         editor.remove("UBICACION");
+        editor.remove("TELEFONO");
+        editor.remove("DEPARTAMENTO");
+        editor.remove("SITIOWEB");
+        editor.remove("F_CREA");
+        editor.remove("F_INI");
+        editor.putString("ID", id);
         editor.putString("NIT",nit);
         editor.putString("NOMBRE",nom);
         editor.putString("UBICACION",ubi);

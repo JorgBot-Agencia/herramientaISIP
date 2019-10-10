@@ -92,7 +92,8 @@
                                 android:id="@+id/nit_fundacion"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Nit" />
+                                android:hint="Nit"
+                                android:inputType="number"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -358,7 +359,7 @@
                     android:background="@drawable/boton"
                     android:gravity="center"
                     android:layout_marginBottom="20dp"
-                    android:text="REGISTRAR FUNDACIÓN"
+                    android:text="REGISTRAR ORGANIZACIÓN"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@android:color/white"

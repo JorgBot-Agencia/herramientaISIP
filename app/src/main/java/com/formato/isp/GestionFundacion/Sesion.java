@@ -7,6 +7,15 @@ import android.preference.PreferenceManager;
 public class Sesion{
     private SharedPreferences sesion;
 
+    public void setIdFun(String idfun) {
+        sesion.edit().putString("idfun", idfun).commit();
+    }
+
+    public String getIdFun() {
+        String idfun = sesion.getString("idfun","");
+        return idfun;
+    }
+
     public Sesion(Context cntx) {
         // TODO Auto-generated constructor stub
         sesion = PreferenceManager.getDefaultSharedPreferences(cntx);

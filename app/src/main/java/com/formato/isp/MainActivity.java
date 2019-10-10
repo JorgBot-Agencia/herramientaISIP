@@ -5,20 +5,45 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.MenuLateral.menuprincipal;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnIniciarSesion;
     TextView txtLink;
+    EditText usuario;
+    EditText contrasena;
+    ProgressDialog p;
+
+    private final String URI = resource.URLAPI + "/fundacion/iniciarSesion";
+
+    RequestQueue queue;
+    JsonObjectRequest req;
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -32,11 +57,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         verifyStoragePermissions(this);
 
+        p = new ProgressDialog(this);
+        p.setMessage("Cargando...");
+        p.setCancelable(false);
+        usuario = (EditText)findViewById(R.id.txtUsuario);
+        contrasena = (EditText)findViewById(R.id.txtContrasena);
+
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                iniciarSesion();
+                if(!usuario.getText().toString().isEmpty() && !contrasena.getText().toString().isEmpty() ){
+                    queue = Volley.newRequestQueue(getApplicationContext());
+                    iniciarSesion1();
+                    p.show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Completa todos los campos", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -66,5 +104,47 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    private void iniciarSesion1() {
+
+            Map params = new HashMap();
+            params.put("cuen_username", usuario.getText().toString());
+            params.put("cuen_password", contrasena.getText().toString());
+            req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject res) {
+                    try {
+                        if (res.getString("message").equals("Bienvenido")) {
+                            Toast.makeText(getApplicationContext(), res.getString("message"), Toast.LENGTH_LONG).show();
+                            Sesion session;
+                            session = new Sesion(getApplicationContext());
+                            JSONObject fundacion = res.getJSONObject("data");
+                            session.setUsername(usuario.getText().toString());
+                            session.setContrasena(contrasena.getText().toString());
+                            session.setIdFun(fundacion.getString("fund_id"));
+                            session.setNitFun(fundacion.getString("fund_nit"));
+                            session.setNombreFun(fundacion.getString("fund_nombre"));
+                            session.setDireccion(fundacion.getString("fund_direccion"));
+                            session.setTelefono(fundacion.getString("fund_telefono"));
+                            session.setLogo(fundacion.getString("fund_logo"));
+                            p.hide();
+                            Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), res.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "Credenciales Incorrectas", Toast.LENGTH_LONG).show();
+                }
+            });
+            queue.add(req);
+
     }
 }
