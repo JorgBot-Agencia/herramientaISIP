@@ -34,6 +34,7 @@ import com.formato.isp.Clases.Area;
 import com.formato.isp.Pregunta;
 import com.formato.isp.R;
 import com.formato.isp.utils.*;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,8 +57,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     private RequestQueue queue;
     public static Area areaProceso;
     public int numeroArea;
-    public static List<Pregunta> listaPreguntas= new ArrayList<>();
-    public static List<Area> areasEncuestadas = new ArrayList<>();
+    public static List<Pregunta> listaPreguntas;
     public static float valor = 0;
 
     @Override
@@ -75,7 +75,7 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
         numeroArea = getIntent().getExtras().getInt("areaId");
-
+        listaPreguntas = new ArrayList<>();
         areaProceso = new Area(numeroArea, 0, 0, 0);
         obtenerPreguntas();
     }
@@ -88,11 +88,12 @@ public class preguntasEncuesta extends AppCompatActivity {
                 try {
                     JSONArray jsonArr = res.getJSONArray("data");
                     for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject jsonObject = jsonArr.getJSONObject(i);
                         JSONArray jsonCriterio = jsonArr.getJSONObject(i).getJSONArray("indicadors");
                         for (int j = 0; j < jsonCriterio.length(); j++) {
                             JSONObject jsonIndicador = jsonCriterio.getJSONObject(j);
                             JSONObject jsonPreguntum = jsonIndicador.getJSONObject("preguntum");
-                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonIndicador.getInt("criterio_crit_id"), numeroArea,0));
+                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonObject.getInt("crit_id"), numeroArea, 0));
                         }
                     }
                     MAX_STEP = listaPreguntas.size();
@@ -111,7 +112,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         initComponent();
     }
 
-    private void asignarValor(float valor, int parametro){
+    private void asignarValor(float valor, int parametro) {
         for (int i = 0; i < listaPreguntas.size(); i++) {
             if (i == parametro) {
                 listaPreguntas.get(i).setValor(valor);
@@ -211,7 +212,6 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         if (progress < MAX_STEP) {
             areaProceso.setAreaAvance(progress);
-            asignarValor(valor,progress);
             status.setText("PREGUNTA " + obtenerId(progress));
             contenidoPregunta.setText(obtenerContenido(progress));
             indicadorContenido.setText(obtenerContenidoIndicador(progress));
@@ -220,11 +220,14 @@ public class preguntasEncuesta extends AppCompatActivity {
             crearComponente(obtenerIdCriterio(progress));
             progressBar.setProgress(current_step);
 
+            if(progress > 0){
+                asignarValor(valor, progress-1);
+            }
             progress = progress + 1;
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
         } else {
-            areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
+            menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
             startActivity(abrirProgress);
         }
@@ -250,7 +253,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
         } else {
-            areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
+            menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
             startActivity(abrirProgress);
         }
@@ -303,7 +306,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.radio1:
-                        valor  = 25;
+                        valor = 25;
                         areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 25);
                         break;
                     case R.id.radio2:
@@ -328,65 +331,21 @@ public class preguntasEncuesta extends AppCompatActivity {
             case 1:
                 TextView hombresView = new TextView(getApplicationContext());
                 hombresView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                hombresView.setText("Seleccione la cantidad de hombres");
+                hombresView.setText("Digite la cantidad de hombres");
                 layout.addView(hombresView);
 
-                final TextView cantidadView = new TextView(getApplicationContext());
-                cantidadView.setGravity(Gravity.CENTER);
-                layout.addView(cantidadView);
-
-                AppCompatSeekBar hombres = new AppCompatSeekBar(this);
-                hombres.setThumb(getDrawable(R.drawable.seek_thumb_accent_outline));
-                hombres.setMax(100);
-                hombres.setProgress(1);
-                hombres.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadView.setText("" + progress);
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-                layout.addView(hombres);
+                TextInputEditText cantidadHombres = new TextInputEditText(getApplicationContext());
+                cantidadHombres.setGravity(Gravity.CENTER);
+                layout.addView(cantidadHombres);
 
                 TextView mujeresView = new TextView(getApplicationContext());
                 mujeresView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                mujeresView.setText("Seleccione la cantidad de mujeres");
+                mujeresView.setText("Digite la cantidad de mujeres");
                 layout.addView(mujeresView);
 
-                final TextView cantidadMujeresView = new TextView(getApplicationContext());
-                cantidadMujeresView.setGravity(Gravity.CENTER);
-                layout.addView(cantidadMujeresView);
-
-                AppCompatSeekBar mujeres = new AppCompatSeekBar(this);
-                mujeres.setThumb(getDrawable(R.drawable.seek_thumb_primary_outline));
-                mujeres.setMax(100);
-                mujeres.setProgress(1);
-                mujeres.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBarMujeres, int progressMujeres, boolean fromUser) {
-                        cantidadMujeresView.setText("" + progressMujeres);
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBarMujeres) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBarMujeres) {
-
-                    }
-                });
-                layout.addView(mujeres);
+                TextInputEditText cantidadMujeres = new TextInputEditText(getApplicationContext());
+                cantidadMujeres.setGravity(Gravity.CENTER);
+                layout.addView(cantidadMujeres);
                 break;
             case 2:
                 TextView porcentajeView = new TextView(getApplicationContext());
@@ -422,35 +381,13 @@ public class preguntasEncuesta extends AppCompatActivity {
                 break;
             case 3:
                 TextView dineroView = new TextView(getApplicationContext());
-                dineroView.setText("Seleccione la cantidad de dinero");
+                dineroView.setText("Ingrese la cantidad de dinero");
                 dineroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(dineroView);
 
-                final TextView cantidadDineroView = new TextView(getApplicationContext());
-                cantidadDineroView.setGravity(Gravity.CENTER);
-                layout.addView(cantidadDineroView);
-
-                AppCompatSeekBar dineroSeekBar = new AppCompatSeekBar(this);
-                dineroSeekBar.setThumb(getDrawable(R.drawable.seek_thumb_accent_outline));
-                dineroSeekBar.setMax(2000000);
-                dineroSeekBar.setProgress(10000);
-                dineroSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadDineroView.setText("" + progress);
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-                layout.addView(dineroSeekBar);
+                TextInputEditText cantidadDinero = new TextInputEditText(getApplicationContext());
+                cantidadDinero.setGravity(Gravity.CENTER);
+                layout.addView(cantidadDinero);
                 break;
             case 4:
                 TextView radioView = new TextView(getApplicationContext());
@@ -478,35 +415,13 @@ public class preguntasEncuesta extends AppCompatActivity {
                 break;
             case 5:
                 TextView numeroView = new TextView(getApplicationContext());
-                numeroView.setText("Seleccione la cantidad");
+                numeroView.setText("Ingrese la cantidad");
                 numeroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(numeroView);
 
-                final TextView cantidadNumeroView = new TextView(getApplicationContext());
-                cantidadNumeroView.setGravity(Gravity.CENTER);
-                layout.addView(cantidadNumeroView);
-
-                AppCompatSeekBar numeroSeekBar = new AppCompatSeekBar(this);
-                numeroSeekBar.setThumb(getDrawable(R.drawable.seek_thumb_accent_outline));
-                numeroSeekBar.setMax(200);
-                numeroSeekBar.setProgress(1);
-                numeroSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadNumeroView.setText("" + progress);
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-                layout.addView(numeroSeekBar);
+                TextInputEditText cantidad = new TextInputEditText(getApplicationContext());
+                cantidad.setGravity(Gravity.CENTER);
+                layout.addView(cantidad);
                 break;
         }
 

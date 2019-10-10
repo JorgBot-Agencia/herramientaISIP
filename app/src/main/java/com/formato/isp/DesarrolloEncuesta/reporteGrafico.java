@@ -235,6 +235,15 @@ public class reporteGrafico extends AppCompatActivity {
         RadarData data = new RadarData();
         data.addDataSet(set1);
         data.addDataSet(set2);
+        data.addDataSet(set3);
+        data.addDataSet(set4);
+        data.addDataSet(set5);
+        data.addDataSet(set6);
+        data.addDataSet(set7);
+        data.addDataSet(set8);
+        data.addDataSet(set9);
+        data.addDataSet(set10);
+        data.addDataSet(set11);
         data.setValueTextSize(8f);
         data.setDrawValues(false);
         data.setValueTextColor(Color.WHITE);

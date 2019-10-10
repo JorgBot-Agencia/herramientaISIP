@@ -199,15 +199,16 @@ public class TemplatePDF {
             Image image = null;
 
             // Obtenemos el logo de datojava
-            //image = Image.getInstance(pat);
+            //Environment.getExternalStorageDirectory().toString() es el directorio raiz
+            image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/sdcard/isip.png");
             image.scaleAbsolute(80f, 60f);
             PdfPTable pdfPTable = new PdfPTable(1);
             PdfPCell cell = new PdfPCell(image);
 
             // Propiedades de la celda
             cell.setColspan(5);
-            cell.setBorderColor(BaseColor.RED);
-            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            cell.setBorderColor(BaseColor.WHITE);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
             // Agregar la celda a la tabla
             pdfPTable.addCell(cell);
