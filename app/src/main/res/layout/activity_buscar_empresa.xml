@@ -35,6 +35,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:contentInsetStartWithNavigation="0dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            
 
             <ImageView
                 android:id="@+id/image"

@@ -26,10 +26,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.Adapter.AdapterListBasic;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.R;
 import com.formato.isp.data.DataGenerator;
 import com.formato.isp.model.Empresa;
 import com.formato.isp.model.People;
+import com.formato.isp.resource;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 
@@ -47,7 +49,7 @@ public class Gestion_documental extends Fragment {
     private View root;
     private RequestQueue queue;
     private ArrayList<Empresa> lista ;
-
+    Sesion session;
 
     private RecyclerView recyclerView;
     private AdapterListBasic mAdapter;
@@ -115,7 +117,10 @@ public class Gestion_documental extends Fragment {
 
 
     public void consultar_emp(){
-        String url = "https://formatoisp-api.herokuapp.com/api/empresa";
+        session = new Sesion(getActivity().getApplicationContext());
+        String id = session.getIdFun();
+        String url = resource.URLAPI + "/empresa/?fund_id=" + id;
+
 
         JsonObjectRequest rs= new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>(){
             @Override

@@ -11,44 +11,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/grey_10" />
 
-        <LinearLayout
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:minHeight="?attr/actionBarSize"
-            android:orientation="horizontal">
+            android:scrollbars="vertical"
+            android:scrollingCache="true" />
 
-            <ImageButton
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_apps" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Item (s)"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/grey_40" />
-
-            <View
-                android:layout_width="@dimen/spacing_smlarge"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/bt_toggle_items"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/grey_40"
-                app:srcCompat="@drawable/ic_arrow_drop" />
-        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
