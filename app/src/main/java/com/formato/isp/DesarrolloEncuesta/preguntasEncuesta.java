@@ -347,9 +347,6 @@ public class preguntasEncuesta extends AppCompatActivity {
                 cantidadHombres.setWidth(20);
                 cantidadHombres.setHeight(120);
                 cantidadHombres.setInputType(InputType.TYPE_CLASS_NUMBER );
-                cantidadHombres.setFocusable(true);
-                cantidadHombres.requestFocus();
-                cantidadHombres.setBackgroundColor(0x000000);
                 layout.addView(cantidadHombres);
 
                 TextView mujeresView = new TextView(getApplicationContext());
@@ -358,7 +355,6 @@ public class preguntasEncuesta extends AppCompatActivity {
                 layout.addView(mujeresView);
 
                 EditText cantidadMujeres = new EditText(getApplicationContext());
-                cantidadMujeres.setGravity(Gravity.CENTER);
                 cantidadMujeres.setGravity(Gravity.CENTER);
                 cantidadMujeres.setTextColor(Color.WHITE);
                 cantidadMujeres.setWidth(20);
@@ -404,10 +400,13 @@ public class preguntasEncuesta extends AppCompatActivity {
                 dineroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(dineroView);
 
-                TextInputEditText cantidadDinero = new TextInputEditText(getApplicationContext());
+                EditText cantidadDinero = new EditText(getApplicationContext());
                 cantidadDinero.setGravity(Gravity.CENTER);
-                cantidadDinero.setFocusable(true);
-                cantidadDinero.requestFocus();
+                cantidadDinero.setTextColor(Color.WHITE);
+                cantidadDinero.setWidth(20);
+                cantidadDinero.setHeight(120);
+                cantidadDinero.setInputType(InputType.TYPE_CLASS_NUMBER );
+
                 layout.addView(cantidadDinero);
                 break;
             case 4:
@@ -440,8 +439,12 @@ public class preguntasEncuesta extends AppCompatActivity {
                 numeroView.setTextAppearance(getApplicationContext(), R.style.boldText);
                 layout.addView(numeroView);
 
-                TextInputEditText cantidad = new TextInputEditText(getApplicationContext());
+                EditText cantidad = new EditText(getApplicationContext());
                 cantidad.setGravity(Gravity.CENTER);
+                cantidad.setTextColor(Color.WHITE);
+                cantidad.setWidth(20);
+                cantidad.setHeight(120);
+                cantidad.setInputType(InputType.TYPE_CLASS_NUMBER );
                 layout.addView(cantidad);
                 break;
         }
