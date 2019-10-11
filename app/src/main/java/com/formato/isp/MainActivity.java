@@ -6,12 +6,25 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.PixelCopy;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +37,16 @@ import com.android.volley.toolbox.Volley;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.MenuLateral.menuprincipal;
+import com.formato.isp.PDF.TemplatePDF;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(abrir);
             }
         });
+        /*
+        View rootview= getWindow().getDecorView().getRootView();
+        Bitmap bp = screenShot(rootview);
+        TemplatePDF tf = new TemplatePDF(this);
+        tf.SaveImage(bp, "MICAPTURE");*/
     }
     public void iniciarSesion(){
         Intent intent = new Intent(this, menuprincipal.class);
@@ -151,4 +174,49 @@ public class MainActivity extends AppCompatActivity {
             queue.add(req);
 
     }
+    /*public static Bitmap ObtenerBitmap(View v){
+        View scren= v.getRootView();
+        scren.setDrawingCacheEnabled(true);
+        Bitmap bitmap= Bitmap.createBitmap(v.);
+        scren.setDrawingCacheEnabled(false);
+        return bitmap;
+    }*/
+
+    /*private void takePhoto() {
+
+        // Create a bitmap the size of the scene view.
+        final Bitmap bitmap = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+
+
+        // Create a handler thread to offload the processing of the image.
+        final HandlerThread handlerThread = new HandlerThread("PixelCopier");
+        handlerThread.start();
+        // Make the request to copy.
+
+        PixelCopy.request(holder.videoView, bitmap, (copyResult) -> {
+            if (copyResult == PixelCopy.SUCCESS) {
+                Log.e(TAG,bitmap.toString());
+                String name = String.valueOf(System.currentTimeMillis() + ".jpg");
+                imageFile = ScreenshotUtils.store(bitmap,name);
+
+            } else {
+                Toast toast = Toast.makeText(getViewActivity(),
+                        "Failed to copyPixels: " + copyResult, Toast.LENGTH_LONG);
+                toast.show();
+            }
+            handlerThread.quitSafely();
+        }, new Handler(handlerThread.getLooper()));
+    }*/
+
+    public Bitmap screenShot(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+
 }
