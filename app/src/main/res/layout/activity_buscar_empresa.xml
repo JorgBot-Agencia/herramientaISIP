@@ -88,14 +88,7 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/btnbuscarEmpr"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:src="@drawable/ic_search"
-                        android:tint="@color/grey_60" />
+
                     <ImageButton
                         android:id="@+id/btnrefres"
                         android:layout_width="50dp"
@@ -112,14 +105,19 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="Buscar unidad productiva"
-                        android:imeOptions="actionSearch"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:inputType="text">
-
-                        <requestFocus />
-
                     </EditText>
+
+                    <ImageButton
+                        android:id="@+id/btnbuscarEmpr"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:src="@drawable/ic_search"
+                        android:tint="@color/grey_60" />
 
                     <View
                         android:layout_width="15dp"

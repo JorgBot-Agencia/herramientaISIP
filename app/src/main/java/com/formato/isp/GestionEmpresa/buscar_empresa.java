@@ -70,8 +70,9 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         btnRefrescar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adaptador = new Adaptador(ctx2, listafiltro2);
-                lvItems.setAdapter(adaptador);
+                buscarEmp.setText("");
+                finish();
+                startActivity(getIntent());
             }
         });
         btnBuscarEmpr.setOnClickListener(new View.OnClickListener() {
@@ -156,10 +157,8 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
                 dato.add(new datosEmpresa(id_empr, nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini));
             }
             listafiltro=dato;
-            listafiltro2=dato;
             adaptador = new Adaptador(this, dato);
             ctx=this;
-            ctx2=this;
             lvItems.setAdapter(adaptador);
 
         } catch (JSONException e) {
