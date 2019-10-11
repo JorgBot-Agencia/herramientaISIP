@@ -62,6 +62,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         img = findViewById(R.id.image_1);
         queue = Volley.newRequestQueue(this);
         buscarEmp= findViewById(R.id.et_search);
+        buscarEmp.clearFocus();
         btnBuscarEmpr= findViewById(R.id.btnbuscarEmpr);
         btnRefrescar= findViewById(R.id.btnrefres);
         lvItems = (ListView)findViewById(R.id.lv_items);

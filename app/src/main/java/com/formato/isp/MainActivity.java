@@ -61,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         p.setMessage("Cargando...");
         p.setCancelable(false);
         usuario = (EditText)findViewById(R.id.txtUsuario);
+        usuario.clearFocus();
         contrasena = (EditText)findViewById(R.id.txtContrasena);
+        contrasena.clearFocus();
 
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
