@@ -11,12 +11,13 @@ public class datosEmpresa {
     private String sitioweb;
     private String fecha_creacion;
     private String fecha_inicio;
+    private  String logo;
 
 
     public datosEmpresa(){
     }
 
-    public datosEmpresa(String id, String nombre, String nit, String ubicacion, String departamento, String telefono, String sitioweb, String fecha_creacion, String fecha_inicio) {
+    public datosEmpresa(String id, String nombre, String nit, String ubicacion, String departamento, String telefono, String sitioweb, String fecha_creacion, String fecha_inicio, String logo) {
         this.id = id;
         this.nombre = nombre;
         this.nit = nit;
@@ -26,6 +27,7 @@ public class datosEmpresa {
         this.sitioweb = sitioweb;
         this.fecha_creacion = fecha_creacion;
         this.fecha_inicio = fecha_inicio;
+        this.logo = logo;
     }
 
     public String getId() {
@@ -98,5 +100,13 @@ public class datosEmpresa {
 
     public void setFecha_inicio(String fecha_inicio) {
         this.fecha_inicio = fecha_inicio;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

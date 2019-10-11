@@ -105,6 +105,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             String sitioweb = "";
             String fecha_ini = "";
             String fecha_crea = "";
+            String logo = "";
             for (int i = 0; i < jsonArr.length(); i++) {
                 jsonObj = jsonArr.getJSONObject(i);
                 id_empr = jsonObj.getString("empr_id");
@@ -117,7 +118,8 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
                 sitioweb = jsonObj.getString("empr_paginaweb");
                 fecha_crea = jsonObj.getString("empr_fechacreacion");
                 fecha_ini = jsonObj.getString("empr_fechainicio");
-                dato.add(new datosEmpresa(id_empr, nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini));
+                logo = jsonObj.getString("empr_logo");
+                dato.add(new datosEmpresa(id_empr, nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini, logo));
             }
             adaptador = new Adaptador(this, dato);
             lvItems.setAdapter(adaptador);

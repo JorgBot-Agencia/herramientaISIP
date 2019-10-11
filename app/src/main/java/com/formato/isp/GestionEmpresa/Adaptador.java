@@ -56,7 +56,7 @@ public class Adaptador extends BaseAdapter {
         Nombre.setText(lista.get(position).getNombre());
         Nit.setText(lista.get(position).getNit());
         Ubicacion.setText(lista.get(position).getUbicacion());
-        String ruta = "https://cdn.pixabay.com/photo/2016/09/02/18/38/architecture-1639990_960_720.jpg";
+        String ruta = lista.get(position).getLogo();
         Picasso.with(convertView.getContext()).load(ruta).into(logo);
 
         logo.setOnClickListener(new View.OnClickListener() {
