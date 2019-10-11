@@ -117,7 +117,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbarRegPersona);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Formulario de Inscripción");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

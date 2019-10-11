@@ -29,12 +29,12 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/barraPrincipal2"
+                    android:id="@+id/barraPrincipal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar2"
+                        android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
                         android:background="@color/colorPrimary"

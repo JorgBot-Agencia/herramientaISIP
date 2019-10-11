@@ -102,7 +102,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         regis_fundacion = (Button) findViewById(R.id.btnRegistrarFundacion);
         p = new ProgressDialog(this);
         p.setMessage("Cargando...");
-        p.setCancelable(false);
+        p.setCancelable(true);
 
 
         queue = Volley.newRequestQueue(this);
@@ -166,7 +166,6 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
             pruebaRegistro();
             p.show();
         }else{
-
             p.hide();
             Toast.makeText(getApplicationContext(), "Por favor, completa todos los campos",Toast.LENGTH_SHORT).show();
         }
@@ -180,11 +179,11 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                     return true;
                 }else{
                     Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_SHORT).show();
-                    p.dismiss();
+                    p.hide();
                 }
-            p.dismiss();
+            p.hide();
         }
-        p.dismiss();
+        p.hide();
         return false;
     }
 
@@ -219,15 +218,16 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                //Toast.makeText(getApplicationContext(), "REGISTRADOOOOOOOO", Toast.LENGTH_SHORT).show();
-                //limpiarCampos();
+                Toast.makeText(getApplicationContext(), "Organización Registrada", Toast.LENGTH_SHORT).show();
+                limpiarCampos();
+                p.hide();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 p.hide();
-                Toast.makeText(getApplicationContext(), "Organización creada", Toast.LENGTH_LONG).show();
-                limpiarCampos();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+
                 NetworkResponse networkResponse = error.networkResponse;
                 String errorMessage = "Unknown error";
                 if (networkResponse == null) {

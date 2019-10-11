@@ -7,13 +7,13 @@
     tools:context=".GestionEmpresa.registroPersona">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/barraPrincipalPersona"
+        android:id="@+id/barraPrincipal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarRegPersona"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"

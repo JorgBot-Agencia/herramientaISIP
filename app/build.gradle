@@ -17,6 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -75,5 +81,12 @@ dependencies {
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:2.1.0"
+
+// Test helpers
+    testImplementation "androidx.room:room-testing:2.1.0"
 
 }
