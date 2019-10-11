@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FormatoISP</string>
+    <string name="app_name">ISIP</string>
     <string name="title_activity_me">Me</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -15,11 +15,19 @@
     <string name="menu_tools">Ver encuestas realizadas</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="messageWithLink">¿Aún no te has registrado como fundación?</string>
+    <string name="messageWithLink"><u>¿Aún no te has registrado como Organización?<b> Haz clic aquí</b></u></string>
     <string name="IniciarEn">"@id/nav_home"</string>
 
     <string name="section_format">Section : %1$d</string>
+    <string name="URLAPI">https://formatoisp-api.herokuapp.com/api</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="roles">
+        <item>Seleccionar:</item>
+        <item>Persona</item>
+        <item>Representante Legal</item>
+    </string-array>
+
 </resources>

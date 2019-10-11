@@ -50,12 +50,14 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/foto_gallery"
+                        android:id="@+id/logo_fundacion"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_location_city_black_24dp" />
 
                 </LinearLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/lyt_form"
@@ -63,6 +65,43 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="15dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@android:color/transparent"
+                            android:tint="@color/grey_60"
+                            android:src="@drawable/ic_book"/>
+
+                        <View
+                            android:layout_width="15dp"
+                            android:layout_height="match_parent" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/grey_40">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/nit_fundacion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Nit"
+                                android:inputType="number"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -87,6 +126,7 @@
                             android:textColorHint="@color/grey_40">
 
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/nombre_fundacion"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Nombre" />
@@ -128,9 +168,11 @@
                                 android:textColorHint="@color/grey_40">
 
                                 <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/tel_fundacion"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="Número de teléfono" />
+                                    android:hint="Número de teléfono"
+                                    android:inputType="number"/>
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,46 +180,12 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:orientation="horizontal">
 
-                            <ImageButton
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="20dp"
-                                android:background="@android:color/transparent"
-                                android:tint="@color/grey_60"
-                                android:src="@drawable/ic_email" />
-
-                            <View
-                                android:layout_width="15dp"
-                                android:layout_height="match_parent" />
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColorHint="@color/grey_40">
-
-                                <androidx.appcompat.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="Correo electrónico" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -209,6 +217,7 @@
                             android:textColorHint="@color/grey_40">
 
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/dir_fundacion"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Dirección" />
@@ -218,42 +227,148 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="15dp" />
-
+                        android:layout_height="15dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:background="@drawable/bordersuperior"
+                        android:padding="10dp">
 
-                        <ImageButton
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@android:color/transparent"
-                            android:tint="@color/grey_60"
-                            android:src="@drawable/ic_public" />
-
-                        <View
-                            android:layout_width="15dp"
-                            android:layout_height="match_parent" />
-
-                        <com.google.android.material.textfield.TextInputLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColorHint="@color/grey_40">
+                            android:orientation="horizontal">
 
-                            <androidx.appcompat.widget.AppCompatEditText
+                            <ImageButton
+                                android:id="@+id/imageuser"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@android:color/transparent"
+                                android:tint="@color/grey_60"
+                                android:src="@drawable/ic_personal" />
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent" />
+
+                            <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Sitio Web" />
+                                android:textColorHint="@color/grey_40">
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/usuario"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Usuario" />
 
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"
+                            android:background="#D1C4E9"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="#D1C4E9">
+
+                            <ImageButton
+                                android:id="@+id/imagecontra1"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@android:color/transparent"
+                                android:tint="@color/grey_60"
+                                android:src="@drawable/ic_personal"/>
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="@color/grey_40">
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/contrasena"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Contraseña"
+                                    android:inputType="textPassword"/>
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/imagecontra2"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@android:color/transparent"
+                                android:tint="@color/grey_60"
+                                android:src="@drawable/ic_personal" />
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent" />
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColorHint="@color/grey_40">
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/confir_contrasena"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Confirmar Contraseña"
+                                    android:inputType="textPassword"/>
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
                     </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"/>
+
+
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btnRegistrarFundacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/boton"
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:text="REGISTRAR ORGANIZACIÓN"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:layout_margin="20dp"/>
+
             </LinearLayout>
+
+
 
         </ScrollView>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="200dp"
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -28,6 +28,14 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarListEmp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            
 
             <ImageView
                 android:id="@+id/image"
@@ -49,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hey There"
+                    android:text="Búsqueda de unidad productiva"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
@@ -58,20 +66,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Let's experience Paris together"
+                    android:text="Seleccione la unidad productiva"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="bottom"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
@@ -89,12 +88,14 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+
                     <ImageButton
+                        android:id="@+id/btnrefres"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@android:color/transparent"
                         android:clickable="true"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/ic_refrescar"
                         android:tint="@color/grey_60" />
 
                     <EditText
@@ -103,14 +104,20 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="Buscar empresa"
-                        android:imeOptions="actionSearch"
+                        android:hint="Buscar unidad productiva"
                         android:maxLines="1"
-                        android:singleLine="true">
-
-                        <requestFocus />
-
+                        android:singleLine="true"
+                        android:inputType="text">
                     </EditText>
+
+                    <ImageButton
+                        android:id="@+id/btnbuscarEmpr"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:src="@drawable/ic_search"
+                        android:tint="@color/grey_60" />
 
                     <View
                         android:layout_width="15dp"
@@ -120,17 +127,20 @@
 
             </androidx.cardview.widget.CardView>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-        android:id="@+id/nested_content"
+
+
+
+    <ListView
+        android:layout_marginTop="200dp"
+        android:id="@+id/lv_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="none"
-        android:scrollingCache="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <include layout="@layout/include_store_simple" />
-    </ScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </ListView>
+
+
+</FrameLayout>

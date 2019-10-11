@@ -30,7 +30,7 @@
         android:id="@+id/nav_tools"
         android:name="com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasFragment"
         android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/fragment_encuestasrealizadas" />
     <fragment
         android:id="@+id/gestion_documentalnavigation"
         android:name="com.formato.isp.GestionDocumental.Gestion_documental"
@@ -40,12 +40,12 @@
     <fragment
         android:id="@+id/detalle_gestion"
         android:name="com.formato.isp.GestionDocumental.DetalleGestionDocumental"
-        android:label="Informacion detallada"
+        android:label="Información detallada"
         tools:layout="@layout/fragment_detalle_gestion_documental" />
     />
     <fragment
         android:id="@+id/acerca"
-        android:name="com.formato.isp.acerca"
+        android:name="com.formato.isp.MenuLateral.acerca"
         android:label="Acerca de"
         tools:layout="@layout/fragment_acerca" />
 </navigation>

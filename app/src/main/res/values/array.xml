@@ -6,6 +6,14 @@
         <item>@drawable/charcuteria</item>
         <item>@drawable/calzado</item>
     </integer-array>
+    <integer-array name="empr_images">
+        <item>@drawable/empresas</item>
+        <item>@drawable/charcuteria</item>
+        <item>@drawable/calzado</item>
+    </integer-array>
+    <integer-array name="imgpdf">
+        <item>@drawable/isip</item>
+    </integer-array>
 
     <string-array name="people_names">
 
@@ -26,4 +34,5 @@
         <item>Tincidunt est eros</item>
         <item>Amet est sollicitudin</item>
     </string-array>
+
 </resources>

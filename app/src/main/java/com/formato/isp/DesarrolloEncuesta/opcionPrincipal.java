@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.formato.isp.GestionEmpresa.buscar_empresa;
+import com.formato.isp.GestionEmpresa.*;
 import com.formato.isp.GestionEmpresa.registroEmpresa;
 import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
@@ -32,16 +32,16 @@ public class opcionPrincipal extends AppCompatActivity {
     private Button btnNext, btnAnterior;
     private MyViewPagerAdapter myViewPagerAdapter;
     private String about_title_array[] = {
-            "Verifique los datos empresariales",
-            "Compruebe la asistencia del personal",
-            "Realice una introducciòn sobre el objetivo",
-            "Se aconseja responder todas las preguntas"
+            "Bienvenido al Formulario de diligenciamiento del ISIP.",
+            "Registro de unidad productiva",
+            "Una vez registrada y guardada podrás dar inicio a la encuesta en sus 4 componentes",
+            "Una vez terminado el formulario, te saldrá una pantalla con los resultados de la unidad productiva en los 4 componentes y sus scores"
     };
     private String about_description_array[] = {
-            "Choose your destination, plan Your trip. Pick the best place for Your holiday",
-            "Select the day, pick Your ticket. We give you the best prices. We guarantee!",
-            "Safe and Comfort flight is our priority. Professional crew and services.",
-            "Enjoy your holiday, Don't forget to feel the moment and take a photo!",
+            "Es un proceso muy sencillo ya que la aplicación te guiará paso a paso lo que debes hacer.\n¿Empezamos?",
+            "Si la unidad productiva aún no ha sido registrada, debes hacerlo presionando el botón que dice 'Registrar unidad productiva'",
+            "Debes contar con suficiente tiempo para diligenciar el formulario y con más de una persona de la unidad productiva encuestada. Tener a la mano la mayor cantidad de documentación para realizar verificación visual de lo que aquí se consigna. Podrás navegar de adelante hacia atrás y atrás hacia adelante y guardar los avances.",
+            "A su vez podrás acceder a la pantalla de plan de fortalecimiento productivo de la Alianza.",
     };
     private int about_images_array[] = {
             R.drawable.img_wizard_1,
@@ -127,6 +127,7 @@ public class opcionPrincipal extends AppCompatActivity {
     }
 
     private int getItem(int i) { return viewPager.getCurrentItem() + i; }
+
     private void bottomProgressDots(int current_index) {
         LinearLayout dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         ImageView[] dots = new ImageView[MAX_STEP];
@@ -184,7 +185,6 @@ public class opcionPrincipal extends AppCompatActivity {
             View view = layoutInflater.inflate(R.layout.item_card_wizard, container, false);
             ((TextView) view.findViewById(R.id.title)).setText(about_title_array[position]);
             ((TextView) view.findViewById(R.id.description)).setText(about_description_array[position]);
-            ((ImageView) view.findViewById(R.id.image)).setImageResource(about_images_array[position]);
 
             container.addView(view);
             return view;

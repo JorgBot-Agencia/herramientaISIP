@@ -17,13 +17,25 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.formato.isp.Clases.Area;
 import com.formato.isp.R;
 import com.formato.isp.utils.ViewAnimation;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.formato.isp.utils.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.formato.isp.R.color.colorLetraBlanco;
 
@@ -32,9 +44,13 @@ public class cargando extends AppCompatActivity {
 
     private View parent_view;
     private final static int LOADING_DURATION = 2000;
-
     private RecyclerView recyclerView;
     private AdapterListFolderFile mAdapter;
+    private AdapterListFolderFile mAdapterBoton;
+    Area areaRecibida;
+    ArrayList<String> listComponentes;
+    private RequestQueue queue;
+    List<FolderFile> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +59,27 @@ public class cargando extends AppCompatActivity {
 
         parent_view = findViewById(android.R.id.content);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        queue = Volley.newRequestQueue(this);
+        listComponentes = new ArrayList();
+        items = new ArrayList<>();
 
         initToolbar();
         loadingAndDisplayContent();
+    }
+
+    public int buscarArea(int areaId){
+        int retorno = 0;
+        int valor = 0;
+        float promedio = 0;
+        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++){
+            if(menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
+                valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                retorno = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
+                promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                menuEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
+            }
+        }
+        return retorno;
     }
 
     private void initToolbar() {
@@ -69,7 +103,7 @@ public class cargando extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(parent_view.getContext(),reporteGrafico.class);
+            Intent intent = new Intent(parent_view.getContext(), reporteGrafico.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -92,43 +126,75 @@ public class cargando extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
-                initComponent();
+                obtenerComponente();
             }
         }, LOADING_DURATION + 400);
+
+        new Handler().postDelayed(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void run() {
+                crearBoton();
+            }
+        }, LOADING_DURATION + 900);
     }
+
+    private void obtenerComponente() {
+        String url = "https://formatoisp-api.herokuapp.com/api/area/?opt=1";
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject res) {
+                try {
+                    int numeroComponente = 0;
+                    int contador = 0;
+                    JSONArray jsonArr = res.getJSONArray("data");
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("componente");
+                        if (jsonObj.getInt("comp_id") != numeroComponente) {
+                            numeroComponente = jsonObj.getInt("comp_id");
+                            listComponentes.add(numeroComponente + "-" + jsonObj.getString("comp_nombre"));
+                        }
+                    }
+                    obtenerArea(listComponentes, jsonArr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(req);
+    }
+
+    private void obtenerArea(ArrayList listComponente, JSONArray jsonComponente) throws JSONException {
+
+        for (int i = 0; i < listComponente.size(); i++) {
+            String[] numeroComponente = listComponente.get(i).toString().split("-");
+            items.add(new FolderFile(numeroComponente[1], true));  // add section
+            for (int j = 0; j < jsonComponente.length(); j++) {
+                JSONObject jsonComp = jsonComponente.getJSONObject(j);
+                JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
+                if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
+                        items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), buscarArea(jsonComp.getInt("area_id")), true));  // add section
+
+                }
+            }
+        }
+        initComponent();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initComponent() {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        List<FolderFile> items = new ArrayList<>();
-
-        items.add(new FolderFile("Áreas de fortalecimiento productivo", true));  // add section
-        items.add(new FolderFile("Técnica y productiva", "Incompleto", R.drawable.ic_settings_black_24dp, 50,true));
-        items.add(new FolderFile("Financiera y administrativa", "Incompleto", R.drawable.ic_attach_money_black_24dp, 80,true));
-        items.add(new FolderFile("Cultura empresarial e innovación", "Incompleto", R.drawable.ic_track_changes_black_24dp, 80,true));
-        items.add(new FolderFile("Recursos de inversión", "Incompleto", R.drawable.ic_equalizer_black_24dp, 20,true));
-        items.add(new FolderFile("Imagen e identidad corporativa", "Incompleto", R.drawable.ic_group_black_24dp, 40,true));
-        items.add(new FolderFile("Presentación de producto", "Incompleto", R.drawable.ic_spa_black_24dp, 10,true));
-        items.add(new FolderFile("Sellos de calidad", "Completo", R.drawable.ic_assignment_turned_in_black_24dp, 100,true));
-        items.add(new FolderFile("Política de identificación de precios", "Incompleto", R.drawable.ic_style_black_24dp, 80,true));
-        items.add(new FolderFile("Acceso a nuevas tecnologías", "Incompleto", R.drawable.ic_laptop_mac_black_24dp, 20,true));
-
         //set data and list adapter
         mAdapter = new AdapterListFolderFile(this, items, ItemAnimation.FADE_IN);
         recyclerView.setAdapter(mAdapter);
-
-        //LinearLayout layout = findViewById(R.id.botones);
-        //LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //Button but = new Button(this);
-        //but.setLayoutParams(lp);
-        //but.setBackground(getDrawable(R.drawable.boton));
-        //but.setText("Generar reporte");
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //but.setTextColor(getColor(colorLetraBlanco));
-        //}
-        //layout.addView(but);
 
         // on item list clicked
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
@@ -137,5 +203,26 @@ public class cargando extends AppCompatActivity {
                 Snackbar.make(parent_view, "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void crearBoton() {
+        LinearLayout layout = findViewById(R.id.lyt_boton);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button but = new Button(this);
+        but.setLayoutParams(lp);
+        but.setText("RUTA DE FORTALECIMIENTO");
+        but.setBackground(getDrawable(R.drawable.boton));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            but.setTextColor(getColor(colorLetraBlanco));
+        }
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent abrirMapa = new Intent(view.getContext(), rutaFortalecimiento.class);
+                startActivity(abrirMapa);
+            }
+        });
+        layout.addView(but);
     }
 }

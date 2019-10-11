@@ -19,7 +19,7 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="202dp"
                 android:background="@android:color/transparent"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -27,44 +27,34 @@
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="191dp"
+                    android:background="@color/colorPrimary"
                     android:fitsSystemWindows="true"
                     app:contentScrim="?attr/colorPrimary"
                     app:expandedTitleMarginBottom="20dp"
                     app:expandedTitleMarginEnd="64dp"
-                    app:expandedTitleMarginStart="15dp"
                     app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:titleEnabled="false">
+                    app:titleEnabled="false"></com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fitsSystemWindows="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/wallpaper2"
-                        app:layout_collapseMode="parallax" />
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/light_blue_900"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
             </com.google.android.material.appbar.AppBarLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="-20dp"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:background="@color/colorPrimary"
-                app:layout_collapseMode="parallax" />
-
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/image2"
+                android:id="@+id/imageLogoFun"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:layout_marginTop="-70dp"
-                android:src="@drawable/photo_male_8" />
+                android:layout_marginTop="-50dp"
+                android:src="@drawable/df" />
 
             <TextView
+                android:id="@+id/nom_fundacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -88,6 +78,7 @@
                     android:tint="@color/grey_40" />
 
                 <TextView
+                    android:id="@+id/ubi_fundacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cúcuta, Norte de Santander"
@@ -107,6 +98,7 @@
                 android:padding="15dp">
 
                 <LinearLayout
+                    android:layout_marginRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -132,31 +124,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minWidth="100dp"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/btnReporte"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@android:color/white"
-                        android:clickable="true"
-                        android:src="@drawable/ic_description_black_24dp"
-                        android:tint="@color/grey_80" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Informe"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -179,6 +147,28 @@
                         android:text="Gestión Documental"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
 
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/banner" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
