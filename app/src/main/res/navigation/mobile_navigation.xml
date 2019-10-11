@@ -30,7 +30,7 @@
         android:id="@+id/nav_tools"
         android:name="com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasFragment"
         android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        tools:layout="@layout/fragment_encuestasrealizadas" />
     <fragment
         android:id="@+id/gestion_documentalnavigation"
         android:name="com.formato.isp.GestionDocumental.Gestion_documental"

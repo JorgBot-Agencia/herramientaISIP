@@ -89,11 +89,20 @@
                     android:orientation="horizontal">
 
                     <ImageButton
+                        android:id="@+id/btnbuscarEmpr"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:src="@drawable/ic_search"
+                        android:tint="@color/grey_60" />
+                    <ImageButton
+                        android:id="@+id/btnrefres"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:src="@drawable/ic_refrescar"
                         android:tint="@color/grey_60" />
 
                     <EditText

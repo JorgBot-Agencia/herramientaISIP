@@ -93,6 +93,7 @@ public class Gestion_documental extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
+        if(lista.size()>=1){
         mAdapter = new AdapterListBasic(root.getContext(), lista);
         recyclerView.setAdapter(mAdapter);
 
@@ -111,6 +112,9 @@ public class Gestion_documental extends Fragment {
                 Navigation.findNavController(root).navigate(R.id.detalle_gestion,bundle);
             }
         });
+        }else{
+            Toast.makeText(root.getContext(),"La fundación no tiene empresas registradas...",Toast.LENGTH_LONG).show();
+        }
 
     }
 
