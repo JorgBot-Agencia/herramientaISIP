@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class infoDetallada extends AppCompatActivity {
-
+    public static String dato;
     private Button btnIniciar;
     private Button btnRegistroPersona;
     private ViewPager view_pager;
@@ -73,6 +73,8 @@ public class infoDetallada extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detallada);
+        Bundle bundle = getIntent().getExtras();
+        dato=bundle.getString("name");
         initToolbar();
         initComponent();
         cargarPref();

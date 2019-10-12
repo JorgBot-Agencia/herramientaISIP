@@ -248,7 +248,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         contenidoPregunta.setText("Formulación de pregunta");
         status.setText("Número de pregunta");
         if (progress < MAX_STEP) {
-            status.setText("PREGUNTA " + cc--);
+            status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));
             //indicadorContenido.setText(obtenerContenidoIndicador(progress));
             descripcionPregunta.setText(obtenerDescripcion(progress));
