@@ -66,6 +66,7 @@ public class Adaptador extends BaseAdapter {
                         lista.get(position).getDepartamento(), lista.get(position).getTelefono(), lista.get(position).getSitioweb(),
                         lista.get(position).getFecha_creacion(), lista.get(position).getFecha_inicio());
                 Intent abrirInfo = new Intent(v.getContext(), infoDetallada.class);
+                abrirInfo.putExtra("name",lista.get(position).getNombre());
                 contexto.startActivity(abrirInfo);
             }
         });

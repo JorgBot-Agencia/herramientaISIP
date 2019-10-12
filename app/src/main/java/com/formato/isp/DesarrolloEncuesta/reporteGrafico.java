@@ -4,14 +4,22 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.formato.isp.Clases.fotoReporte;
+import com.formato.isp.GestionEmpresa.infoDetallada;
+import com.formato.isp.PDF.TemplatePDF;
 import com.formato.isp.utils.Tools;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -34,6 +42,7 @@ public class reporteGrafico extends AppCompatActivity {
 
     public static final float MAX = 12, MIN = 1f;
     public static final int NB_QUALITIES = 4;
+    public static ArrayList<fotoReporte> arrfoto;
 
     private RadarChart chart;
 
@@ -42,6 +51,7 @@ public class reporteGrafico extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporte_grafico);
         initToolbar();
+        arrfoto= new ArrayList<>();
 
         chart = findViewById(R.id.chart1);
         chart.setBackgroundColor(Color.rgb(60, 65, 82));
@@ -251,6 +261,11 @@ public class reporteGrafico extends AppCompatActivity {
         chart.setData(data);
         chart.invalidate();
 
+        TemplatePDF tf = new TemplatePDF(this);
+        Bitmap bm=loadBitmapFromView(this, this.getWindow().getDecorView().findViewById(android.R.id.content) );
+        String nom = infoDetallada.dato;
+        tf.SaveImage(bm, nom);
+        arrfoto.add(new fotoReporte(bm,nom));
     }
 
     @Override
@@ -268,5 +283,16 @@ public class reporteGrafico extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+    public static Bitmap loadBitmapFromView(Context context, View v) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        v.measure(View.MeasureSpec.makeMeasureSpec(dm.widthPixels, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(dm.heightPixels, View.MeasureSpec.EXACTLY));
+        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        Bitmap returnedBitmap = Bitmap.createBitmap(v.getMeasuredWidth(),
+                v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(returnedBitmap);
+        v.draw(c);
+        return returnedBitmap;
     }
 }
