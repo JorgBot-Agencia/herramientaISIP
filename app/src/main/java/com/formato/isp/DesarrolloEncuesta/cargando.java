@@ -67,7 +67,7 @@ public class cargando extends AppCompatActivity {
         loadingAndDisplayContent();
     }
 
-    public int buscarArea(int areaId){
+    public static int buscarArea(int areaId){
         int retorno = 0;
         int valor = 0;
         float promedio = 0;

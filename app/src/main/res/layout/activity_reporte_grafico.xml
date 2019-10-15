@@ -26,45 +26,9 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ScrollView
-            android:id="@+id/scrollreportegrafico"
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/chart1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="20dp"
-                android:padding="10dp">
-
-                <com.github.mikephil.charting.charts.RadarChart
-                    android:id="@+id/chart1"
-                    android:layout_width="match_parent"
-                    android:layout_height="500dp" />
-
-                <Button
-                    android:id="@+id/btnGenerarExcel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:text="Generar reporte excel"
-                    android:textColor="@color/mdtp_white"
-                    android:background="@drawable/boton"
-                    android:layout_marginBottom="10dp" />
-                <Button
-                    android:id="@+id/btnGenerarPdf"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:text="Generar reporte PDF"
-                    android:textColor="@color/mdtp_white"
-                    android:background="@drawable/boton"
-                    android:layout_marginBottom="10dp" />
-
-            </LinearLayout>
-
-        </ScrollView>
-
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </RelativeLayout>
