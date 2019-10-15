@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -56,7 +57,6 @@ public class reporteGrafico extends AppCompatActivity {
     public static ArrayList<fotoReporte> arrfoto;
 
     private RadarChart chart;
-    private Button generarExcel;
     private ArrayList<RadarDataSet> areasyCriterios;
 
     @Override
@@ -65,7 +65,6 @@ public class reporteGrafico extends AppCompatActivity {
         setContentView(R.layout.activity_reporte_grafico);
         initToolbar();
         areasyCriterios = new ArrayList<>();
-        generarExcel = findViewById(R.id.btnGenerarExcel);
         arrfoto= new ArrayList<>();
 
         chart = findViewById(R.id.chart1);
@@ -101,22 +100,12 @@ public class reporteGrafico extends AppCompatActivity {
         yAxis.setDrawLabels(false);
 
         Legend l = chart.getLegend();
-        l.setTextSize(15f);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(5f);
+        l.setEnabled(true);
         l.setTextColor(Color.BLACK);
+        l.setTextSize(12f);
+        l.setForm(Legend.LegendForm.LINE);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
 
-
-        generarExcel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                guardarExcelGraficoRadar();
-            }
-        });
     }
 
     private void guardarExcelGraficoRadar() {
@@ -380,8 +369,10 @@ public class reporteGrafico extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-        } else {
-            Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+        }else if(item.getTitle().equals("Generar Excel")){
+            guardarExcelGraficoRadar();
+        }else if(item.getTitle().equals("Generar PDF")){
+            //Evento para generar PDF
         }
         return super.onOptionsItemSelected(item);
     }

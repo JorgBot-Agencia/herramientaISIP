@@ -19,7 +19,7 @@ public class FolderFile {
     public FolderFile(int id, String name, String date, int image, int cantidad, boolean folder) {
         this.image = image;
         this.name = name;
-        this.estado = estado;
+        this.estado = date;
         this.cantidad = cantidad;
         this.folder = folder;
         this.id = id;

@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.anychart.core.Base;
+import com.formato.isp.MainActivity;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -221,6 +222,9 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                 Toast.makeText(getApplicationContext(), "Organización Registrada", Toast.LENGTH_SHORT).show();
                 limpiarCampos();
                 p.hide();
+                Intent volverInicio = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(volverInicio);
+
             }
         }, new Response.ErrorListener() {
             @Override

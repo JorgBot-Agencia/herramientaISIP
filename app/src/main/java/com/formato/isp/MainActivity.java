@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
 
         p = new ProgressDialog(this);
-        p.setMessage("Cargando...");
+        p.setMessage("Validando credenciales...");
         p.setCancelable(false);
         usuario = (EditText)findViewById(R.id.txtUsuario);
         usuario.clearFocus();
