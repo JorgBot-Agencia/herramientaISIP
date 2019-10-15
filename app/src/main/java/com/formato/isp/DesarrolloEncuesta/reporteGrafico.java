@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
@@ -19,8 +21,13 @@ import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import com.formato.isp.Clases.fotoReporte;
+import com.formato.isp.GestionDocumental.DetalleGestionDocumental;
+import com.formato.isp.GestionEmpresa.Adaptador;
 import com.formato.isp.GestionEmpresa.infoDetallada;
+import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.PDF.TemplatePDF;
+import com.formato.isp.PDF.viewPDF;
+import com.formato.isp.model.Empresa;
 import com.formato.isp.utils.Tools;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -36,6 +43,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -54,18 +62,26 @@ public class reporteGrafico extends AppCompatActivity {
     public static final float MAX = 12, MIN = 1f;
     public static final int NB_QUALITIES = 4;
     public static ArrayList<fotoReporte> arrfoto;
-
+    private Context context;
+    private File pdfFile;
+    private Sesion session;
+    private TemplatePDF templatePDF;
     private RadarChart chart;
     private Button generarExcel;
+    private Button generarPdf;
     private ArrayList<RadarDataSet> areasyCriterios;
+    private String[]header={"Gestión de mercados", "Capacitación", "Construccion de marca"};
+    private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporte_grafico);
         initToolbar();
+        context = getApplicationContext();
         areasyCriterios = new ArrayList<>();
         generarExcel = findViewById(R.id.btnGenerarExcel);
+        generarPdf = findViewById(R.id.btnGenerarPdf);
         arrfoto= new ArrayList<>();
 
         chart = findViewById(R.id.chart1);
@@ -110,13 +126,63 @@ public class reporteGrafico extends AppCompatActivity {
         l.setYEntrySpace(5f);
         l.setTextColor(Color.BLACK);
 
+        generarPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Empresa empr_select= Adaptador.empr_select;
+                templatePDF= new TemplatePDF(context);
+                templatePDF.OpenDocument();
+                templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
+                session = new Sesion(context);
+                Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.banner);
+                templatePDF.creartablaimagencentra(icon, "logofrontera", "encabezado");
+                Bitmap icon2 = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.isip);
+                templatePDF.creartablaimagencentra(icon2, "isip","normal");
+                templatePDF.addTitulos("","","");
+                templatePDF.addTitulosizq("Nombre de la unidad: "+ empr_select.getEmpr_nombre(),  empr_select.getEmpr_direccion(),empr_select.getEmpr_telefono()," ");
+                templatePDF.addletraroja("__________________________________________________________");
+                templatePDF.addtitulo("ISIP");
 
+                templatePDF.creartabla(infor, getinfor());
+                templatePDF.addtitulo("Descripcion de unidad Productiva");
+                templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
+                templatePDF.addtitulo("RESULTADOS");
+                templatePDF.addtitulo("Resultado total");
+                ArrayList<fotoReporte> foto = reporteGrafico.arrfoto;
+                if(foto!=null) {
+                    int cc = 0;
+                    for (int i = 0; i < foto.size(); i++) {
+                        if (foto.get(i).getNomb_empr().equals(empr_select.getEmpr_nombre())) {
+                            templatePDF.creartablaimagenGRAFICA(foto.get(i).getBitmabEmpr(), "MIINFORME");
+                            cc++;
+                        }
+                    }
+                }else{
+                    templatePDF.addtitulo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
+                }
+                templatePDF.addtitulo("Resultados especificos");
+                templatePDF.creartabla(header,getResltEsp());
+                templatePDF.closeDocument();
+
+
+            }
+        });
         generarExcel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 guardarExcelGraficoRadar();
             }
         });
+    }
+
+    public void viewmPDF(){
+        Intent intent= new Intent(context, viewPDF.class);
+        intent.putExtra("path",pdfFile.getAbsolutePath());
+        intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        context.startActivity(intent);
+
     }
 
     private void guardarExcelGraficoRadar() {
@@ -184,6 +250,20 @@ public class reporteGrafico extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public ArrayList<String[]>getResltEsp(){
+        ArrayList<String[]>row= new ArrayList<>();
+        row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias"});
+        return row;
+    }
+
+    public ArrayList<String[]>getinfor(){
+        ArrayList<String[]>row= new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaComoCadena = sdf.format(new Date());
+        row.add(new String[]{"Fecha: "+fechaComoCadena,"Nombre de la funcacion: "+session.getNombreFun(),session.getTelefono(),"Politica de identificación de precios"});
+        return row;
     }
 
     private ArrayList<RadarEntry> dataValues1(int area){

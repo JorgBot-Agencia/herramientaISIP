@@ -52,6 +52,15 @@
                     android:textColor="@color/mdtp_white"
                     android:background="@drawable/boton"
                     android:layout_marginBottom="10dp" />
+                <Button
+                    android:id="@+id/btnGenerarPdf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:text="Generar reporte PDF"
+                    android:textColor="@color/mdtp_white"
+                    android:background="@drawable/boton"
+                    android:layout_marginBottom="10dp" />
 
             </LinearLayout>
 
