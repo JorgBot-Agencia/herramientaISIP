@@ -52,6 +52,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     private int MAX_STEP;
     private int cc;
     private int current_step = 0;
+    public boolean marcarGrupo = false;
     private ProgressBar progressBar;
     private TextView status;
     private TextView contenidoPregunta;
@@ -186,7 +187,7 @@ public class preguntasEncuesta extends AppCompatActivity {
     }
 
     private void initComponent() {
-        cc=1;
+        cc = 1;
         progressBar = findViewById(R.id.progress);
         progressBar.setMax(MAX_STEP);
         progressBar.setProgress(current_step);
@@ -227,12 +228,16 @@ public class preguntasEncuesta extends AppCompatActivity {
             crearComponente(obtenerIdCriterio(progress));
             progressBar.setProgress(current_step);
 
-            if(progress > 0){
-                asignarValor(valor, progress-1);
+            if (progress > 0) {
+                asignarValor(valor, progress - 1);
+                if (!marcarGrupo) {
+                    Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                }
             }
             progress = progress + 1;
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
+
         } else {
             menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
@@ -315,18 +320,22 @@ public class preguntasEncuesta extends AppCompatActivity {
                     case R.id.radio1:
                         valor = 25;
                         areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 25);
+                        marcarGrupo = true;
                         break;
                     case R.id.radio2:
                         valor = 50;
                         areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 50);
+                        marcarGrupo = true;
                         break;
                     case R.id.radio3:
                         valor = 75;
                         areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 75);
+                        marcarGrupo = true;
                         break;
                     case R.id.radio4:
                         valor = 100;
                         areaProceso.setPromedioEscala(areaProceso.getPromedioEscala() + 100);
+                        marcarGrupo = true;
                         break;
                 }
             }
@@ -346,7 +355,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 cantidadHombres.setTextColor(Color.WHITE);
                 cantidadHombres.setWidth(20);
                 cantidadHombres.setHeight(120);
-                cantidadHombres.setInputType(InputType.TYPE_CLASS_NUMBER );
+                cantidadHombres.setInputType(InputType.TYPE_CLASS_NUMBER);
                 layout.addView(cantidadHombres);
 
                 TextView mujeresView = new TextView(getApplicationContext());
@@ -359,7 +368,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 cantidadMujeres.setTextColor(Color.WHITE);
                 cantidadMujeres.setWidth(20);
                 cantidadMujeres.setHeight(120);
-                cantidadMujeres.setInputType(InputType.TYPE_CLASS_NUMBER );
+                cantidadMujeres.setInputType(InputType.TYPE_CLASS_NUMBER);
                 layout.addView(cantidadMujeres);
                 break;
             case 2:
@@ -405,7 +414,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                 cantidadDinero.setTextColor(Color.WHITE);
                 cantidadDinero.setWidth(20);
                 cantidadDinero.setHeight(120);
-                cantidadDinero.setInputType(InputType.TYPE_CLASS_NUMBER );
+                cantidadDinero.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                 layout.addView(cantidadDinero);
                 break;
@@ -444,14 +453,13 @@ public class preguntasEncuesta extends AppCompatActivity {
                 cantidad.setTextColor(Color.WHITE);
                 cantidad.setWidth(20);
                 cantidad.setHeight(120);
-                cantidad.setInputType(InputType.TYPE_CLASS_NUMBER );
+                cantidad.setInputType(InputType.TYPE_CLASS_NUMBER);
                 layout.addView(cantidad);
                 break;
         }
 
 
     }
-
 
 
 }
