@@ -26,23 +26,9 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ScrollView
-            android:id="@+id/scrollreportegrafico"
+        <com.github.mikephil.charting.charts.RadarChart
+            android:id="@+id/chart1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="20dp"
-                android:padding="10dp">
-
-                <com.github.mikephil.charting.charts.RadarChart
-                    android:id="@+id/chart1"
-                    android:layout_width="match_parent"
-                    android:layout_height="593dp" />
-            </LinearLayout>
-        </ScrollView>
+            android:layout_height="match_parent" />
     </LinearLayout>
 </RelativeLayout>
