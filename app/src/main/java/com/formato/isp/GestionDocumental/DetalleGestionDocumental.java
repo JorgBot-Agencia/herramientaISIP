@@ -118,11 +118,6 @@ public class DetalleGestionDocumental extends Fragment {
             templatePDF= new TemplatePDF(root.getContext());
             templatePDF.OpenDocument();
             templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
-            TypedArray drw_arr=root.getContext().getResources().obtainTypedArray(R.array.imgpdf);
-
-            //SDrawable d = drw_arr.getDrawable(0);
-            //Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-
             session = new Sesion(root.getContext());
             Bitmap icon = BitmapFactory.decodeResource(root.getContext().getResources(),
                     R.drawable.banner);
@@ -166,13 +161,13 @@ public class DetalleGestionDocumental extends Fragment {
 
 
 
-    private ArrayList<String[]>getResltEsp(){
+    public ArrayList<String[]>getResltEsp(){
         ArrayList<String[]>row= new ArrayList<>();
         row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias"});
         return row;
     }
 
-    private ArrayList<String[]>getinfor(){
+    public ArrayList<String[]>getinfor(){
         ArrayList<String[]>row= new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String fechaComoCadena = sdf.format(new Date());
