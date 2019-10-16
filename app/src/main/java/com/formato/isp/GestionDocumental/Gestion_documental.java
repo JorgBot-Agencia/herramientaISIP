@@ -76,7 +76,7 @@ public class Gestion_documental extends Fragment {
             JSONObject jsonObj = ja.getJSONObject(i);
             TypedArray drw_arr = root.getContext().getResources().obtainTypedArray(R.array.empr_images);
             Empresa e = new Empresa();
-            e.empr_NIT= jsonObj.getString("empr_nit");
+            e.empr_NIT= jsonObj.getString("empr_id");
             e.empr_barrio =  "Ubicación: "+jsonObj.getString("empr_ciudad")+", Barrio: "+jsonObj.getString("empr_barrio");
             e.empr_nombre = jsonObj.getString("empr_nombre");
             e.empr_telefono ="Teléfono: " +jsonObj.getString("empr_telefono");

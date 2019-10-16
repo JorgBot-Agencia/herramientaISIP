@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
+import com.formato.isp.Clases.fotoReporte;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.Adapter.AdapterListBasicDetalleGestion;
+import com.formato.isp.DesarrolloEncuesta.reporteGrafico;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasViewModel;
 import com.formato.isp.PDF.TemplatePDF;
@@ -58,6 +59,7 @@ import javax.security.auth.Destroyable;
  */
 public class DetalleGestionDocumental extends Fragment {
     private Sesion session;
+    private String n;
     public View root;
     public  TextView nombre, info;
     public Button generarpdf;
@@ -103,7 +105,7 @@ public class DetalleGestionDocumental extends Fragment {
 
         if (getArguments() != null) {
             String id=getArguments().getString("nit");
-            String n = getArguments().getString("nombre");
+            n = getArguments().getString("nombre");
             String d = getArguments().getString("direccion");
             String t = getArguments().getString("telefono");
             int f = getArguments().getInt("foto");
@@ -124,9 +126,10 @@ public class DetalleGestionDocumental extends Fragment {
             session = new Sesion(root.getContext());
             Bitmap icon = BitmapFactory.decodeResource(root.getContext().getResources(),
                     R.drawable.banner);
-            //Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(), R.drawable.logo);
-            templatePDF.creartablaimagencentra(icon, "logofrontera");
-            //templatePDF.creartablaimagencentra(bitmap, "isp");
+            templatePDF.creartablaimagencentra(icon, "logofrontera", "encabezado");
+            Bitmap icon2 = BitmapFactory.decodeResource(root.getContext().getResources(),
+                    R.drawable.isip);
+            templatePDF.creartablaimagencentra(icon2, "isip","normal");
             templatePDF.addTitulos("","","");
             templatePDF.addTitulosizq("Nombre de la unidad: "+ n,  d,t," ");
             templatePDF.addletraroja(piso);
@@ -135,7 +138,19 @@ public class DetalleGestionDocumental extends Fragment {
             templatePDF.addtitulo("Descripcion de unidad Productiva");
             templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
             templatePDF.addtitulo("RESULTADOS");
-            templatePDF.addTitulos("","Resultado total","");
+            templatePDF.addtitulo("Resultado total");
+            ArrayList<fotoReporte> foto = reporteGrafico.arrfoto;
+            if(foto!=null) {
+                int cc = 0;
+                for (int i = 0; i < foto.size(); i++) {
+                    if (foto.get(i).getNomb_empr().equals(n)) {
+                        templatePDF.creartablaimagenGRAFICA(foto.get(i).getBitmabEmpr(), "MIINFORME");
+                        cc++;
+                    }
+                }
+            }else{
+                templatePDF.addtitulo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
+            }
             templatePDF.addtitulo("Resultados especificos");
             templatePDF.creartabla(header,getResltEsp());
             templatePDF.closeDocument();

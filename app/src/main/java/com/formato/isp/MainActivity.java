@@ -13,13 +13,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.PixelCopy;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +49,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -106,11 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(abrir);
             }
         });
-        /*
-        View rootview= getWindow().getDecorView().getRootView();
-        Bitmap bp = screenShot(rootview);
-        TemplatePDF tf = new TemplatePDF(this);
-        tf.SaveImage(bp, "MICAPTURE");*/
     }
     public void iniciarSesion(){
         Intent intent = new Intent(this, menuprincipal.class);
@@ -174,49 +173,4 @@ public class MainActivity extends AppCompatActivity {
             queue.add(req);
 
     }
-    /*public static Bitmap ObtenerBitmap(View v){
-        View scren= v.getRootView();
-        scren.setDrawingCacheEnabled(true);
-        Bitmap bitmap= Bitmap.createBitmap(v.);
-        scren.setDrawingCacheEnabled(false);
-        return bitmap;
-    }*/
-
-    /*private void takePhoto() {
-
-        // Create a bitmap the size of the scene view.
-        final Bitmap bitmap = Bitmap.createBitmap(surfaceView.getWidth(), surfaceView.getHeight(),
-                Bitmap.Config.ARGB_8888);
-
-
-
-        // Create a handler thread to offload the processing of the image.
-        final HandlerThread handlerThread = new HandlerThread("PixelCopier");
-        handlerThread.start();
-        // Make the request to copy.
-
-        PixelCopy.request(holder.videoView, bitmap, (copyResult) -> {
-            if (copyResult == PixelCopy.SUCCESS) {
-                Log.e(TAG,bitmap.toString());
-                String name = String.valueOf(System.currentTimeMillis() + ".jpg");
-                imageFile = ScreenshotUtils.store(bitmap,name);
-
-            } else {
-                Toast toast = Toast.makeText(getViewActivity(),
-                        "Failed to copyPixels: " + copyResult, Toast.LENGTH_LONG);
-                toast.show();
-            }
-            handlerThread.quitSafely();
-        }, new Handler(handlerThread.getLooper()));
-    }*/
-
-    public Bitmap screenShot(View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
-                view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
-    }
-
-
 }

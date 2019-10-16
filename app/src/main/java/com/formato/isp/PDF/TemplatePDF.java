@@ -93,7 +93,7 @@ public class TemplatePDF {
             addparafoHijocentrado(new Paragraph(titulo, letratitulo));
             addparafoHijocentrado(new Paragraph(subtitulo, letrasubtitulo));
             addparafoHijocentrado(new Paragraph(fecha, letraresaltado));
-            paragraph.setSpacingAfter(30);//espacio entre parrafo padre y parrafos hijos
+            paragraph.setSpacingAfter(10);//espacio entre parrafo padre y parrafos hijos
             document.add(paragraph);
         }catch (Exception e){
             Log.e("addTutulos", e.toString());
@@ -199,36 +199,23 @@ public class TemplatePDF {
 
     }
 
-    public void creartablaimagencentra(Bitmap bitmap,String name){
+    public void creartablaimagencentra(Bitmap bitmap,String name,String opc){
         try {
-
-
-            //Uri path = Uri.parse("android.resource://com.segf4ult.test/" + R.drawable.isip);
-            //String pat = path.toString();
-            //String imageUrl =   getURLForResource(R.drawable.isip);
             paragraph = new Paragraph();
-            paragraph.setSpacingBefore(10);
-            paragraph.setSpacingAfter(10);
+            paragraph.setSpacingBefore(0);
+            paragraph.setSpacingAfter(20);
             paragraph.setFont(letratexto);
             Image image = null;
-            Image image2 = null;
-
-            // Obtenemos el logo de datojava
-            //Environment.getExternalStorageDirectory().toString() es el directorio raiz
-            //image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/sdcard/isip.png");
-            //image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/sdcard/isip.png");
-
-            //image = Image.getInstance("data/data/com.formato.isp//sdcard/isip.png");
-
             SaveImage(bitmap, name);
-            //SaveImage(bitmap2, name);
             image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name+".png");
-            //image2 = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name2+".png");
+            if(opc.equals("encabezado")){
             image.scaleAbsolute(320f, 80f);
+            }else{
+                image.scaleAbsolute(80f, 80f);
+            }
             PdfPTable pdfPTable = new PdfPTable(1);
+            pdfPTable.setWidthPercentage(100);
             PdfPCell cell = new PdfPCell(image);
-            //PdfPCell cell2 = new PdfPCell(image2);
-
             // Propiedades de la celda
             cell.setColspan(5);
             cell.setBorderColor(BaseColor.WHITE);
@@ -238,8 +225,32 @@ public class TemplatePDF {
             pdfPTable.addCell(cell);
 
 
-            //paragraph.add(pdfPTable);
-            document.add(pdfPTable);
+            paragraph.add(pdfPTable);
+            document.add(paragraph);
+        }catch (Exception e){
+            Log.e("creartabla", e.toString());
+        }
+
+
+    }
+
+    public void creartablaimagenGRAFICA(Bitmap bitmap,String name){
+        try {
+
+            paragraph = new Paragraph();
+            Image image = null;
+            SaveImage(bitmap, name);
+            image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name+".png");
+            PdfPTable pdfPTable = new PdfPTable(1);
+            image.scaleAbsolute(380f, 720f);
+            PdfPCell cell = new PdfPCell(image);
+            //cell.setColspan(5);
+            cell.setBorderColor(BaseColor.WHITE);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            // Agregar la celda a la tabla
+            pdfPTable.addCell(cell);
+            paragraph.add(pdfPTable);
+            document.add(paragraph);
         }catch (Exception e){
             Log.e("creartabla", e.toString());
         }
@@ -305,11 +316,11 @@ public class TemplatePDF {
 
     private void UnableToSave() {
         //Probar si se guarda la imagen
-        Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
     }
 
     private void AbleToSave() {
         //Probar si no se guardo la imagen
-        Toast.makeText(context, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Imagen guardada en la galería.", Toast.LENGTH_SHORT).show();
     }
 }

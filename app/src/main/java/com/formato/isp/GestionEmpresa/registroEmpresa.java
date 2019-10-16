@@ -70,6 +70,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private EditText barrio;
     private EditText telefono;
     private EditText sitioweb;
+    private EditText resenahistorica;
+    private EditText dedicacion;
+    private EditText descripcion;
     ProgressDialog p;
 
     @Override
@@ -93,6 +96,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         sitioweb = (EditText)findViewById(R.id.sitioweb);
         foto_gallery = findViewById(R.id.foto_gallery2);
         btnSelectImage = findViewById(R.id.btnSeleccionar2);
+        resenahistorica = findViewById(R.id.resenahistorica);
+        descripcion = findViewById(R.id.descripcionempresa);
+        dedicacion = findViewById(R.id.dedicacion);
 
         fecha_crea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,22 +225,6 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private void crearEmpresa() {
         Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCamposEmpresa()) {
-            /*Sesion session;
-            session = new Sesion(getApplicationContext());
-            Map params = new HashMap();
-            params.put("fundacion_fund_id", session.getIdFun());
-            params.put("empr_nit", nit.getText().toString());
-            params.put("empr_nombre", nombre.getText().toString());
-            params.put("empr_fechacreacion", fecha_crea.getText().toString());
-            params.put("empr_fechainicio", fecha_ini.getText().toString());
-            params.put("empr_barrio", barrio.getText().toString());
-            params.put("empr_ciudad", ciudad.getText().toString());
-            params.put("empr_depart", departamento.getText().toString());
-            params.put("empr_telefono", telefono.getText().toString());
-            params.put("empr_paginaweb", sitioweb.getText().toString());
-            //params.put("empr_logo", "https://cdn.pixabay.com/photo/2016/09/02/18/38/architecture-1639990_960_720.jpg");
-            req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
-            queue.add(req);*/
             pruebaRegistro();
         }else{
             Toast.makeText(this, "Revisa los campos, por favor", Toast.LENGTH_SHORT).show();
@@ -245,7 +235,8 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private boolean validarCamposEmpresa() {
         if(!nit.getText().toString().isEmpty() && !nombre.getText().toString().isEmpty() && !fecha_crea.getText().toString().isEmpty()
                 && !fecha_ini.getText().toString().isEmpty() && !departamento.getText().toString().isEmpty() && !ciudad.getText().toString().isEmpty()
-                && !barrio.getText().toString().isEmpty() && !telefono.getText().toString().isEmpty() && !sitioweb.getText().toString().isEmpty() ){
+                && !barrio.getText().toString().isEmpty() && !telefono.getText().toString().isEmpty() && !sitioweb.getText().toString().isEmpty()
+                && !resenahistorica.getText().toString().isEmpty() && !descripcion.getText().toString().isEmpty() && !dedicacion.getText().toString().isEmpty()){
                     if(Date.valueOf(fecha_crea.getText().toString()).before(Date.valueOf(fecha_ini.getText().toString())) ||
                             Date.valueOf(fecha_crea.getText().toString()).equals(Date.valueOf(fecha_ini.getText().toString()))){
                         return true;
@@ -343,6 +334,10 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
                 params.put("empr_depart", departamento.getText().toString());
                 params.put("empr_telefono", telefono.getText().toString());
                 params.put("empr_paginaweb", sitioweb.getText().toString());
+                params.put("", resenahistorica.getText().toString());
+                params.put("", dedicacion.getText().toString());
+                params.put("", descripcion.getText().toString());
+
                 return params;
             }
             @Override

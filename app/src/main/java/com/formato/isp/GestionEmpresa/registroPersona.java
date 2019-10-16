@@ -56,6 +56,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_persona);
         cargarPref();
+        initToolbar();
         rol = new ArrayList<>();
         idrol = new ArrayList<>();
         sprol = (Spinner)findViewById(R.id.sp_rol);
@@ -78,7 +79,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
             }
         });
 
-        initToolbar();
+
         llenarSpinerRol();
     }
 
@@ -121,7 +122,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Formulario de Inscripción");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Tools.setSystemBarColor(this, R.color.colorSecondary);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
 
     public void crearPersona() {
