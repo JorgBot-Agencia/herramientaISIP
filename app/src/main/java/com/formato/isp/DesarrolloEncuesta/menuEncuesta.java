@@ -135,7 +135,11 @@ public class menuEncuesta extends AppCompatActivity {
                 JSONObject jsonComp = jsonComponente.getJSONObject(j);
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
-                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), 0, true));  // add section
+                    String valor = "Sin iniciar";
+                    if(cargando.buscarArea(jsonComp.getInt("area_id")) > 0){
+                        valor = "Realizada";
+                    }
+                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), cargando.buscarArea(jsonComp.getInt("area_id")), true));  // add section
                 }
             }
         }

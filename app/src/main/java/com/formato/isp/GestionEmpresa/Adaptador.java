@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.formato.isp.R;
+import com.formato.isp.model.Empresa;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Adaptador extends BaseAdapter {
 
     private Context contexto;
     private ArrayList<datosEmpresa> lista;
+    public static Empresa empr_select;
 
 
     public Adaptador(Context contexto, ArrayList<datosEmpresa> lista) {
@@ -67,6 +69,9 @@ public class Adaptador extends BaseAdapter {
                         lista.get(position).getFecha_creacion(), lista.get(position).getFecha_inicio());
                 Intent abrirInfo = new Intent(v.getContext(), infoDetallada.class);
                 abrirInfo.putExtra("name",lista.get(position).getNombre());
+                empr_select = new Empresa();                empr_select.setEmpr_nombre(lista.get(position).getNombre());
+                empr_select.setEmpr_direccion("Ubicación: "+lista.get(position).getUbicacion());
+                empr_select.setEmpr_telefono("Teléfono: "+lista.get(position).getTelefono());
                 contexto.startActivity(abrirInfo);
             }
         });
