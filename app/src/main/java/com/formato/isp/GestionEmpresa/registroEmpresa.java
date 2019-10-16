@@ -271,6 +271,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         barrio.setText("");
         telefono.setText("");
         sitioweb.setText("");
+        resenahistorica.setText("");
+        dedicacion.setText("");
+        descripcion.setText("");
     }
 
     private void pruebaRegistro() {
