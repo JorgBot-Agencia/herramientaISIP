@@ -68,7 +68,7 @@ public class reporteGrafico extends AppCompatActivity {
     private TemplatePDF templatePDF;
     private RadarChart chart;
     private ArrayList<RadarDataSet> areasyCriterios;
-    private String[]header={"Gestión de mercados", "Capacitación", "Construccion de marca"};
+    private String[]header={"Gestión de mercados", "Capacitación","Acceso a capital", "Construccion de marca"};
     private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
 
     @Override
@@ -91,7 +91,7 @@ public class reporteGrafico extends AppCompatActivity {
         setTitle("RadarChartActivity");
 
         setData();
-        chart.animateXY(1400, 1400, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
+        chart.animateXY(0, 0, Easing.EasingOption.EaseInOutQuad, Easing.EasingOption.EaseInOutQuad);
         XAxis xAxis = chart.getXAxis();
         xAxis.setTextSize(9f);
         xAxis.setYOffset(0);
@@ -118,6 +118,11 @@ public class reporteGrafico extends AppCompatActivity {
         l.setTextSize(12f);
         l.setForm(Legend.LegendForm.LINE);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        TemplatePDF tf = new TemplatePDF(this);
+        Bitmap bm=loadBitmapFromView(this, this.getWindow().getDecorView().findViewById(android.R.id.content) );
+        String nom = infoDetallada.dato;
+        tf.SaveImage(bm, nom);
+        arrfoto.add(new fotoReporte(bm,nom));
     }
 
     public void viewmPDF(){
@@ -385,17 +390,13 @@ public class reporteGrafico extends AppCompatActivity {
         chart.setData(data);
         chart.invalidate();
 
-        TemplatePDF tf = new TemplatePDF(this);
-        Bitmap bm=loadBitmapFromView(this, this.getWindow().getDecorView().findViewById(android.R.id.content) );
-        String nom = infoDetallada.dato;
-        tf.SaveImage(bm, nom);
-        arrfoto.add(new fotoReporte(bm,nom));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.radar, menu);
         Tools.changeMenuIconColor(menu, getResources().getColor(R.color.colorPrimary));
+
         return true;
     }
 
@@ -427,7 +428,7 @@ public class reporteGrafico extends AppCompatActivity {
             templatePDF.addtitulo("Descripcion de unidad Productiva");
             templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
             templatePDF.addtitulo("RESULTADOS");
-            templatePDF.addtitulo("Resultado total");
+            templatePDF.addtitulocentrado("Resultado total");
             ArrayList<fotoReporte> foto = reporteGrafico.arrfoto;
             if(foto!=null) {
                 int cc = 0;
@@ -438,7 +439,7 @@ public class reporteGrafico extends AppCompatActivity {
                     }
                 }
             }else{
-                templatePDF.addtitulo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
+                templatePDF.addparrafo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
             }
             templatePDF.addtitulo("Resultados especificos");
             templatePDF.creartabla(header,getResltEsp());
