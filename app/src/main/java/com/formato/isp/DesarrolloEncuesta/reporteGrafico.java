@@ -445,8 +445,6 @@ public class reporteGrafico extends AppCompatActivity {
             templatePDF.creartabla(header,getResltEsp());
             templatePDF.closeDocument();
             Toast.makeText(context,"PDF generado y guardado en "+Environment.getExternalStorageDirectory().toString()+"/recursosisp/",Toast.LENGTH_LONG).show();
-            //templatePDF.viewmPDF();
-
         }
         return super.onOptionsItemSelected(item);
     }

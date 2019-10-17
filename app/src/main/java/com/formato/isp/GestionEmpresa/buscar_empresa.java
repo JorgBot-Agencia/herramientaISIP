@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -55,7 +56,8 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
-
+        
+        initToolbar();
         queue = Volley.newRequestQueue(this);
         lvItems = (ListView)findViewById(R.id.lv_items);
         initToolbar();
@@ -94,10 +96,6 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         });
 
         obtenerEmpresas();
-
-        initToolbar();
-
-
     }
 
     private void obtenerEmpresas() {
@@ -109,13 +107,20 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         queue.add(req);
     }
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_buscar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error instanceof NetworkError) {

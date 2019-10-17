@@ -33,11 +33,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.GestionFundacion.AppHelper;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.VolleyMultipartRequest;
 import com.formato.isp.GestionFundacion.VolleySingleton;
-import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
@@ -223,12 +223,12 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
 
 
     private void crearEmpresa() {
-        Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
+
         if (validarCamposEmpresa()) {
             pruebaRegistro();
         }else{
             Toast.makeText(this, "Revisa los campos, por favor", Toast.LENGTH_SHORT).show();
-            p.hide();
+
         }
     }
 
@@ -287,13 +287,13 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
                 Toast.makeText(getApplicationContext(), "Empresa Registrada", Toast.LENGTH_SHORT).show();
                 limpiarCampos();
                 p.hide();
+                Intent intent = new Intent(getApplicationContext(), menuEncuesta.class);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                p.hide();
-                Toast.makeText(getApplicationContext(), "Empresa Registrada", Toast.LENGTH_LONG).show();
-                limpiarCampos();
+
                 NetworkResponse networkResponse = error.networkResponse;
                 String errorMessage = "Unknown error";
                 if (networkResponse == null) {
@@ -337,9 +337,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
                 params.put("empr_depart", departamento.getText().toString());
                 params.put("empr_telefono", telefono.getText().toString());
                 params.put("empr_paginaweb", sitioweb.getText().toString());
-                params.put("", resenahistorica.getText().toString());
-                params.put("", dedicacion.getText().toString());
-                params.put("", descripcion.getText().toString());
+                params.put("empr_resehistorica", resenahistorica.getText().toString());
+                params.put("empr_dedica", dedicacion.getText().toString());
+                params.put("empr_descripcion", descripcion.getText().toString());
 
                 return params;
             }
