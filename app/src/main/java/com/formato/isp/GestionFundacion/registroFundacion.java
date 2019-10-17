@@ -3,6 +3,7 @@ package com.formato.isp.GestionFundacion;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.net.*;
 import android.widget.Button;
@@ -33,9 +35,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.anychart.core.Base;
+import com.formato.isp.DesarrolloEncuesta.reporteGrafico;
 import com.formato.isp.MainActivity;
 import com.formato.isp.R;
 import com.formato.isp.resource;
+import com.formato.isp.utils.Tools;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
@@ -89,7 +93,7 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_fundacion);
-
+initToolbar();
         foto_gallery = findViewById(R.id.logo_fundacion);
         btnSeleccionar = findViewById(R.id.btnSeleccionar);
         rlView = findViewById(R.id.rlView);
@@ -129,7 +133,21 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
             }
         });
     }
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_fundacion);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private AlertDialog getPhotoDialog() {
         if(_photoDialog == null){
             AlertDialog.Builder builder = new AlertDialog.Builder(registroFundacion.this);

@@ -219,6 +219,7 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         if (progress < MAX_STEP) {
             areaProceso.setAreaAvance(progress);
+            Toast.makeText(getApplicationContext(), "PROGRESS: "+areaProceso.getAreaAvance(), Toast.LENGTH_SHORT).show();
             //status.setText("PREGUNTA " + obtenerId(progress));
             status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));
@@ -239,6 +240,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             ViewAnimation.fadeOutIn(status);
 
         } else {
+            areaProceso.setAreaAvance(progress);
             menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
             startActivity(abrirProgress);

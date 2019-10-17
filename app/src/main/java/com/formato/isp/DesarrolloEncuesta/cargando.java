@@ -67,14 +67,14 @@ public class cargando extends AppCompatActivity {
         loadingAndDisplayContent();
     }
 
-    public static int buscarArea(int areaId){
+    public int buscarArea(int areaId){
         int retorno = 0;
         int valor = 0;
         float promedio = 0;
         for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++){
             if(menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
                 valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
-                retorno = valor * (menuEncuesta.areasEncuestadas.get(i).getAreaAvance()+1);
+                retorno = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
                 promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
                 menuEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
             }

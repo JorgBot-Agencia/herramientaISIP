@@ -136,16 +136,30 @@ public class menuEncuesta extends AppCompatActivity {
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
                     String valor = "Sin iniciar";
-                    if(cargando.buscarArea(jsonComp.getInt("area_id")) > 0){
+                    if(buscar(jsonComp.getInt("area_id")) > 0){
                         valor = "Realizada";
                     }
-                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), cargando.buscarArea(jsonComp.getInt("area_id")), true));  // add section
+                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscar(jsonComp.getInt("area_id")), true));  // add section
                 }
             }
         }
         initComponent();
     }
 
+    public int buscar(int areaId){
+        int retorno = 0;
+        int valor = 0;
+        float promedio = 0;
+        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++){
+            if(menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
+                valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                retorno = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
+                promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                menuEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
+            }
+        }
+        return retorno;
+    }
     private void initComponent() {
 
         recyclerView.setVisibility(View.VISIBLE);

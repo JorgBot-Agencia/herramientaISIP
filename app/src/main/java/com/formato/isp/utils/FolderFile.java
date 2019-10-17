@@ -10,13 +10,13 @@ public class FolderFile {
     public String estado;
     public boolean section = false;
     public boolean folder = true;
-    public int cantidad;
+    public float cantidad;
     public int id;
 
     public FolderFile() {
     }
 
-    public FolderFile(int id, String name, String date, int image, int cantidad, boolean folder) {
+    public FolderFile(int id, String name, String date, int image, float cantidad, boolean folder) {
         this.image = image;
         this.name = name;
         this.estado = date;
