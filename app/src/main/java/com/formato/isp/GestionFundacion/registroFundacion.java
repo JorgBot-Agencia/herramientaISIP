@@ -224,7 +224,6 @@ public class registroFundacion extends AppCompatActivity implements Response.Lis
                 p.hide();
                 Intent volverInicio = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(volverInicio);
-
             }
         }, new Response.ErrorListener() {
             @Override

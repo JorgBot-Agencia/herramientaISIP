@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
@@ -176,6 +178,8 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         Toast.makeText(getApplicationContext(), "Persona registrada", Toast.LENGTH_LONG).show();
         limpiarCampos();
         p.hide();
+        Intent intent = new Intent(getApplicationContext(), infoDetallada.class);
+        startActivity(intent);
     }
 
     public void cargarPref(){

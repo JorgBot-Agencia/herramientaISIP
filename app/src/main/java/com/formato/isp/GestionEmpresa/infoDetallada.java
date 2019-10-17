@@ -7,10 +7,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -63,6 +67,7 @@ public class infoDetallada extends AppCompatActivity {
     private TextView ubicacion_empr;
     private AppBarLayout abl;
     private ListView lvInfo;
+    private int n;
     ArrayList<String> infoEmpresa;
     ArrayList<String> infoPersonal;
     RequestQueue queue;
@@ -110,44 +115,11 @@ public class infoDetallada extends AppCompatActivity {
                         datosempresa();
                         break;
                     case ("Personal"):
-                        url = resource.URLAPI + "/persona/?empr="+ id;
-                        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    infoPersonal = new ArrayList<>();
-                                    JSONArray jsonArr = response.getJSONArray("data");
-                                    JSONObject jsonObj = null;
-                                    String nom = "" ;
-                                    String ape = "" ;
-                                    String tel = "" ;
-                                    for (int i = 0; i < jsonArr.length(); i++) {
-                                        jsonObj = jsonArr.getJSONObject(i);
-                                        nom = jsonObj.getString("pers_nombre");
-                                        ape = jsonObj.getString("pers_apellido");
-                                        tel = jsonObj.getString("pers_telefono");
-                                        infoPersonal.add(nom + " " + ape + " - " + tel);
-                                    }
-                                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoPersonal);
-                                    lvInfo = (ListView) findViewById(R.id.lv_info);
-                                    lvInfo.setAdapter(adapter);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                if (error instanceof NetworkError) {
-                                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "No se han registrado pERSONAS", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        queue.add(req);
-
+                        datoPersonal();
+                         preguntaExcell();
+                        if (n == 1){
+                           generarExcell();
+                        }
                         break;
                 }
 
@@ -266,5 +238,73 @@ public class infoDetallada extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoEmpresa);
         lvInfo = (ListView) findViewById(R.id.lv_info);
         lvInfo.setAdapter(adapter);
+    }
+
+    public void datoPersonal(){
+        url = resource.URLAPI + "/persona/?empr="+ id;
+        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    infoPersonal = new ArrayList<>();
+                    JSONArray jsonArr = response.getJSONArray("data");
+                    JSONObject jsonObj = null;
+                    String nom = "" ;
+                    String ape = "" ;
+                    String tel = "" ;
+                    for (int i = 0; i < jsonArr.length(); i++) {
+                        jsonObj = jsonArr.getJSONObject(i);
+                        nom = jsonObj.getString("pers_nombre");
+                        ape = jsonObj.getString("pers_apellido");
+                        tel = jsonObj.getString("pers_telefono");
+                        infoPersonal.add(nom + " " + ape + " - " + tel);
+                    }
+                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoPersonal);
+                    lvInfo = (ListView) findViewById(R.id.lv_info);
+                    lvInfo.setAdapter(adapter);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se han registrado personas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        queue.add(req);
+
+    }
+
+    public void preguntaExcell(){
+        n = 0;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Desea exportar un Excell con todos los datos del Personal?").setCancelable(false)
+                .setPositiveButton(Html.fromHtml("<font color='#4784ba'>Cancelar</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        n = 0;
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(Html.fromHtml("<font color='#4784ba'>Aceptar</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        n = 1;
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog des = builder.create();
+        des.setTitle("Exportar datos");
+        des.show();
+    }
+
+    public void generarExcell(){
+
     }
 }
