@@ -7,10 +7,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,14 +39,26 @@ import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
+import com.github.mikephil.charting.data.RadarDataSet;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class infoDetallada extends AppCompatActivity {
@@ -63,6 +80,7 @@ public class infoDetallada extends AppCompatActivity {
     private TextView ubicacion_empr;
     private AppBarLayout abl;
     private ListView lvInfo;
+    private int n;
     ArrayList<String> infoEmpresa;
     ArrayList<String> infoPersonal;
     RequestQueue queue;
@@ -110,44 +128,8 @@ public class infoDetallada extends AppCompatActivity {
                         datosempresa();
                         break;
                     case ("Personal"):
-                        url = resource.URLAPI + "/persona/?empr="+ id;
-                        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    infoPersonal = new ArrayList<>();
-                                    JSONArray jsonArr = response.getJSONArray("data");
-                                    JSONObject jsonObj = null;
-                                    String nom = "" ;
-                                    String ape = "" ;
-                                    String tel = "" ;
-                                    for (int i = 0; i < jsonArr.length(); i++) {
-                                        jsonObj = jsonArr.getJSONObject(i);
-                                        nom = jsonObj.getString("pers_nombre");
-                                        ape = jsonObj.getString("pers_apellido");
-                                        tel = jsonObj.getString("pers_telefono");
-                                        infoPersonal.add(nom + " " + ape + " - " + tel);
-                                    }
-                                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoPersonal);
-                                    lvInfo = (ListView) findViewById(R.id.lv_info);
-                                    lvInfo.setAdapter(adapter);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                if (error instanceof NetworkError) {
-                                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "No se han registrado pERSONAS", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        queue.add(req);
-
+                        preguntaExcell();
+                        datoPersonal();
                         break;
                 }
 
@@ -274,4 +256,127 @@ public class infoDetallada extends AppCompatActivity {
         lvInfo = (ListView) findViewById(R.id.lv_info);
         lvInfo.setAdapter(adapter);
     }
+
+    public void datoPersonal(){
+        url = resource.URLAPI + "/persona/?empr="+ id;
+        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (android.os.Build.VERSION.SDK_INT > 9) {
+                        infoPersonal = new ArrayList<>();
+                        JSONArray jsonArr = response.getJSONArray("data");
+                        JSONObject jsonObj = null;
+                        String nombre = "" ;
+                        String ape = "" ;
+                        String tel = "" ;
+                        //EXCELL
+                        Workbook wb = new HSSFWorkbook();
+                        CellStyle style = wb.createCellStyle();
+                        style.setFillBackgroundColor(IndexedColors.VIOLET.getIndex());
+                        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                        style.setAlignment(CellStyle.ALIGN_CENTER);
+                        Cell c = null;
+                        //New Sheet
+                        Sheet sheet1 = null;
+                        sheet1 = wb.createSheet("reporte");
+                        // Generate column headings
+                        Row row = sheet1.createRow(0);
+                        c = row.createCell(0);
+                        c.setCellValue("Documento");
+                        c.setCellStyle(style);
+                        c = row.createCell(1);
+                        c.setCellValue("Nombres");
+                        c.setCellStyle(style);
+                        c = row.createCell(2);
+                        c.setCellValue("Apellidos");
+                        c.setCellStyle(style);
+                        c = row.createCell(3);
+                        c.setCellValue("Teléfono");
+                        c.setCellStyle(style);
+                        c = row.createCell(4);
+                        c.setCellValue("Dirección");
+                        c.setCellStyle(style);
+                        for (int i = 0; i < jsonArr.length(); i++) {
+                            jsonObj = jsonArr.getJSONObject(i);
+                            nombre = jsonObj.getString("pers_nombre");
+                            ape = jsonObj.getString("pers_apellido");
+                            tel = jsonObj.getString("pers_telefono");
+                            infoPersonal.add(nombre + " " + ape + " - " + tel);
+                            row = sheet1.createRow(i+1);
+                            c = row.createCell(0);
+                            c.setCellValue(jsonObj.getString("pers_documento"));
+                            c = row.createCell(1);
+                            c.setCellValue(nombre);
+                            c = row.createCell(2);
+                            c.setCellValue(ape);
+                            c = row.createCell(3);
+                            c.setCellValue(tel);
+                            c = row.createCell(4);
+                            c.setCellValue(jsonObj.getString("pers_direccion"));
+                        }
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoPersonal);
+                        lvInfo = (ListView) findViewById(R.id.lv_info);
+                        lvInfo.setAdapter(adapter);
+                        if(n == 1){
+                            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "PersonalDeLaEmpresa" + nom + ".xls");
+                            FileOutputStream os = null;
+
+                            try {
+                                os = new FileOutputStream(file);
+                                wb.write(os);
+                                Toast.makeText(getApplicationContext(),"Creado en: " + file, Toast.LENGTH_LONG).show();
+                            } catch (IOException e) {
+                                Toast.makeText(getApplicationContext(),"Error al crear " + file, Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(),"Falló al guardar " + file, Toast.LENGTH_LONG).show();
+                            } finally {
+                                try {
+                                    if (null != os)
+                                        os.close();
+                                } catch (Exception ex) {
+                                }
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se han registrado personas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        queue.add(req);
+
+    }
+
+    public void preguntaExcell(){
+        n = 0;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Desea exportar un Excell con todos los datos del Personal?").setCancelable(false)
+                .setPositiveButton(Html.fromHtml("<font color='#4784ba'>Cancelar</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        n = 0;
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(Html.fromHtml("<font color='#4784ba'>Aceptar</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        n = 1;
+                    }
+                });
+        AlertDialog des = builder.create();
+        des.setTitle("Exportar datos");
+        des.show();
+    }
+
 }

@@ -5,8 +5,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
@@ -56,6 +59,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_persona);
         cargarPref();
+        initToolbar();
         rol = new ArrayList<>();
         idrol = new ArrayList<>();
         sprol = (Spinner)findViewById(R.id.sp_rol);
@@ -78,7 +82,7 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
             }
         });
 
-        initToolbar();
+
         llenarSpinerRol();
     }
 
@@ -117,12 +121,21 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_persona);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Formulario de Inscripción");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Tools.setSystemBarColor(this, R.color.colorSecondary);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void crearPersona() {
         Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
@@ -175,6 +188,8 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         Toast.makeText(getApplicationContext(), "Persona registrada", Toast.LENGTH_LONG).show();
         limpiarCampos();
         p.hide();
+        Intent intent = new Intent(getApplicationContext(), infoDetallada.class);
+        startActivity(intent);
     }
 
     public void cargarPref(){

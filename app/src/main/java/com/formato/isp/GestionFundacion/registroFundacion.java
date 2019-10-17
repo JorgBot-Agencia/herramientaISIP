@@ -242,7 +242,6 @@ initToolbar();
                 p.hide();
                 Intent volverInicio = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(volverInicio);
-
             }
         }, new Response.ErrorListener() {
             @Override
