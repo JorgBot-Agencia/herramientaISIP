@@ -23,11 +23,95 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ListView
-        android:id="@+id/listRuta"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:scrollingCache="true"
-        />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/itemPrincipal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="CAPACITACIÓN"/>
+
+
+                <ExpandableListView
+                    android:id="@+id/expandableListView"
+                    android:layout_height="190dp"
+                    android:layout_width="match_parent"
+                    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="0.5dp" />
+
+
+            <TextView
+                android:id="@+id/itemPrincipal1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="GESTIÓN DE MERCADOS"/>
+
+            <ExpandableListView
+                android:id="@+id/expandableListView1"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="0.5dp" />
+
+            <TextView
+                android:id="@+id/itemPrincipal2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="CONSTRUCCIÓN DE MARCA"/>
+
+            <ExpandableListView
+                android:id="@+id/expandableListView2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="0.5dp" />
+            <TextView
+                android:id="@+id/itemPrincipal3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+                android:paddingEnd="?android:attr/expandableListPreferredChildPaddingLeft"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="ACESSO A CAPITAL"/>
+
+            <LinearLayout
+                android:id="@+id/linearlayout3"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+                <ExpandableListView
+                    android:id="@+id/expandableListView3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+                    android:divider="@android:color/darker_gray"
+                    android:dividerHeight="0.5dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
 </LinearLayout>

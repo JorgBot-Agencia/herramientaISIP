@@ -73,17 +73,13 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
         tel_persona = (EditText)findViewById(R.id.tel_persona);
         registrar_Persona = (Button)findViewById(R.id.regis_persona);
         queue = Volley.newRequestQueue(this);
+        llenarSpinerRol();
         registrar_Persona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Position: "+idrol.get(sprol.getSelectedItemPosition()), Toast.LENGTH_SHORT).show();
                 crearPersona();
-                p.show();
             }
         });
-
-
-        llenarSpinerRol();
     }
 
     private void llenarSpinerRol() {
@@ -138,8 +134,8 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
 
 
     public void crearPersona() {
-        Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
         if (validarCamposPersona()) {
+            p.show();
             Map params = new HashMap();
             params.put("empresa_empr_id", id);
             params.put("pers_documento", doc_persona.getText().toString());
