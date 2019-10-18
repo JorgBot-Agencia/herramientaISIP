@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.util.DisplayMetrics;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.formato.isp.Clases.fotoReporte;
@@ -25,10 +26,12 @@ import com.formato.isp.GestionDocumental.DetalleGestionDocumental;
 import com.formato.isp.GestionEmpresa.Adaptador;
 import com.formato.isp.GestionEmpresa.infoDetallada;
 import com.formato.isp.GestionFundacion.Sesion;
+import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.PDF.TemplatePDF;
 import com.formato.isp.PDF.viewPDF;
 import com.formato.isp.model.Empresa;
 import com.formato.isp.utils.Tools;
+import com.formato.isp.utils.ViewAnimation;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -48,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.formato.isp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -65,8 +69,12 @@ public class reporteGrafico extends AppCompatActivity {
     private Context context;
     private File pdfFile;
     private Sesion session;
+    private View back_drop;
     private TemplatePDF templatePDF;
+    private boolean rotate = false;
+    private TextView irInicio;
     private RadarChart chart;
+    private View lyt_mic;
     private ArrayList<RadarDataSet> areasyCriterios;
     private String[]header={"Gestión de mercados", "Capacitación", "Construccion de marca"};
     private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
@@ -77,8 +85,38 @@ public class reporteGrafico extends AppCompatActivity {
         setContentView(R.layout.activity_reporte_grafico);
         initToolbar();
         context = getApplicationContext();
+
+        back_drop = findViewById(R.id.back_drop);
+        final FloatingActionButton fab_mic = (FloatingActionButton) findViewById(R.id.fab_mic);
+        final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+        lyt_mic = findViewById(R.id.lyt_mic);
+        ViewAnimation.initShowOut(lyt_mic);
+        back_drop.setVisibility(View.GONE);
+
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFabMode(v);
+            }
+        });
+        fab_mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
         areasyCriterios = new ArrayList<>();
         arrfoto= new ArrayList<>();
+
+        irInicio = findViewById(R.id.volver);
+        irInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
 
         chart = findViewById(R.id.chart1);
         //chart.setBackgroundColor(Color.rgb(60, 65, 82));
@@ -126,6 +164,17 @@ public class reporteGrafico extends AppCompatActivity {
         intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK));
         context.startActivity(intent);
 
+    }
+
+    private void toggleFabMode(View v) {
+        rotate = ViewAnimation.rotateFab(v, !rotate);
+        if (rotate) {
+            ViewAnimation.showIn(lyt_mic);
+            back_drop.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimation.showOut(lyt_mic);
+            back_drop.setVisibility(View.GONE);
+        }
     }
 
     private void guardarExcelGraficoRadar() {
@@ -402,7 +451,7 @@ public class reporteGrafico extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            Toast.makeText(context,"No puede volver para atras, oprima el botón si desea ir a inicio",Toast.LENGTH_LONG).show();
         }else if(item.getTitle().equals("Generar Excel")){
             guardarExcelGraficoRadar();
         }else if(item.getTitle().equals("Generar PDF")){

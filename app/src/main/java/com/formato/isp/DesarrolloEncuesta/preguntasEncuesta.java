@@ -219,7 +219,6 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         if (progress < MAX_STEP) {
             areaProceso.setAreaAvance(progress);
-            Toast.makeText(getApplicationContext(), "PROGRESS: "+areaProceso.getAreaAvance(), Toast.LENGTH_SHORT).show();
             //status.setText("PREGUNTA " + obtenerId(progress));
             status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));

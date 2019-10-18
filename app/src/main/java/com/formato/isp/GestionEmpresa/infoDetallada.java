@@ -36,11 +36,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
+import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
+import com.formato.isp.utils.ViewAnimation;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -79,6 +82,10 @@ public class infoDetallada extends AppCompatActivity {
     private TextView nombre_empr;
     private TextView ubicacion_empr;
     private AppBarLayout abl;
+    private boolean rotate = false;
+    private TextView irInicio;
+    private View lyt_mic;
+    private View back_drop;
     private ListView lvInfo;
     private int n;
     ArrayList<String> infoEmpresa;
@@ -97,6 +104,37 @@ public class infoDetallada extends AppCompatActivity {
         initComponent();
         cargarPref();
         datosempresa();
+
+        back_drop = findViewById(R.id.back_drop);
+        final FloatingActionButton fab_mic = (FloatingActionButton) findViewById(R.id.fab_mic);
+        final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+        lyt_mic = findViewById(R.id.lyt_mic);
+        ViewAnimation.initShowOut(lyt_mic);
+        back_drop.setVisibility(View.GONE);
+
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFabMode(v);
+            }
+        });
+        fab_mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
+
+        irInicio = findViewById(R.id.volver);
+        irInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
+
         queue = Volley.newRequestQueue(this);
         btnIniciar = findViewById(R.id.btn_start);
         btnIniciar.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +183,16 @@ public class infoDetallada extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),tab.getText() + "3",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void toggleFabMode(View v) {
+        rotate = ViewAnimation.rotateFab(v, !rotate);
+        if (rotate) {
+            ViewAnimation.showIn(lyt_mic);
+            back_drop.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimation.showOut(lyt_mic);
+            back_drop.setVisibility(View.GONE);
+        }
     }
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_info);
