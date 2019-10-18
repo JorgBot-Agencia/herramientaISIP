@@ -67,7 +67,7 @@ public class DetalleGestionDocumental extends Fragment {
     private ArrayList<Revision> lista ;
     private RecyclerView recyclerView;
     private AdapterListBasicDetalleGestion mAdapter;
-    private String[]header={"Gestión de mercados", "Capacitación","Acceso a capital", "Construccion de marca"};
+    private String[]header={"Capacitación","Construccion de marca","Gestión de mercados","Acceso a capital"};
     private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
     private String piso="_____________________________________________";
     private TemplatePDF templatePDF;
@@ -163,9 +163,10 @@ public class DetalleGestionDocumental extends Fragment {
 
     public ArrayList<String[]>getResltEsp(){
         ArrayList<String[]>row= new ArrayList<>();
-        row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias","Politica de identificación de precios","Técnica y productiva",
-                "Financiera y administrativa","Cultura e innovacion","Creditos","Capitales reembolsables","Capitales no reembolsables", "Imagen e identidad",
-        "Presentacion producto","Sello de frontera de oportunidad"});
+        row.add(new String[]{"1.Técnica y productiva", "2.Financiera y administrativa","3.Cultura e innovacion",
+                "4.Imagen e identidad", "5.Presentacion producto","6.Sello de frontera de oportunidad"
+                ,"7.Politica de identificación de precios","8.Acceso a nuevas tecnologias","9.Identificacion de mercados","10.Plan de productividad"
+                ,"11.Creditos","12.Capitales reembolsables","13.Capitales no reembolsables",});
         return row;
     }
 

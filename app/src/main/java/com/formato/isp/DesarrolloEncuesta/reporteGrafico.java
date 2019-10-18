@@ -68,7 +68,7 @@ public class reporteGrafico extends AppCompatActivity {
     private TemplatePDF templatePDF;
     private RadarChart chart;
     private ArrayList<RadarDataSet> areasyCriterios;
-    private String[]header={"Gestión de mercados", "Capacitación","Acceso a capital", "Construccion de marca"};
+    private String[]header={"Capacitación","Construccion de marca","Gestión de mercados","Acceso a capital"};
     private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
 
     @Override
@@ -202,7 +202,10 @@ public class reporteGrafico extends AppCompatActivity {
 
     public ArrayList<String[]>getResltEsp(){
         ArrayList<String[]>row= new ArrayList<>();
-        row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias"});
+        row.add(new String[]{"Técnica y productiva", "Financiera y administrativa","Cultura e innovacion",
+                "Imagen e identidad", "Presentacion producto","Sello de frontera de oportunidad"
+                ,"Politica de identificación de precios","Acceso a nuevas tecnologias","Identificacion de mercados","Plan de productividad"
+                ,"Creditos","Capitales reembolsables","Capitales no reembolsables",});
         return row;
     }
 

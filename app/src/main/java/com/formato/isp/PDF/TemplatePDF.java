@@ -14,6 +14,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.formato.isp.Clases.Area;
+import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.R;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -228,13 +230,13 @@ public class TemplatePDF {
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 pdfPCell.setBackgroundColor(BaseColor.GRAY);
                 if(indexC==0) {
-                    pdfPCell.setColspan(4);
+                    pdfPCell.setColspan(3);
                 }
                 if(indexC==1) {
                     pdfPCell.setColspan(3);
                 }
                 if(indexC==2) {
-                    pdfPCell.setColspan(3);
+                    pdfPCell.setColspan(4);
                 }
                 if(indexC==3) {
                     pdfPCell.setColspan(3);
@@ -251,6 +253,40 @@ public class TemplatePDF {
                     pdfPTable.addCell(pdfPCell);
                 }
             }
+            /*ArrayList<Area> areas= (ArrayList<Area>) menuEncuesta.areasEncuestadas;
+            int indexrow=0;
+            int aux=0;
+            Toast.makeText(context,String.valueOf(areas.size()),Toast.LENGTH_LONG).show();
+            while (indexrow < 13) {
+                if(indexrow<11){
+
+                    String[] row = clients.get(indexrow);
+                    while(aux<areas.size()){
+                        String[] dato = row[indexrow].split(".");
+                        if(dato[0].equals(areas.get(aux).getAreaId())){
+                            pdfPCell = new PdfPCell(new Phrase(String.valueOf(areas.get(aux).getPromedioEscala()),letrapequeña));
+                            pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            pdfPCell.setFixedHeight(48);
+                            pdfPTable.addCell(pdfPCell);
+                        }else{
+                            pdfPCell = new PdfPCell(new Phrase("0%",letrapequeña));
+                            pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            pdfPCell.setFixedHeight(48);
+                            pdfPTable.addCell(pdfPCell);
+                        }
+                        aux++;
+                    }
+
+
+                }else{
+                    pdfPCell = new PdfPCell(new Phrase("0%",letrapequeña));
+                    pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    pdfPCell.setFixedHeight(48);
+                    pdfPTable.addCell(pdfPCell);
+
+                }
+            }*/
+
             paragraph.add(pdfPTable);
             document.add(paragraph);
         }catch (Exception e){
