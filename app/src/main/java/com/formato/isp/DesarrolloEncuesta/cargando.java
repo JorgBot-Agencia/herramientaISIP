@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.formato.isp.Clases.Area;
 import com.formato.isp.R;
 import com.formato.isp.utils.ViewAnimation;
+import com.formato.isp.MenuLateral.*;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -100,7 +101,8 @@ public class cargando extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+            startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(parent_view.getContext(), reporteGrafico.class);

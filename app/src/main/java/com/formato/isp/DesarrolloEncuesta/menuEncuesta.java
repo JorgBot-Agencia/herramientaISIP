@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +38,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.formato.isp.R.color.colorLetraBlanco;
 
@@ -48,6 +51,7 @@ public class menuEncuesta extends AppCompatActivity {
     private AdapterListFolderFile mAdapter;
     ArrayList<String> listComponentes;
     private RequestQueue queue;
+    ProgressDialog p;
     List<FolderFile> items;
     public static List<Area> areasEncuestadas = new ArrayList<>();
 
@@ -65,8 +69,18 @@ public class menuEncuesta extends AppCompatActivity {
         listComponentes = new ArrayList();
         items = new ArrayList<>();
 
+        p = new ProgressDialog(this);
+        p.setMessage("Insertando datos de la encuesta");
+        p.setCancelable(false);
+
         initToolbar();
         loadingAndDisplayContent();
+    }
+
+    public void insertarDato(){
+        p.show();
+        Map params = new HashMap();
+        
     }
 
     private void initToolbar() {

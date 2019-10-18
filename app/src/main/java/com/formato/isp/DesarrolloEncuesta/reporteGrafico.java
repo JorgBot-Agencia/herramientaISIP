@@ -21,17 +21,14 @@ import android.util.DisplayMetrics;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.formato.isp.Clases.fotoReporte;
+import com.formato.isp.Clases.*;
 import com.formato.isp.GestionDocumental.DetalleGestionDocumental;
-import com.formato.isp.GestionEmpresa.Adaptador;
-import com.formato.isp.GestionEmpresa.infoDetallada;
-import com.formato.isp.GestionFundacion.Sesion;
-import com.formato.isp.MenuLateral.menuprincipal;
-import com.formato.isp.PDF.TemplatePDF;
-import com.formato.isp.PDF.viewPDF;
-import com.formato.isp.model.Empresa;
-import com.formato.isp.utils.Tools;
-import com.formato.isp.utils.ViewAnimation;
+import com.formato.isp.GestionEmpresa.*;
+import com.formato.isp.GestionFundacion.*;
+import com.formato.isp.MenuLateral.*;
+import com.formato.isp.PDF.*;
+import com.formato.isp.model.*;
+import com.formato.isp.utils.*;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -273,23 +270,23 @@ public class reporteGrafico extends AppCompatActivity {
         float valor75=0;
         float valor100=0;
 
-        for (int i = 0; i < preguntasEncuesta.listaPreguntas.size(); i++){
-            if(preguntasEncuesta.listaPreguntas.get(i).getAreaId() == area){
+        for (int i = 0; i < infoDetallada.acumuladorPreguntas.size(); i++){
+            if(infoDetallada.acumuladorPreguntas.get(i).getAreaId() == area){
                 float auxiliar = 0;
-                if(preguntasEncuesta.listaPreguntas.get(i).getValor() < 26){
-                    auxiliar = preguntasEncuesta.listaPreguntas.get(i).getValor() / 5;
+                if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 26){
+                    auxiliar = infoDetallada.acumuladorPreguntas.get(i).getValor() / 5;
                     valor25 = valor25 + auxiliar;
                     valor25 = valor25 / 2;
-                }else if(preguntasEncuesta.listaPreguntas.get(i).getValor() < 51){
-                    auxiliar = preguntasEncuesta.listaPreguntas.get(i).getValor() / 5;
+                }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 51){
+                    auxiliar = infoDetallada.acumuladorPreguntas.get(i).getValor() / 5;
                     valor50 = valor50 + auxiliar;
                     valor50 = valor50 / 2;
-                }else if(preguntasEncuesta.listaPreguntas.get(i).getValor() < 75){
-                    auxiliar = preguntasEncuesta.listaPreguntas.get(i).getValor() / 5;
+                }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 75){
+                    auxiliar = infoDetallada.acumuladorPreguntas.get(i).getValor() / 5;
                     valor75 = valor75 + auxiliar;
                     valor75 = valor75 / 2;
-                }else if(preguntasEncuesta.listaPreguntas.get(i).getValor() < 101){
-                    auxiliar = preguntasEncuesta.listaPreguntas.get(i).getValor() / 5;
+                }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 101){
+                    auxiliar = infoDetallada.acumuladorPreguntas.get(i).getValor() / 5;
                     valor100 = valor100 + auxiliar;
                     valor100 = valor100 / 2;
                 }
