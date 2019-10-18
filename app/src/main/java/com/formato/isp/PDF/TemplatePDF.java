@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.icu.util.RangeValueIterator;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -46,9 +47,10 @@ public class TemplatePDF {
     private Paragraph paragraph;// este es el parrafoo
     private Font letratitulo=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.BOLD);
     private Font letraroja=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.BOLD, BaseColor.RED);
-    private Font letrasubtitulo=new Font(Font.FontFamily.TIMES_ROMAN, 18,Font.BOLD);
-    private Font letratexto=new Font(Font.FontFamily.TIMES_ROMAN, 12,Font.BOLD);
-    private Font letratexto2=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.BOLD);
+    private Font letrasubtitulo=new Font(Font.FontFamily.TIMES_ROMAN, 14,Font.BOLD);
+    private Font letrapequeña=new Font(Font.FontFamily.TIMES_ROMAN, 10,Font.NORMAL);
+    private Font letratexto=new Font(Font.FontFamily.TIMES_ROMAN, 12,Font.NORMAL);
+    private Font letratexto2=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.NORMAL);
     private Font letraresaltado=new Font(Font.FontFamily.TIMES_ROMAN, 15,Font.BOLD, BaseColor.RED);
 
     public TemplatePDF(Context context) {
@@ -162,6 +164,19 @@ public class TemplatePDF {
             Log.e("addparrafo", e.toString());
         }
     }
+    public void addtitulocentrado(String text){
+        try {
+
+
+            paragraph = new Paragraph(text, letratitulo);
+            paragraph.setAlignment(Element.ALIGN_CENTER);
+            paragraph.setSpacingAfter(5);
+            paragraph.setSpacingBefore(5);
+            document.add(paragraph);
+        }catch (Exception e){
+            Log.e("addparrafo", e.toString());
+        }
+    }
 
 
 
@@ -185,6 +200,52 @@ public class TemplatePDF {
                 String[] row = clients.get(indexrow);
                 for (indexC = 0; indexC < encabezado.length; indexC++) {
                     pdfPCell = new PdfPCell(new Phrase(row[indexC]));
+                    pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    pdfPCell.setFixedHeight(48);
+                    pdfPTable.addCell(pdfPCell);
+                }
+            }
+            paragraph.add(pdfPTable);
+            document.add(paragraph);
+        }catch (Exception e){
+            Log.e("creartabla", e.toString());
+        }
+
+
+    }
+    public void creartablapers(String[]encabezado, ArrayList<String[]>clients){
+        try {
+
+            paragraph = new Paragraph();
+            paragraph.setSpacingBefore(10);
+            paragraph.setFont(letratexto);
+            PdfPTable pdfPTable = new PdfPTable(13);
+            pdfPTable.setWidthPercentage(100);
+            PdfPCell pdfPCell;
+            int indexC = 0;//columnas
+            while (indexC < encabezado.length) {
+                pdfPCell = new PdfPCell(new Phrase(encabezado[indexC], letrasubtitulo));
+                pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pdfPCell.setBackgroundColor(BaseColor.GRAY);
+                if(indexC==0) {
+                    pdfPCell.setColspan(4);
+                }
+                if(indexC==1) {
+                    pdfPCell.setColspan(3);
+                }
+                if(indexC==2) {
+                    pdfPCell.setColspan(3);
+                }
+                if(indexC==3) {
+                    pdfPCell.setColspan(3);
+                }
+                pdfPTable.addCell(pdfPCell);
+                indexC++;
+            }
+            for (int indexrow = 0; indexrow < clients.size(); indexrow++) {
+                String[] row = clients.get(indexrow);
+                for (indexC = 0; indexC < 13; indexC++) {
+                    pdfPCell = new PdfPCell(new Phrase(row[indexC],letrapequeña));
                     pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     pdfPCell.setFixedHeight(48);
                     pdfPTable.addCell(pdfPCell);

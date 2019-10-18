@@ -420,6 +420,7 @@ public class infoDetallada extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         n = 1;
+                        datoPersonal();
                     }
                 });
         AlertDialog des = builder.create();

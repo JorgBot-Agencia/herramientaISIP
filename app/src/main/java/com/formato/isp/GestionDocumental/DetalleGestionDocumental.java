@@ -67,7 +67,7 @@ public class DetalleGestionDocumental extends Fragment {
     private ArrayList<Revision> lista ;
     private RecyclerView recyclerView;
     private AdapterListBasicDetalleGestion mAdapter;
-    private String[]header={"Gestión de mercados", "Capacitación", "Construccion de marca"};
+    private String[]header={"Gestión de mercados", "Capacitación","Acceso a capital", "Construccion de marca"};
     private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
     private String piso="_____________________________________________";
     private TemplatePDF templatePDF;
@@ -133,7 +133,7 @@ public class DetalleGestionDocumental extends Fragment {
             templatePDF.addtitulo("Descripcion de unidad Productiva");
             templatePDF.addparrafo("CUADRO DE DESCRIPCION BREVE DE LA UNIDAD PRODUCTIVA, RESEÑA HISTORICA, INFORMACION DE QUE PRODUCE, DE QUE CLASE SI ES MIXTA O DE EMPRENDIMIENTO DE POBLACION MIGRANTE, DESDE CUANDO ESTA EN COLOMBIA.");
             templatePDF.addtitulo("RESULTADOS");
-            templatePDF.addtitulo("Resultado total");
+            templatePDF.addtitulocentrado("Resultado total");
             ArrayList<fotoReporte> foto = reporteGrafico.arrfoto;
             if(foto!=null) {
                 int cc = 0;
@@ -144,10 +144,10 @@ public class DetalleGestionDocumental extends Fragment {
                     }
                 }
             }else{
-                templatePDF.addtitulo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
+                templatePDF.addparrafo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
             }
             templatePDF.addtitulo("Resultados especificos");
-            templatePDF.creartabla(header,getResltEsp());
+            templatePDF.creartablapers(header,getResltEsp());
             templatePDF.closeDocument();
 
         }
@@ -163,7 +163,9 @@ public class DetalleGestionDocumental extends Fragment {
 
     public ArrayList<String[]>getResltEsp(){
         ArrayList<String[]>row= new ArrayList<>();
-        row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias"});
+        row.add(new String[]{"Plan de productividad","Identificacion de mercados","Acceso a nuevas tecnologias","Politica de identificación de precios","Técnica y productiva",
+                "Financiera y administrativa","Cultura e innovacion","Creditos","Capitales reembolsables","Capitales no reembolsables", "Imagen e identidad",
+        "Presentacion producto","Sello de frontera de oportunidad"});
         return row;
     }
 
