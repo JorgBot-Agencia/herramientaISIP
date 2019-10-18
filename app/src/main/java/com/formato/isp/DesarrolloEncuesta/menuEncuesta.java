@@ -150,7 +150,7 @@ public class menuEncuesta extends AppCompatActivity {
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
                     String valor = "Sin iniciar";
-                    if(buscar(jsonComp.getInt("area_id")) > 0){
+                    if(buscarAreaBoolean(jsonComp.getInt("area_id"))){
                         valor = "Realizada";
                     }
                     items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscar(jsonComp.getInt("area_id")), true));  // add section
@@ -186,7 +186,7 @@ public class menuEncuesta extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
-                if(!buscarArea(obj.id)){
+                if(!buscarAreaBoolean(obj.id)){
                     Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
                     abrirEncuesta.putExtra("areaId", obj.id);
                     startActivity(abrirEncuesta);
@@ -218,7 +218,7 @@ public class menuEncuesta extends AppCompatActivity {
     }
 
 
-    public static boolean buscarArea(int areaId){
+    public static boolean buscarAreaBoolean(int areaId){
         boolean saber = false;
 
         for (int i = 0; i < areasEncuestadas.size(); i++){

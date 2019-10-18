@@ -86,7 +86,7 @@ public class cargando extends AppCompatActivity {
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setTitle("Visualización de porcentajes");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
@@ -180,7 +180,11 @@ public class cargando extends AppCompatActivity {
                 JSONObject jsonComp = jsonComponente.getJSONObject(j);
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
-                        items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), buscarArea(jsonComp.getInt("area_id")), true));  // add section
+                    String valor = "No fue realizada";
+                    if(menuEncuesta.buscarAreaBoolean(jsonComp.getInt("area_id"))){
+                        valor = "Realizada";
+                    }
+                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscarArea(jsonComp.getInt("area_id")), true));  // add section
 
                 }
             }
