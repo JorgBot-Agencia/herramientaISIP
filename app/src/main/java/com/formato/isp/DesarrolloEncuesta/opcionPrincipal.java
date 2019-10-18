@@ -1,6 +1,7 @@
 package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import com.formato.isp.GestionEmpresa.*;
 import com.formato.isp.GestionEmpresa.registroEmpresa;
 import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
+import com.formato.isp.utils.Tools;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class opcionPrincipal extends AppCompatActivity {
@@ -54,6 +57,7 @@ public class opcionPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opcion_principal);
+        initToolbar();
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         btnNext = (Button) findViewById(R.id.btn_next);
         btnAnterior = findViewById(R.id.btn_anterior);
@@ -125,7 +129,21 @@ public class opcionPrincipal extends AppCompatActivity {
         });
 
     }
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_opcion);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private int getItem(int i) { return viewPager.getCurrentItem() + i; }
 
     private void bottomProgressDots(int current_index) {

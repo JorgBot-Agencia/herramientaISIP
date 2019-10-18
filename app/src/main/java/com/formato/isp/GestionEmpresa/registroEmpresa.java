@@ -38,8 +38,6 @@ import com.formato.isp.GestionFundacion.AppHelper;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.VolleyMultipartRequest;
 import com.formato.isp.GestionFundacion.VolleySingleton;
-import com.formato.isp.GestionFundacion.registroFundacion;
-import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;

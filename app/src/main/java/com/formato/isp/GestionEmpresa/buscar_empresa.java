@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -22,9 +25,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.GestionFundacion.Sesion;
+import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
+import com.formato.isp.utils.ViewAnimation;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +52,10 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     private ListView lvItems;
     private Adaptador adaptador;
     private EditText buscarEmp;
+    private boolean rotate = false;
+    private TextView irInicio;
+    private View lyt_mic;
+    private View back_drop;
     private ImageButton btnBuscarEmpr;
     private ImageButton btnRefrescar;
     ArrayList<datosEmpresa> listafiltro;
@@ -55,6 +66,37 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
+        
+        initToolbar();
+
+        back_drop = findViewById(R.id.back_drop);
+        final FloatingActionButton fab_mic = (FloatingActionButton) findViewById(R.id.fab_mic);
+        final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+        lyt_mic = findViewById(R.id.lyt_mic);
+        ViewAnimation.initShowOut(lyt_mic);
+        back_drop.setVisibility(View.GONE);
+
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFabMode(v);
+            }
+        });
+        fab_mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
+        irInicio = findViewById(R.id.volver);
+        irInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
 
         queue = Volley.newRequestQueue(this);
         lvItems = (ListView)findViewById(R.id.lv_items);
@@ -94,12 +136,17 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         });
 
         obtenerEmpresas();
-
-        initToolbar();
-
-
     }
-
+    private void toggleFabMode(View v) {
+        rotate = ViewAnimation.rotateFab(v, !rotate);
+        if (rotate) {
+            ViewAnimation.showIn(lyt_mic);
+            back_drop.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimation.showOut(lyt_mic);
+            back_drop.setVisibility(View.GONE);
+        }
+    }
     private void obtenerEmpresas() {
         Sesion session;
         session = new Sesion(getApplicationContext());
@@ -109,13 +156,20 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         queue.add(req);
     }
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_buscar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error instanceof NetworkError) {

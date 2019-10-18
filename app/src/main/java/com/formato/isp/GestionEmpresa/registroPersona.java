@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -116,12 +117,21 @@ public class registroPersona extends AppCompatActivity implements Response.Liste
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_persona);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Formulario de Inscripción");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void crearPersona() {
         if (validarCamposPersona()) {
