@@ -376,8 +376,8 @@
                         android:layout_marginLeft="35dp"
                         android:layout_marginRight="35dp"
                         android:indeterminate="false"
-                        android:max="100"
-                        android:progress="40" />
+                        android:max="10"
+                        android:progress="4" />
 
                 </LinearLayout>
 
