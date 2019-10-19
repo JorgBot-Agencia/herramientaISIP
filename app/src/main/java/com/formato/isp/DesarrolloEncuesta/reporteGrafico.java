@@ -251,10 +251,10 @@ public class reporteGrafico extends AppCompatActivity {
 
     public ArrayList<String[]>getResltEsp(){
         ArrayList<String[]>row= new ArrayList<>();
-        row.add(new String[]{"Técnica y productiva", "Financiera y administrativa","Cultura e innovacion",
-                "Imagen e identidad", "Presentacion producto","Sello de frontera de oportunidad"
-                ,"Politica de identificación de precios","Acceso a nuevas tecnologias","Identificacion de mercados","Plan de productividad"
-                ,"Creditos","Capitales reembolsables","Capitales no reembolsables",});
+        row.add(new String[]{"1-Técnica y productiva", "2-Financiera y administrativa","3-Cultura e innovacion",
+                "4-Imagen e identidad", "5-Presentacion producto","6-Sello de frontera de oportunidad"
+                ,"7-Politica de identificación de precios","8-Acceso a nuevas tecnologias","9-Identificacion de mercados","10-Plan de productividad"
+                ,"11-Creditos","12-Capitales reembolsables","13-Capitales no reembolsables",});
         return row;
     }
 
