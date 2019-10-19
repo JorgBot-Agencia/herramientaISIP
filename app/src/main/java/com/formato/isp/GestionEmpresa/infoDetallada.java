@@ -37,6 +37,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.MenuLateral.menuprincipal;
+import com.formato.isp.Pregunta;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
@@ -88,6 +89,7 @@ public class infoDetallada extends AppCompatActivity {
     private View back_drop;
     private ListView lvInfo;
     private int n;
+    public static List<Pregunta> acumuladorPreguntas;
     ArrayList<String> infoEmpresa;
     ArrayList<String> infoPersonal;
     RequestQueue queue;
@@ -104,7 +106,7 @@ public class infoDetallada extends AppCompatActivity {
         initComponent();
         cargarPref();
         datosempresa();
-
+        acumuladorPreguntas = new ArrayList<>();
         back_drop = findViewById(R.id.back_drop);
         final FloatingActionButton fab_mic = (FloatingActionButton) findViewById(R.id.fab_mic);
         final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);

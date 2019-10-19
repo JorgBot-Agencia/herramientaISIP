@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +38,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.formato.isp.R.color.colorLetraBlanco;
 
@@ -48,6 +51,7 @@ public class menuEncuesta extends AppCompatActivity {
     private AdapterListFolderFile mAdapter;
     ArrayList<String> listComponentes;
     private RequestQueue queue;
+    ProgressDialog p;
     List<FolderFile> items;
     public static List<Area> areasEncuestadas = new ArrayList<>();
 
@@ -65,8 +69,18 @@ public class menuEncuesta extends AppCompatActivity {
         listComponentes = new ArrayList();
         items = new ArrayList<>();
 
+        p = new ProgressDialog(this);
+        p.setMessage("Insertando datos de la encuesta");
+        p.setCancelable(false);
+
         initToolbar();
         loadingAndDisplayContent();
+    }
+
+    public void insertarDato(){
+        p.show();
+        Map params = new HashMap();
+        
     }
 
     private void initToolbar() {
@@ -136,7 +150,7 @@ public class menuEncuesta extends AppCompatActivity {
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
                     String valor = "Sin iniciar";
-                    if(buscar(jsonComp.getInt("area_id")) > 0){
+                    if(buscarAreaBoolean(jsonComp.getInt("area_id"))){
                         valor = "Realizada";
                     }
                     items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscar(jsonComp.getInt("area_id")), true));  // add section
@@ -172,7 +186,7 @@ public class menuEncuesta extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
-                if(!buscarArea(obj.id)){
+                if(!buscarAreaBoolean(obj.id)){
                     Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
                     abrirEncuesta.putExtra("areaId", obj.id);
                     startActivity(abrirEncuesta);
@@ -204,7 +218,7 @@ public class menuEncuesta extends AppCompatActivity {
     }
 
 
-    public static boolean buscarArea(int areaId){
+    public static boolean buscarAreaBoolean(int areaId){
         boolean saber = false;
 
         for (int i = 0; i < areasEncuestadas.size(); i++){
