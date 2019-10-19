@@ -138,6 +138,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         linearHombres.setVisibility(View.GONE);
         imagenHombre.setVisibility(View.GONE);
         cantidadHombresRespuesta.setVisibility(View.GONE);
+        linearMujeres.setVisibility(View.GONE);
         imagenMujer.setVisibility(View.GONE);
         cantidadMujeresRespuesta.setVisibility(View.GONE);
     }
@@ -146,6 +147,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         linearHombres.setVisibility(View.VISIBLE);
         imagenHombre.setVisibility(View.VISIBLE);
         cantidadHombresRespuesta.setVisibility(View.VISIBLE);
+        linearMujeres.setVisibility(View.VISIBLE);
         imagenMujer.setVisibility(View.VISIBLE);
         cantidadMujeresRespuesta.setVisibility(View.VISIBLE);
     }
@@ -315,7 +317,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             if (i == parametro) {
                 switch (listaPreguntas.get(i).getCriterio()) {
                     case 1:
-                        listaPreguntas.get(i).setRespuesta(cantidadHombresRespuesta.getText().toString()+"-"+cantidadMujeresRespuesta.getText().toString());
+                        listaPreguntas.get(i).setRespuesta(cantidadHombresRespuesta.getText().toString() + "-" + cantidadMujeresRespuesta.getText().toString());
                         cantidadMujeresRespuesta.setText("");
                         cantidadHombresRespuesta.setText("");
                         break;

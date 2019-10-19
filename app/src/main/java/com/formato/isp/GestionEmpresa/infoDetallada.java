@@ -91,6 +91,7 @@ public class infoDetallada extends AppCompatActivity implements Response.ErrorLi
     private View back_drop;
     private ListView lvInfo;
     private int n;
+    private int idEmpresa;
     public static List<Pregunta> acumuladorPreguntas;
     ArrayList<String> infoEmpresa;
     ArrayList<String> infoPersonal;
@@ -100,13 +101,16 @@ public class infoDetallada extends AppCompatActivity implements Response.ErrorLi
     JsonRequest req;
     JsonRequest request;
     String URI = resource.URLAPI +"/revision";
+    public static int idRevision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detallada);
+        menuEncuesta.areasEncuestadas.clear();
         Bundle bundle = getIntent().getExtras();
         dato=bundle.getString("name");
+        idEmpresa=Integer.parseInt(bundle.getString("idEmpresa"));
         initToolbar();
         initComponent();
         cargarPref();
@@ -194,16 +198,15 @@ public class infoDetallada extends AppCompatActivity implements Response.ErrorLi
 
     public void crearRevision(){
         Map params = new HashMap();
-        params.put("revi_descripcion", "Ninguna");
+        params.put("revi_descripcion", "Prueba Huver2");
         params.put("revi_fechainicio", "2019-10-19");
         params.put("revi_fechafinal", "2019-10-19");
         params.put("revi_prioridad", 1);
         params.put("revi_estado", 0);
-        params.put("empresa_empr_id", 1);
+        params.put("empresa_empr_id", idEmpresa);
         request = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
-        RequestQueue.add(request);
+        queue.add(request);
     }
-
 
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
@@ -257,16 +260,12 @@ public class infoDetallada extends AppCompatActivity implements Response.ErrorLi
     @Override
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(),"Revisión creada", Toast.LENGTH_SHORT).show();
-        int idRevision = 0;
         try {
             idRevision = response.getJSONObject("data").getInt("revi_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(),"ID: "+idRevision, Toast.LENGTH_SHORT).show();
-
         Intent abrirEncuesta = new Intent(getApplicationContext(), menuEncuesta.class);
-        abrirEncuesta.putExtra("idRevision", idRevision);
         startActivity(abrirEncuesta);
     }
     public static class PlaceholderFragment extends Fragment {

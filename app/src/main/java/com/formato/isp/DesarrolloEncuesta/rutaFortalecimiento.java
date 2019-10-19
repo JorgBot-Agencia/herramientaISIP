@@ -1,8 +1,10 @@
 package com.formato.isp.DesarrolloEncuesta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -10,6 +12,7 @@ import android.widget.ListView;
 
 import com.formato.isp.GestionEmpresa.ThreeLevelListAdapter;
 import com.formato.isp.R;
+import com.formato.isp.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,8 +63,23 @@ public class rutaFortalecimiento extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ruta_fortalecimiento);
+        initToolbar();
         setUpAdapter();
 
+    }
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_ruta);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Ruta de fortalecimiento");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Tools.setSystemBarColor(this, R.color.colorPrimary);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpAdapter() {

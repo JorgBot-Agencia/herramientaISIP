@@ -81,18 +81,15 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
         p.setMessage("Insertando datos de la encuesta");
         p.setCancelable(false);
 
-
-        numeroRevision = getIntent().getExtras().getInt("idRevision");
-
         initToolbar();
         loadingAndDisplayContent();
     }
 
     public void insertarDato() {
         p.show();
+        Map params = new HashMap();
         for (int i = 0; i < infoDetallada.acumuladorPreguntas.size(); i++) {
-            Map params = new HashMap();
-            params.put("revision_revi_id", numeroRevision);
+            params.put("revision_revi_id", infoDetallada.idRevision);
             params.put("indicador_indi_id", infoDetallada.acumuladorPreguntas.get(i).getIndicadorId());
             switch (infoDetallada.acumuladorPreguntas.get(i).getCriterio()) {
                 case 1:
@@ -123,6 +120,7 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
             }
             params.put("esca_valor", infoDetallada.acumuladorPreguntas.get(i).getValor());
             params.put("esca_observ", "ninguno");
+
             request = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
             requestQueue.add(request);
         }
