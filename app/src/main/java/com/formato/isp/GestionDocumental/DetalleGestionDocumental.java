@@ -39,6 +39,7 @@ import com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasViewModel;
 import com.formato.isp.PDF.TemplatePDF;
 import com.formato.isp.R;
 import com.formato.isp.model.Revision;
+import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
 import com.formato.isp.utils.ViewAnimation;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -163,10 +164,10 @@ public class DetalleGestionDocumental extends Fragment {
 
     public ArrayList<String[]>getResltEsp(){
         ArrayList<String[]>row= new ArrayList<>();
-        row.add(new String[]{"1.Técnica y productiva", "2.Financiera y administrativa","3.Cultura e innovacion",
-                "4.Imagen e identidad", "5.Presentacion producto","6.Sello de frontera de oportunidad"
-                ,"7.Politica de identificación de precios","8.Acceso a nuevas tecnologias","9.Identificacion de mercados","10.Plan de productividad"
-                ,"11.Creditos","12.Capitales reembolsables","13.Capitales no reembolsables",});
+        row.add(new String[]{"1-Técnica y productiva", "2-Financiera y administrativa","3-Cultura e innovacion",
+                "4-Imagen e identidad", "5-Presentacion producto","6-Sello de frontera de oportunidad"
+                ,"7-Politica de identificación de precios","8-Acceso a nuevas tecnologias","9-Identificacion de mercados","10-Plan de productividad"
+                ,"11-Creditos","12-Capitales reembolsables","13-Capitales no reembolsables",});
         return row;
     }
 
@@ -201,8 +202,7 @@ public class DetalleGestionDocumental extends Fragment {
     }
 
     public void consultar_revEmp(String id){
-        String url = "https://formatoisp-api.herokuapp.com/api/revision/?empr="+id;
-
+        String url = resource.URLAPI + "/revision/?empr="+id;
         JsonObjectRequest rs= new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {

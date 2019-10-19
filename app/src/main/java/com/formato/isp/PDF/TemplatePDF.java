@@ -47,49 +47,49 @@ public class TemplatePDF {
     private Document document;
     private PdfWriter pdfwriter;
     private Paragraph paragraph;// este es el parrafoo
-    private Font letratitulo=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.BOLD);
-    private Font letraroja=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.BOLD, BaseColor.RED);
-    private Font letrasubtitulo=new Font(Font.FontFamily.TIMES_ROMAN, 14,Font.BOLD);
-    private Font letrapequeña=new Font(Font.FontFamily.TIMES_ROMAN, 10,Font.NORMAL);
-    private Font letratexto=new Font(Font.FontFamily.TIMES_ROMAN, 12,Font.NORMAL);
-    private Font letratexto2=new Font(Font.FontFamily.TIMES_ROMAN, 20,Font.NORMAL);
-    private Font letraresaltado=new Font(Font.FontFamily.TIMES_ROMAN, 15,Font.BOLD, BaseColor.RED);
+    private Font letratitulo = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
+    private Font letraroja = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD, BaseColor.RED);
+    private Font letrasubtitulo = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
+    private Font letrapequeña = new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.NORMAL);
+    private Font letratexto = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
+    private Font letratexto2 = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.NORMAL);
+    private Font letraresaltado = new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD, BaseColor.RED);
 
     public TemplatePDF(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
-    private void crearFile(){
-        File folder = new File(Environment.getExternalStorageDirectory().toString(),"PDF");
-        if(!folder.exists())
+    private void crearFile() {
+        File folder = new File(Environment.getExternalStorageDirectory().toString(), "PDF");
+        if (!folder.exists())
             folder.mkdirs();
-            pdfFile = new File(folder, "TemplatePDF.pdf");
+        pdfFile = new File(folder, "TemplatePDF.pdf");
 
 
     }
 
-    public void OpenDocument(){
+    public void OpenDocument() {
         crearFile();
-        try{
+        try {
             document = new Document(PageSize.A4);
             pdfwriter = PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
             document.open();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("openDocument", e.toString());
         }
     }
 
-    public void closeDocument(){
+    public void closeDocument() {
         document.close();
     }
 
-    public void addMetadata(String titulo, String tema, String autor){
+    public void addMetadata(String titulo, String tema, String autor) {
         document.addTitle(titulo);
         document.addSubject(tema);
         document.addAuthor(autor);
     }
 
-    public void addTitulos(String titulo, String subtitulo, String fecha){
+    public void addTitulos(String titulo, String subtitulo, String fecha) {
         try {
 
 
@@ -99,12 +99,12 @@ public class TemplatePDF {
             addparafoHijocentrado(new Paragraph(fecha, letraresaltado));
             paragraph.setSpacingAfter(10);//espacio entre parrafo padre y parrafos hijos
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("addTutulos", e.toString());
         }
     }
 
-    public void addTitulosizq(String nombre, String ubicacion, String telefono, String correo){
+    public void addTitulosizq(String nombre, String ubicacion, String telefono, String correo) {
         try {
 
 
@@ -115,11 +115,12 @@ public class TemplatePDF {
             addparafoHijoizquierda(new Paragraph(correo, letrasubtitulo));
             paragraph.setSpacingAfter(0);//espacio entre parrafo padre y parrafos hijos
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("addTutulos", e.toString());
         }
     }
-    public void addletraroja(String nombre){
+
+    public void addletraroja(String nombre) {
         try {
 
 
@@ -127,34 +128,35 @@ public class TemplatePDF {
             addparafoHijoizquierda(new Paragraph(nombre, letraroja));
             paragraph.setSpacingAfter(5);//espacio entre parrafo padre y parrafos hijos
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("addTutulos", e.toString());
         }
     }
 
-    private void addparafoHijocentrado(Paragraph parafoHijo){
+    private void addparafoHijocentrado(Paragraph parafoHijo) {
         parafoHijo.setAlignment(Element.ALIGN_CENTER);
         paragraph.add(parafoHijo);
     }
 
-    private void addparafoHijoizquierda(Paragraph parafoHijo){
+    private void addparafoHijoizquierda(Paragraph parafoHijo) {
         parafoHijo.setAlignment(Element.ALIGN_LEFT);
         paragraph.add(parafoHijo);
     }
-    public void addparrafo(String text){
+
+    public void addparrafo(String text) {
         try {
 
             paragraph = new Paragraph(text, letratexto);
             paragraph.setSpacingAfter(5);
             paragraph.setSpacingBefore(5);
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("addparrafo", e.toString());
         }
     }
 
 
-    public void addtitulo(String text){
+    public void addtitulo(String text) {
         try {
 
 
@@ -162,11 +164,12 @@ public class TemplatePDF {
             paragraph.setSpacingAfter(5);
             paragraph.setSpacingBefore(5);
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("addparrafo", e.toString());
         }
     }
-    public void addtitulocentrado(String text){
+
+    public void addtitulocentrado(String text) {
         try {
 
 
@@ -175,14 +178,13 @@ public class TemplatePDF {
             paragraph.setSpacingAfter(5);
             paragraph.setSpacingBefore(5);
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("addparrafo", e.toString());
         }
     }
 
 
-
-    public void creartabla(String[]encabezado, ArrayList<String[]>clients){
+    public void creartabla(String[] encabezado, ArrayList<String[]> clients) {
         try {
 
             paragraph = new Paragraph();
@@ -209,13 +211,14 @@ public class TemplatePDF {
             }
             paragraph.add(pdfPTable);
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("creartabla", e.toString());
         }
 
 
     }
-    public void creartablapers(String[]encabezado, ArrayList<String[]>clients){
+
+    public void creartablapers(String[] encabezado, ArrayList<String[]> clients) {
         try {
 
             paragraph = new Paragraph();
@@ -229,16 +232,16 @@ public class TemplatePDF {
                 pdfPCell = new PdfPCell(new Phrase(encabezado[indexC], letrasubtitulo));
                 pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 pdfPCell.setBackgroundColor(BaseColor.GRAY);
-                if(indexC==0) {
+                if (indexC == 0) {
                     pdfPCell.setColspan(3);
                 }
-                if(indexC==1) {
+                if (indexC == 1) {
                     pdfPCell.setColspan(3);
                 }
-                if(indexC==2) {
+                if (indexC == 2) {
                     pdfPCell.setColspan(4);
                 }
-                if(indexC==3) {
+                if (indexC == 3) {
                     pdfPCell.setColspan(3);
                 }
                 pdfPTable.addCell(pdfPCell);
@@ -247,56 +250,65 @@ public class TemplatePDF {
             for (int indexrow = 0; indexrow < clients.size(); indexrow++) {
                 String[] row = clients.get(indexrow);
                 for (indexC = 0; indexC < 13; indexC++) {
-                    pdfPCell = new PdfPCell(new Phrase(row[indexC],letrapequeña));
+                    pdfPCell = new PdfPCell(new Phrase(row[indexC], letrapequeña));
                     pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     pdfPCell.setFixedHeight(48);
                     pdfPTable.addCell(pdfPCell);
                 }
             }
-            /*ArrayList<Area> areas= (ArrayList<Area>) menuEncuesta.areasEncuestadas;
-            int indexrow=0;
-            int aux=0;
-            Toast.makeText(context,String.valueOf(areas.size()),Toast.LENGTH_LONG).show();
-            while (indexrow < 13) {
-                if(indexrow<11){
+            ArrayList<Area> areas = (ArrayList<Area>) menuEncuesta.areasEncuestadas;
+            int aux = 0;
+            int c = 0;
+            int c2 = 0;
+            String[] row = clients.get(0);
 
-                    String[] row = clients.get(indexrow);
-                    while(aux<areas.size()){
-                        String[] dato = row[indexrow].split(".");
-                        if(dato[0].equals(areas.get(aux).getAreaId())){
-                            pdfPCell = new PdfPCell(new Phrase(String.valueOf(areas.get(aux).getPromedioEscala()),letrapequeña));
+            for (int cont = 0; cont < row.length; cont++) {
+                String[] dato = row[cont].split("-", 2);
+                int datoentero = Integer.parseInt(dato[0]);
+                aux = 0;
+                c2 = 0;
+                if (datoentero >= 4 && datoentero<11) {
+                    datoentero = datoentero + 1;
+                }
+                while (aux < areas.size()) {
+                    if (areas.get(aux).getAreaId() != 4) {
+                        if (datoentero == areas.get(aux).getAreaId()) {
+                            pdfPCell = new PdfPCell(new Phrase(String.valueOf(areas.get(aux).getPromedioEscala()), letrapequeña));
                             pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                             pdfPCell.setFixedHeight(48);
                             pdfPTable.addCell(pdfPCell);
-                        }else{
-                            pdfPCell = new PdfPCell(new Phrase("0%",letrapequeña));
-                            pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            pdfPCell.setFixedHeight(48);
-                            pdfPTable.addCell(pdfPCell);
+                            c++;
+                            aux = areas.size() + 2;
+                        } else {
+                            c2++;
+                            aux++;
                         }
+                    } else {
+                        c2++;
                         aux++;
                     }
-
-
-                }else{
-                    pdfPCell = new PdfPCell(new Phrase("0%",letrapequeña));
-                    pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    pdfPCell.setFixedHeight(48);
-                    pdfPTable.addCell(pdfPCell);
+                    if (c2 == areas.size()) {
+                        pdfPCell = new PdfPCell(new Phrase("0%", letrapequeña));
+                        pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        pdfPCell.setFixedHeight(48);
+                        pdfPTable.addCell(pdfPCell);
+                    }
 
                 }
-            }*/
+
+            }
+
 
             paragraph.add(pdfPTable);
             document.add(paragraph);
-        }catch (Exception e){
-            Log.e("creartabla", e.toString());
+        } catch (Exception e) {
+            Log.e("creartablapers", e.toString());
         }
 
 
     }
 
-    public void creartablaimagencentra(Bitmap bitmap,String name,String opc){
+    public void creartablaimagencentra(Bitmap bitmap, String name, String opc) {
         try {
             paragraph = new Paragraph();
             paragraph.setSpacingBefore(0);
@@ -304,10 +316,10 @@ public class TemplatePDF {
             paragraph.setFont(letratexto);
             Image image = null;
             SaveImage(bitmap, name);
-            image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name+".png");
-            if(opc.equals("encabezado")){
-            image.scaleAbsolute(320f, 80f);
-            }else{
+            image = Image.getInstance(Environment.getExternalStorageDirectory().toString() + "/recursosisp/" + name + ".png");
+            if (opc.equals("encabezado")) {
+                image.scaleAbsolute(320f, 80f);
+            } else {
                 image.scaleAbsolute(80f, 80f);
             }
             PdfPTable pdfPTable = new PdfPTable(1);
@@ -324,20 +336,20 @@ public class TemplatePDF {
 
             paragraph.add(pdfPTable);
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("creartabla", e.toString());
         }
 
 
     }
 
-    public void creartablaimagenGRAFICA(Bitmap bitmap,String name){
+    public void creartablaimagenGRAFICA(Bitmap bitmap, String name) {
         try {
 
             paragraph = new Paragraph();
             Image image = null;
             SaveImage(bitmap, name);
-            image = Image.getInstance(Environment.getExternalStorageDirectory().toString()+"/recursosisp/"+name+".png");
+            image = Image.getInstance(Environment.getExternalStorageDirectory().toString() + "/recursosisp/" + name + ".png");
             PdfPTable pdfPTable = new PdfPTable(1);
             image.scaleAbsolute(380f, 720f);
             PdfPCell cell = new PdfPCell(image);
@@ -348,22 +360,22 @@ public class TemplatePDF {
             pdfPTable.addCell(cell);
             paragraph.add(pdfPTable);
             document.add(paragraph);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("creartabla", e.toString());
         }
 
 
     }
 
-    public void viewmPDF(){
-        Intent intent= new Intent(context,viewPDF.class);
-        intent.putExtra("path",pdfFile.getAbsolutePath());
+    public void viewmPDF() {
+        Intent intent = new Intent(context, viewPDF.class);
+        intent.putExtra("path", pdfFile.getAbsolutePath());
         intent.addFlags((Intent.FLAG_ACTIVITY_CLEAR_TASK));
         context.startActivity(intent);
 
     }
 
-    public void SaveImage( Bitmap ImageToSave, String name) {
+    public void SaveImage(Bitmap ImageToSave, String name) {
 
 
         String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recursosisp";
@@ -384,19 +396,17 @@ public class TemplatePDF {
             fOut.close();
             MakeSureFileWasCreatedThenMakeAvabile(file);
             AbleToSave();
-        }
-
-        catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             UnableToSave();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             UnableToSave();
         }
 
     }
-    private void MakeSureFileWasCreatedThenMakeAvabile(File file){
+
+    private void MakeSureFileWasCreatedThenMakeAvabile(File file) {
         MediaScannerConnection.scanFile(context,
-                new String[] { file.toString() } , null,
+                new String[]{file.toString()}, null,
                 new MediaScannerConnection.OnScanCompletedListener() {
 
                     public void onScanCompleted(String path, Uri uri) {

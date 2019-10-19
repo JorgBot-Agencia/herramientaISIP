@@ -4,116 +4,107 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.formato.isp.GestionEmpresa.CustomExpandableListAdapter;
-import com.formato.isp.GestionEmpresa.ExpandableListDataPump;
+import com.formato.isp.GestionEmpresa.ThreeLevelListAdapter;
 import com.formato.isp.R;
-import com.google.common.collect.ArrayListMultimap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public class rutaFortalecimiento extends AppCompatActivity {
+public class rutaFortalecimiento extends AppCompatActivity  {
 
-    ListView lrutas;
-    ArrayList<String> rutas;
+    private ExpandableListView expandableListView;
 
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    String[] parent = new String[]{"CAPACITACIÓN", "GESTIÓN DE MERCADOS", "CONSTRUCCIÓN DE MARCA", "ACCESO A CAPITAL"};
+    String[] q1 = new String[]{"Técnica y Productiva", "Financiera y Administrativa", "Cultura e Innovación"};
+    String[] q2 = new String[]{"Plan de Productividad", "Identificación de Mercados", "Acceso a Nuevas Tecnologías", "Política de Identificación de Precios"};
+    String[] q3 = new String[]{"Imagen e Identidad", "Presentación de Producto", "Sello Frontera de Oportunidades"};
+    String[] q4 = new String[]{"Créditos", "Capitales Reembolsables", "Capitales No Reembolsables"};
+    String[] des1 = new String[]{"Servicio Nacional de Aprendizaje - SENA", "Universidad Francisco de Paula Santander - UFPS", "Deutsche Gesellschaft für Internationale Zusammenarbeit - GIZ"};
+    String[] des2 = new String[]{"Servicio Nacional de Aprendizaje - SENA", "Universidad Francisco de Paula Santander - UFPS", "Universidad Simón Bolivar - UNISIM", "Federación Nacional de Comerciantes - FENALCO"};
+    String[] des3 = new String[]{"Universidad Simón Bolivar - UNISIM","Universidad Libre - UNILIBR","Ministerio de Tecnologías de la Información y Comunicaciones - MINTIC" , "Deutsche Gesellschaft für Internationale Zusammenarbeit - GIZ", "Federación Nacional de Comerciantes - FENALCO"};
+    String[] des4 = new String[]{"Servicio Nacional de Aprendizaje - SENA", "Universidad Francisco de Paula Santander - UFPS", "Universidad Simón Bolivar - UNISIM","Universidad Libre - UNILIBR", "Federación Nacional de Comerciantes - FENALCO"};
+    String[] des5 = new String[]{"Universidad Simón Bolivar - UNISIM","Federación Nacional de Comerciantes - FENALCO", "Asociación Nacional de Empresarios de Colombia - ANDI"};
+    String[] des6 = new String[]{"Ministerio de Tecnologías de la Información y Comunicaciones - MINTIC" ,"Asociación Nacional de Empresarios de Colombia - ANDI"};
+    String[] des7 = new String[]{"Deutsche Gesellschaft für Internationale Zusammenarbeit - GIZ", "Programa de las Naciones Unidas para el Desarrollo - PNUD"};
+    String[] des8 = new String[]{"Procolombia - PROCOL", "Universidad Simón Bolivar - UNISIM"};
+    String[] des9 = new String[]{"Procolombia - PROCOL"};
+    String[] des10 = new String[]{"Programa de las Naciones Unidas para el Desarrollo - PNUD"};
+    String[] des11 = new String[]{"INPUL", "BANCA PR"};
+    String[] des12 = new String[]{"Universidad Libre - UNILIBR", "Ministerio de Tecnologías de la Información y Comunicaciones - MINTIC", "INPUL", "BANCA PR"};
+    String[] des13 = new String[]{"Deutsche Gesellschaft für Internationale Zusammenarbeit - GIZ","World Vision - World V", "Programa de las Naciones Unidas para el Desarrollo - PNUD", "Organización Internacional Para las Migraciones - OIM", "Universidad Libre - UNILIBR"};
+
+    LinkedHashMap<String, String[]> thirdLevelq1 = new LinkedHashMap<>();
+    LinkedHashMap<String, String[]> thirdLevelq2 = new LinkedHashMap<>();
+    LinkedHashMap<String, String[]> thirdLevelq3 = new LinkedHashMap<>();
+    LinkedHashMap<String, String[]> thirdLevelq4 = new LinkedHashMap<>();
+    /**
+     * Second level array list
+     */
+    List<String[]> secondLevel = new ArrayList<>();
+    /**
+     * Inner level data
+     */
+    List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
+
+
+
+    ///////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ruta_fortalecimiento);
-        rutas = new ArrayList<>();
-        //llenarRutas();
-        //ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, rutas);
-        //lrutas = (ListView) findViewById(R.id.listRuta);
-        //lrutas.setAdapter(adapter);
+        setUpAdapter();
 
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
+    }
+
+    private void setUpAdapter() {
+        secondLevel.add(q1);
+        secondLevel.add(q2);
+        secondLevel.add(q3);
+        secondLevel.add(q4);
+        thirdLevelq1.put(q1[0], des1);
+        thirdLevelq1.put(q1[1], des2);
+        thirdLevelq1.put(q1[2], des3);
+        thirdLevelq2.put(q2[0], des4);
+        thirdLevelq2.put(q2[1], des5);
+        thirdLevelq2.put(q2[2], des6);
+        thirdLevelq2.put(q2[3], des7);
+        thirdLevelq3.put(q3[0], des8);
+        thirdLevelq3.put(q3[1], des9);
+        thirdLevelq3.put(q3[2], des10);
+        thirdLevelq4.put(q4[0], des11);
+        thirdLevelq4.put(q4[1], des12);
+        thirdLevelq4.put(q4[2], des13);
+
+        data.add(thirdLevelq1);
+        data.add(thirdLevelq2);
+        data.add(thirdLevelq3);
+        data.add(thirdLevelq4);
+        expandableListView = (ExpandableListView) findViewById(R.id.expandible_listview);
+        //passing three level of information to constructor
+        ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
+        expandableListView.setAdapter(threeLevelListAdapterAdapter);
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
+                if (groupPosition != previousGroup)
+                    expandableListView.collapseGroup(previousGroup);
+                previousGroup = groupPosition;
             }
         });
 
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        expandableListTitle.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        expandableListTitle.get(groupPosition)
-                                + " -> "
-                                + expandableListDetail.get(
-                                expandableListTitle.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
-                return false;
-            }
-        });
     }
 
-    public void llenarRutas(){
-        rutas.add("EDUCACIÓN");
-        rutas.add(" - Servicio Nacional de Aprendizaje - SENA");
-        rutas.add(" - Universidad Francisco de Paula Santander");
-        rutas.add(" - Universidad Simón Bolívar");
-        rutas.add(" - Universidad Libre");
-        rutas.add(" - Universidad de Pamplona");
-        rutas.add(" - Fundación de Estudios Superiores Confanorte");
-        rutas.add(" ");
-        rutas.add("PRIVADO");
-        rutas.add(" - Asociación Nacional de Aprendizaje de Empresarios de Colombia - ANDI");
-        rutas.add(" - Comisión Regional de Competitividad de Norte de Santander - CRCNS");
-        rutas.add(" - Cámara de Comercio");
-        rutas.add(" ");
-        rutas.add("PÚBLICO");
-        rutas.add(" - Colombia Nos Une");
-        rutas.add(" - PROCOLOMBIA");
-        rutas.add(" - Secretaría de Frontera");
-        rutas.add(" - Secretaría de Desarrollo Social");
-        rutas.add(" - Alcaldía de Villa del Rosario");
-        rutas.add(" - Centro Integrado de Servicios- MICITIo");
-        rutas.add(" - Migración Colombia ");
-        rutas.add("");
-        rutas.add("CORPORACIÓN INTERNACIONAL");
-        rutas.add(" - Organización Internacional Para las Migraciones - OIM");
-        rutas.add(" - Agencia de los Estados Unidos para el Desarrollo Internacional - USAID");
-        rutas.add(" - Agricultural Cooperative Development International Volunteers in Overseas Cooperative Assistance - ACDI VOCA");
-        rutas.add(" - World Vision");
-        rutas.add(" - Deutsche Gesellschaft für Internationale Zusammenarbeit - GIZ ");
-        rutas.add(" - Consejo Noruego para Refugiados - NRC");
-        rutas.add(" - Programa de las Naciones Unidas para el Desarrollo -PNUD");
-    }
 }
 
 
