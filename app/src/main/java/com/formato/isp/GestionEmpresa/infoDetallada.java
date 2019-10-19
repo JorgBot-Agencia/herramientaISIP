@@ -63,9 +63,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class infoDetallada extends AppCompatActivity {
+public class infoDetallada extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
     public static String dato;
     private Button btnIniciar;
     private Button btnRegistroPersona;
@@ -93,8 +95,11 @@ public class infoDetallada extends AppCompatActivity {
     ArrayList<String> infoEmpresa;
     ArrayList<String> infoPersonal;
     RequestQueue queue;
+    RequestQueue RequestQueue;
     String url;
     JsonRequest req;
+    JsonRequest request;
+    String URI = resource.URLAPI +"/revision";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,12 +143,12 @@ public class infoDetallada extends AppCompatActivity {
         });
 
         queue = Volley.newRequestQueue(this);
+        RequestQueue = Volley.newRequestQueue(this);
         btnIniciar = findViewById(R.id.btn_start);
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abrirEncuesta = new Intent(view.getContext(), menuEncuesta.class);
-                startActivity(abrirEncuesta);
+                crearRevision();
             }
         });
         btnRegistroPersona = (Button)findViewById(R.id.registro_persona);
@@ -186,6 +191,20 @@ public class infoDetallada extends AppCompatActivity {
             }
         });
     }
+
+    public void crearRevision(){
+        Map params = new HashMap();
+        params.put("revi_descripcion", "Ninguna");
+        params.put("revi_fechainicio", "2019-10-19");
+        params.put("revi_fechafinal", "2019-10-19");
+        params.put("revi_prioridad", 1);
+        params.put("revi_estado", 0);
+        params.put("empresa_empr_id", 1);
+        request = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
+        RequestQueue.add(request);
+    }
+
+
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
         if (rotate) {
@@ -227,7 +246,29 @@ public class infoDetallada extends AppCompatActivity {
         adapter.addFragment(PlaceholderFragment.newInstance(2), "Personal");
         viewPager.setAdapter(adapter);
     }
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        if (error instanceof NetworkError) {
+            Toast.makeText(getApplicationContext(),"Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Error al crear la revisión", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onResponse(JSONObject response) {
+        Toast.makeText(getApplicationContext(),"Revisión creada", Toast.LENGTH_SHORT).show();
+        int idRevision = 0;
+        try {
+            idRevision = response.getJSONObject("data").getInt("revi_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(),"ID: "+idRevision, Toast.LENGTH_SHORT).show();
 
+        Intent abrirEncuesta = new Intent(getApplicationContext(), menuEncuesta.class);
+        abrirEncuesta.putExtra("idRevision", idRevision);
+        startActivity(abrirEncuesta);
+    }
     public static class PlaceholderFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 

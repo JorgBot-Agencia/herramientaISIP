@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.MenuLateral.menuprincipal;
 import com.formato.isp.R;
+import com.formato.isp.noItemInternetIcon;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
 import com.formato.isp.utils.ViewAnimation;
@@ -173,7 +174,8 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error instanceof NetworkError) {
-            Toast.makeText(this, "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+            Intent noInternet = new Intent(getApplicationContext(), noItemInternetIcon.class);
+            startActivity(noInternet);
         } else {
             Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }

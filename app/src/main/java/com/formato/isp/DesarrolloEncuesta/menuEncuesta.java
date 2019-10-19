@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,7 +26,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.Clases.Area;
+import com.formato.isp.GestionEmpresa.infoDetallada;
 import com.formato.isp.R;
+import com.formato.isp.resource;
 import com.formato.isp.utils.AdapterListFolderFile;
 import com.formato.isp.utils.FolderFile;
 import com.formato.isp.utils.ItemAnimation;
@@ -44,7 +47,7 @@ import java.util.Map;
 
 import static com.formato.isp.R.color.colorLetraBlanco;
 
-public class menuEncuesta extends AppCompatActivity {
+public class menuEncuesta extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
 
     private View parent_view;
     private RecyclerView recyclerView;
@@ -52,8 +55,12 @@ public class menuEncuesta extends AppCompatActivity {
     ArrayList<String> listComponentes;
     private RequestQueue queue;
     ProgressDialog p;
+    private int numeroRevision;
     List<FolderFile> items;
     public static List<Area> areasEncuestadas = new ArrayList<>();
+    String URI = resource.URLAPI + "/dato";
+    RequestQueue requestQueue;
+    JsonObjectRequest request;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
@@ -66,6 +73,7 @@ public class menuEncuesta extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         queue = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
         listComponentes = new ArrayList();
         items = new ArrayList<>();
 
@@ -73,14 +81,51 @@ public class menuEncuesta extends AppCompatActivity {
         p.setMessage("Insertando datos de la encuesta");
         p.setCancelable(false);
 
+
+        numeroRevision = getIntent().getExtras().getInt("idRevision");
+
         initToolbar();
         loadingAndDisplayContent();
     }
 
-    public void insertarDato(){
+    public void insertarDato() {
         p.show();
-        Map params = new HashMap();
-        
+        for (int i = 0; i < infoDetallada.acumuladorPreguntas.size(); i++) {
+            Map params = new HashMap();
+            params.put("revision_revi_id", numeroRevision);
+            params.put("indicador_indi_id", infoDetallada.acumuladorPreguntas.get(i).getIndicadorId());
+            switch (infoDetallada.acumuladorPreguntas.get(i).getCriterio()) {
+                case 1:
+                    String valores[] = infoDetallada.acumuladorPreguntas.get(i).getRespuesta().split("-");
+                    params.put("dato_hombres", valores[0]);
+                    params.put("dato_mujeres", valores[1]);
+                    params.put("dato_otro", 0);
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    params.put("dato_hombres", 0);
+                    params.put("dato_mujeres", 0);
+                    params.put("dato_otro", infoDetallada.acumuladorPreguntas.get(i).getRespuesta());
+            }
+            params.put("dato_puntaje", 30);
+            params.put("dato_observ", "NADA");
+
+            if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 26){
+                params.put("tipo_escala_ties_id", 1);
+            }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 51){
+                params.put("tipo_escala_ties_id", 2);
+            }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 76){
+                params.put("tipo_escala_ties_id", 3);
+            }else{
+                params.put("tipo_escala_ties_id", 4);
+            }
+            params.put("esca_valor", infoDetallada.acumuladorPreguntas.get(i).getValor());
+            params.put("esca_observ", "ninguno");
+            request = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
+            requestQueue.add(request);
+        }
     }
 
     private void initToolbar() {
@@ -123,7 +168,7 @@ public class menuEncuesta extends AppCompatActivity {
                         JSONObject jsonObj = jsonArr.getJSONObject(i).getJSONObject("componente");
                         if (jsonObj.getInt("comp_id") != numeroComponente) {
                             numeroComponente = jsonObj.getInt("comp_id");
-                            listComponentes.add(numeroComponente+"-"+jsonObj.getString("comp_nombre"));
+                            listComponentes.add(numeroComponente + "-" + jsonObj.getString("comp_nombre"));
                         }
                     }
                     obtenerArea(listComponentes, jsonArr);
@@ -150,22 +195,22 @@ public class menuEncuesta extends AppCompatActivity {
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
                     String valor = "Sin iniciar";
-                    if(buscarAreaBoolean(jsonComp.getInt("area_id"))){
+                    if (buscarAreaBoolean(jsonComp.getInt("area_id"))) {
                         valor = "Realizada";
                     }
-                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscar(jsonComp.getInt("area_id")), true));  // add section
+                    items.add(new FolderFile(jsonComp.getInt("area_id"), jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscar(jsonComp.getInt("area_id")), true));  // add section
                 }
             }
         }
         initComponent();
     }
 
-    public int buscar(int areaId){
+    public int buscar(int areaId) {
         int retorno = 0;
         int valor = 0;
         float promedio = 0;
-        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++){
-            if(menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
+        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++) {
+            if (menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId) {
                 valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
                 retorno = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
                 promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
@@ -174,6 +219,7 @@ public class menuEncuesta extends AppCompatActivity {
         }
         return retorno;
     }
+
     private void initComponent() {
 
         recyclerView.setVisibility(View.VISIBLE);
@@ -186,18 +232,19 @@ public class menuEncuesta extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterListFolderFile.OnItemClickListener() {
             @Override
             public void onItemClick(View view, FolderFile obj, int position) {
-                if(!buscarAreaBoolean(obj.id)){
+                if (!buscarAreaBoolean(obj.id)) {
                     Intent abrirEncuesta = new Intent(view.getContext(), preguntasEncuesta.class);
                     abrirEncuesta.putExtra("areaId", obj.id);
                     startActivity(abrirEncuesta);
-                }else{
+                } else {
                     Toast.makeText(view.getContext(), "Ésta área ya fue evaluada", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         crearBoton();
     }
-    public void crearBoton(){
+
+    public void crearBoton() {
         LinearLayout layout = findViewById(R.id.botonFinalizar_lyt);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Button but = new Button(this);
@@ -210,22 +257,38 @@ public class menuEncuesta extends AppCompatActivity {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent abrirCargando = new Intent(v.getContext(), cargando.class);
-                startActivity(abrirCargando);
+                insertarDato();
             }
         });
         layout.addView(but);
     }
 
 
-    public static boolean buscarAreaBoolean(int areaId){
+    public static boolean buscarAreaBoolean(int areaId) {
         boolean saber = false;
 
-        for (int i = 0; i < areasEncuestadas.size(); i++){
-            if(areasEncuestadas.get(i).getAreaId() == areaId){
+        for (int i = 0; i < areasEncuestadas.size(); i++) {
+            if (areasEncuestadas.get(i).getAreaId() == areaId) {
                 saber = true;
             }
         }
         return saber;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        p.hide();
+        if (error instanceof NetworkError) {
+            Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        p.hide();
+        Intent intent = new Intent(getApplicationContext(), cargando.class);
+        startActivity(intent);
     }
 }

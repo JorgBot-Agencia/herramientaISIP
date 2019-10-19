@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -34,12 +35,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.anychart.core.axes.Linear;
 import com.formato.isp.Clases.Area;
 import com.formato.isp.GestionEmpresa.infoDetallada;
 import com.formato.isp.Pregunta;
 import com.formato.isp.R;
 import com.formato.isp.utils.*;
 import com.google.android.material.textfield.TextInputEditText;
+import com.itextpdf.text.pdf.parser.Line;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,6 +69,25 @@ public class preguntasEncuesta extends AppCompatActivity {
     public int numeroArea;
     public static List<Pregunta> listaPreguntas;
     public static float valor = 0;
+    public static String checked = "";
+
+    //Respuestas
+
+    private TextView cantidadPorcentajeRespuesta;
+    private SeekBar porcentajeSeekBar;
+    private EditText cantidadDineroRespuesta;
+    private ImageButton imagenDinero;
+    private EditText cantidadNumeroRespuesta;
+    private ImageButton imagenCantidad;
+    private EditText cantidadHombresRespuesta;
+    private LinearLayout linearHombres;
+    private LinearLayout linearMujeres;
+    private LinearLayout linearCantidad;
+    private LinearLayout linearDinero;
+    private LinearLayout linearPorcentaje;
+    private ImageButton imagenHombre;
+    private ImageButton imagenMujer;
+    private EditText cantidadMujeresRespuesta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +102,88 @@ public class preguntasEncuesta extends AppCompatActivity {
         progressBar = findViewById(R.id.progress);
         txtAdicional = findViewById(R.id.txtAdicional);
 
+        //Respuestas
+        linearHombres = (LinearLayout) findViewById(R.id.layout_hombre);
+        imagenHombre = (ImageButton) findViewById(R.id.imagen_hombre);
+        cantidadHombresRespuesta = (EditText) findViewById(R.id.cantidadHombresRespuesta);
+        imagenMujer = (ImageButton) findViewById(R.id.imagen_mujer);
+        linearMujeres = (LinearLayout) findViewById(R.id.layout_mujer);
+        cantidadMujeresRespuesta = (EditText) findViewById(R.id.cantidadMujeresRespuesta);
+        ocultarCamposHM();
+
+        cantidadPorcentajeRespuesta = (TextView) findViewById(R.id.cantidadPorcentajeRespuesta);
+        linearPorcentaje = (LinearLayout) findViewById(R.id.layout_porcentaje);
+        porcentajeSeekBar = (SeekBar) findViewById(R.id.seekbar);
+        ocultarCamposPorcentaje();
+
+        cantidadDineroRespuesta = (EditText) findViewById(R.id.cantidadDineroRespuesta);
+        linearDinero = (LinearLayout) findViewById(R.id.layout_dinero);
+        imagenDinero = (ImageButton) findViewById(R.id.imagen_dinero);
+        ocultarCamposDinero();
+
+        cantidadNumeroRespuesta = (EditText) findViewById(R.id.cantidadNumeroRespuesta);
+        linearCantidad = (LinearLayout) findViewById(R.id.layout_cantidad);
+        imagenCantidad = (ImageButton) findViewById(R.id.imagen_cantidad);
+        ocultarCamposCantidad();
+        //
+
         queue = Volley.newRequestQueue(this);
         numeroArea = getIntent().getExtras().getInt("areaId");
         listaPreguntas = new ArrayList<>();
         areaProceso = new Area(numeroArea, 0, 0, 0);
         obtenerPreguntas();
+    }
+
+    private void ocultarCamposHM() {
+        linearHombres.setVisibility(View.GONE);
+        imagenHombre.setVisibility(View.GONE);
+        cantidadHombresRespuesta.setVisibility(View.GONE);
+        imagenMujer.setVisibility(View.GONE);
+        cantidadMujeresRespuesta.setVisibility(View.GONE);
+    }
+
+    private void habilitarCamposHM() {
+        linearHombres.setVisibility(View.VISIBLE);
+        imagenHombre.setVisibility(View.VISIBLE);
+        cantidadHombresRespuesta.setVisibility(View.VISIBLE);
+        imagenMujer.setVisibility(View.VISIBLE);
+        cantidadMujeresRespuesta.setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarCamposPorcentaje() {
+        linearPorcentaje.setVisibility(View.GONE);
+        cantidadPorcentajeRespuesta.setVisibility(View.GONE);
+        porcentajeSeekBar.setVisibility(View.GONE);
+    }
+
+    private void habilitarCamposPorcentaje() {
+        linearPorcentaje.setVisibility(View.VISIBLE);
+        cantidadPorcentajeRespuesta.setVisibility(View.VISIBLE);
+        porcentajeSeekBar.setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarCamposDinero() {
+        linearDinero.setVisibility(View.GONE);
+        cantidadDineroRespuesta.setVisibility(View.GONE);
+        imagenDinero.setVisibility(View.GONE);
+    }
+
+    private void habilitarCamposDinero() {
+        linearDinero.setVisibility(View.VISIBLE);
+        cantidadDineroRespuesta.setVisibility(View.VISIBLE);
+        imagenDinero.setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarCamposCantidad() {
+        linearCantidad.setVisibility(View.GONE);
+        cantidadNumeroRespuesta.setVisibility(View.GONE);
+        imagenCantidad.setVisibility(View.GONE);
+    }
+
+    private void habilitarCamposCantidad() {
+        linearCantidad.setVisibility(View.VISIBLE);
+        cantidadNumeroRespuesta.setVisibility(View.VISIBLE);
+        imagenCantidad.setVisibility(View.VISIBLE);
     }
 
     private void obtenerPreguntas() {
@@ -100,7 +199,7 @@ public class preguntasEncuesta extends AppCompatActivity {
                         for (int j = 0; j < jsonCriterio.length(); j++) {
                             JSONObject jsonIndicador = jsonCriterio.getJSONObject(j);
                             JSONObject jsonPreguntum = jsonIndicador.getJSONObject("preguntum");
-                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonObject.getInt("crit_id"), numeroArea, 0));
+                            listaPreguntas.add(new Pregunta(jsonPreguntum.getInt("preg_id"), jsonPreguntum.getString("preg_contenido"), jsonPreguntum.getString("preg_descrip"), jsonIndicador.getInt("indi_id"), jsonIndicador.getString("indi_contenido"), jsonObject.getInt("crit_id"), numeroArea, 0, ""));
                         }
                     }
                     MAX_STEP = listaPreguntas.size();
@@ -211,6 +310,36 @@ public class preguntasEncuesta extends AppCompatActivity {
         });
     }
 
+    private void enviarRespuesta(int parametro) {
+        for (int i = 0; i < listaPreguntas.size(); i++) {
+            if (i == parametro) {
+                switch (listaPreguntas.get(i).getCriterio()) {
+                    case 1:
+                        listaPreguntas.get(i).setRespuesta(cantidadHombresRespuesta.getText().toString()+"-"+cantidadMujeresRespuesta.getText().toString());
+                        cantidadMujeresRespuesta.setText("");
+                        cantidadHombresRespuesta.setText("");
+                        break;
+                    case 2:
+                        listaPreguntas.get(i).setRespuesta(cantidadPorcentajeRespuesta.getText().toString());
+                        cantidadPorcentajeRespuesta.setText("0");
+                        porcentajeSeekBar.setProgress(0);
+                        break;
+                    case 3:
+                        listaPreguntas.get(i).setRespuesta(cantidadDineroRespuesta.getText().toString());
+                        cantidadDineroRespuesta.setText("");
+                        break;
+                    case 4:
+                        listaPreguntas.get(i).setRespuesta(checked);
+                        break;
+                    case 5:
+                        listaPreguntas.get(i).setRespuesta(cantidadNumeroRespuesta.getText().toString());
+                        cantidadNumeroRespuesta.setText("");
+                        break;
+                }
+            }
+        }
+    }
+
     private void nextStep(int progress) {
         txtAdicional.setText("");
         indicadorContenido.setText("Indicador de la pregunta");
@@ -232,6 +361,7 @@ public class preguntasEncuesta extends AppCompatActivity {
 
             if (progress > 0) {
                 asignarValor(valor, progress - 1);
+                enviarRespuesta(progress - 1);
                 if (!marcarGrupo) {
                     Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
                 }
@@ -350,50 +480,20 @@ public class preguntasEncuesta extends AppCompatActivity {
 
         switch (criterio) {
             case 1:
-                TextView hombresView = new TextView(getApplicationContext());
-                hombresView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                hombresView.setText("Digite la cantidad de hombres");
-                layout.addView(hombresView);
-
-                EditText cantidadHombres = new EditText(getApplicationContext());
-                cantidadHombres.setGravity(Gravity.CENTER);
-                cantidadHombres.setTextColor(Color.WHITE);
-                cantidadHombres.setWidth(20);
-                cantidadHombres.setHeight(120);
-                cantidadHombres.setInputType(InputType.TYPE_CLASS_NUMBER);
-                layout.addView(cantidadHombres);
-
-                TextView mujeresView = new TextView(getApplicationContext());
-                mujeresView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                mujeresView.setText("Digite la cantidad de mujeres");
-                layout.addView(mujeresView);
-
-                EditText cantidadMujeres = new EditText(getApplicationContext());
-                cantidadMujeres.setGravity(Gravity.CENTER);
-                cantidadMujeres.setTextColor(Color.WHITE);
-                cantidadMujeres.setWidth(20);
-                cantidadMujeres.setHeight(120);
-                cantidadMujeres.setInputType(InputType.TYPE_CLASS_NUMBER);
-                layout.addView(cantidadMujeres);
+                ocultarCamposPorcentaje();
+                ocultarCamposCantidad();
+                ocultarCamposDinero();
+                habilitarCamposHM();
                 break;
             case 2:
-                TextView porcentajeView = new TextView(getApplicationContext());
-                porcentajeView.setText("Seleccione el porcentaje");
-                porcentajeView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                layout.addView(porcentajeView);
-
-                final TextView cantidadPorcentajeView = new TextView(getApplicationContext());
-                cantidadPorcentajeView.setGravity(Gravity.CENTER);
-                layout.addView(cantidadPorcentajeView);
-
-                AppCompatSeekBar porcentajeSeekBar = new AppCompatSeekBar(this);
-                porcentajeSeekBar.setThumb(getDrawable(R.drawable.seek_thumb_accent_outline));
-                porcentajeSeekBar.setMax(100);
-                porcentajeSeekBar.setProgress(1);
+                habilitarCamposPorcentaje();
+                ocultarCamposCantidad();
+                ocultarCamposDinero();
+                ocultarCamposHM();
                 porcentajeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        cantidadPorcentajeView.setText("" + progress);
+                        cantidadPorcentajeRespuesta.setText("" + progress);
                     }
 
                     @Override
@@ -406,24 +506,19 @@ public class preguntasEncuesta extends AppCompatActivity {
 
                     }
                 });
-                layout.addView(porcentajeSeekBar);
                 break;
             case 3:
-                TextView dineroView = new TextView(getApplicationContext());
-                dineroView.setText("Ingrese la cantidad de dinero");
-                dineroView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                layout.addView(dineroView);
-
-                EditText cantidadDinero = new EditText(getApplicationContext());
-                cantidadDinero.setGravity(Gravity.CENTER);
-                cantidadDinero.setTextColor(Color.WHITE);
-                cantidadDinero.setWidth(20);
-                cantidadDinero.setHeight(120);
-                cantidadDinero.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-                layout.addView(cantidadDinero);
+                ocultarCamposPorcentaje();
+                ocultarCamposHM();
+                ocultarCamposCantidad();
+                habilitarCamposDinero();
                 break;
             case 4:
+                ocultarCamposCantidad();
+                ocultarCamposDinero();
+                ocultarCamposPorcentaje();
+                ocultarCamposHM();
+
                 TextView radioView = new TextView(getApplicationContext());
                 radioView.setText("Seleccione una opción");
                 radioView.setTextAppearance(getApplicationContext(), R.style.boldText);
@@ -440,26 +535,33 @@ public class preguntasEncuesta extends AppCompatActivity {
                     rb[i] = new AppCompatRadioButton(this);
                     if (i == 0) {
                         rb[i].setText("Si");
+                        rb[i].setId(R.id.radioSi);
                     } else {
                         rb[i].setText("No");
+                        rb[i].setId(R.id.radioNo);
                     }
                     rg.addView(rb[i]);
                 }
+                rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        switch (i) {
+                            case R.id.radioSi:
+                                checked = "Si";
+                                break;
+                            case R.id.radioNo:
+                                checked = "No";
+                                break;
+                        }
+                    }
+                });
                 buttonLayout.addView(rg);
                 break;
             case 5:
-                TextView numeroView = new TextView(getApplicationContext());
-                numeroView.setText("Ingrese la cantidad");
-                numeroView.setTextAppearance(getApplicationContext(), R.style.boldText);
-                layout.addView(numeroView);
-
-                EditText cantidad = new EditText(getApplicationContext());
-                cantidad.setGravity(Gravity.CENTER);
-                cantidad.setTextColor(Color.WHITE);
-                cantidad.setWidth(20);
-                cantidad.setHeight(120);
-                cantidad.setInputType(InputType.TYPE_CLASS_NUMBER);
-                layout.addView(cantidad);
+                habilitarCamposCantidad();
+                ocultarCamposDinero();
+                ocultarCamposHM();
+                ocultarCamposPorcentaje();
                 break;
         }
 
