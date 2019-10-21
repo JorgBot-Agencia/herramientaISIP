@@ -98,21 +98,6 @@ public class DetalleGestionDocumental extends Fragment {
         foto = root.findViewById(R.id.IdImagen);
         lista =  new ArrayList<>();
         areaspdf=new ArrayList<>();
-
-        //Generacion de documento PDf
-
-
-        generarpdf= root.findViewById(R.id.btngenerarpdf);
-
-        generarpdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                templatePDF.viewmPDF();
-
-            }
-        });
-
-
         if (getArguments() != null) {
             String id=getArguments().getString("nit");
             n = getArguments().getString("nombre");
@@ -172,9 +157,6 @@ public class DetalleGestionDocumental extends Fragment {
         }if(c13!=0) {
             arr.add(new Area(13,0,0,prom13 / c13));
         }
-        if(c4==0){
-            Toast.makeText(root.getContext(),"esta tomando 0 el contador", Toast.LENGTH_LONG).show();
-        }
     }
 
 
@@ -183,7 +165,7 @@ public class DetalleGestionDocumental extends Fragment {
         row.add(new String[]{"1-Técnica y productiva", "2-Financiera y administrativa","3-Cultura e innovacion",
                 "4-Imagen e identidad", "5-Presentacion producto","6-Sello de frontera de oportunidad"
                 ,"7-Politica de identificación de precios","8-Acceso a nuevas tecnologias","9-Identificacion de mercados","10-Plan de productividad"
-                ,"11-Creditos","12-Capitales reembolsables","13-Capitales no reembolsables",});
+                ,"11-Recursos de inversión","12-Capitales reembolsables","13-Capitales no reembolsables",});
         return row;
     }
 
@@ -283,7 +265,13 @@ public class DetalleGestionDocumental extends Fragment {
                 prom13+=escala;
             }
         }
+        areaspdf.clear();
         calcularPromediosxrevision(areaspdf);
+         c1=0;c2=0;c3=0;c4=0;c5=0;c6=0;c7=0;c8=0;c9=0;c10=0;c11=0;c12=0;c13=0;
+         prom1=0;prom2=0;prom3=0;prom4=0;prom5=0;prom6=0;prom7=0;prom8=0;prom9=0;prom10=0;prom11=0;prom12=0;prom13=0;
+
+
+
         templatePDF= new TemplatePDF(root.getContext());
         templatePDF.OpenDocument();
         templatePDF.addMetadata("Informe de resultados", "Informe de encuesta ISIP","ISIP");
@@ -319,6 +307,7 @@ public class DetalleGestionDocumental extends Fragment {
         templatePDF.creartablapers2(header,getResltEsp(),areaspdf);
         templatePDF.closeDocument();
         templatePDF.viewmPDF();
+        areaspdf.clear();
     }
 
     public void consultar_revEmp(String id){

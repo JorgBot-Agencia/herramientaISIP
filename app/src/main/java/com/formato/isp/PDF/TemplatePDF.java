@@ -362,28 +362,26 @@ public class TemplatePDF {
                 int datoentero = Integer.parseInt(dato[0]);
                 aux = 0;
                 c2 = 0;
-                if (datoentero >= 4 && datoentero<11) {
+                if (datoentero >= 4 && datoentero<10) {
                     datoentero = datoentero + 1;
                 }
                 // Toast.makeText(context,"tamaño del array: "+areas.size(),Toast.LENGTH_SHORT).show();
                 while (aux < areas.size()) {
-                    if (areas.get(aux).getAreaId() != 4) {
+                    if (areas.get(aux).getAreaId() == 4) {
+                        areas.get(aux).setAreaId(11);
+                    }
                         if (datoentero == areas.get(aux).getAreaId()) {
                             pdfPCell = new PdfPCell(new Phrase(String.valueOf(areas.get(aux).getPromedioEscala()), letrapequeña));
                             pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                             pdfPCell.setFixedHeight(48);
                             pdfPTable.addCell(pdfPCell);
-                            c++;
+                            c2++;
                             aux = areas.size() + 2;
                         } else {
-                            c2++;
                             aux++;
                         }
-                    } else {
-                        c2++;
-                        aux++;
                     }
-                    if (c2 >= areas.size()) {
+                    if (c2 == 0) {
                         pdfPCell = new PdfPCell(new Phrase("0%", letrapequeña));
                         pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         pdfPCell.setFixedHeight(48);
@@ -391,9 +389,6 @@ public class TemplatePDF {
                     }
 
                 }
-
-            }
-
 
             paragraph.add(pdfPTable);
             document.add(paragraph);
