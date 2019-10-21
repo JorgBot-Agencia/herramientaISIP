@@ -352,7 +352,6 @@ public class preguntasEncuesta extends AppCompatActivity {
         progressBar.setProgress(progress);
 
         if (progress < MAX_STEP) {
-            areaProceso.setAreaAvance(progress);
             //status.setText("PREGUNTA " + obtenerId(progress));
             status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));
@@ -362,6 +361,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             crearComponente(obtenerIdCriterio(progress));
 
             if (progress > 0) {
+                areaProceso.setAreaAvance(progress);
                 asignarValor(valor, progress - 1);
                 enviarRespuesta(progress - 1);
                 if (!marcarGrupo) {
@@ -373,7 +373,7 @@ public class preguntasEncuesta extends AppCompatActivity {
             ViewAnimation.fadeOutIn(status);
 
         } else {
-            areaProceso.setAreaAvance(progress);
+            areaProceso.setAreaAvance(areaProceso.getAreaAvance()+1);
             infoDetallada.acumuladorPreguntas.addAll(listaPreguntas);
             menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
@@ -389,6 +389,7 @@ public class preguntasEncuesta extends AppCompatActivity {
         contenidoPregunta.setText("Formulación de pregunta");
         status.setText("Número de pregunta");
         progressBar.setProgress(progress);
+
         if (progress < MAX_STEP) {
             status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));
