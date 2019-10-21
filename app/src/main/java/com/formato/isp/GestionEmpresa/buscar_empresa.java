@@ -6,13 +6,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +38,7 @@ import com.formato.isp.utils.Tools;
 import com.formato.isp.utils.ViewAnimation;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.itextpdf.text.pdf.parser.Line;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class buscar_empresa extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject>{
+public class buscar_empresa extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
 
     ArrayList<datosEmpresa> dato;
     ImageView img;
@@ -61,15 +67,42 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
     private ImageButton btnRefrescar;
     ArrayList<datosEmpresa> listafiltro;
     ArrayList<datosEmpresa> listafiltro2;
+    private RelativeLayout layout_nointernet;
+    public ProgressBar progress_bar;
+    private LinearLayout lyt_no_connection;
+    private LinearLayout lyt_internet;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_empresa);
-        
-        initToolbar();
 
+        initToolbar();
+        progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
+        progress_bar.setVisibility(View.VISIBLE);
+        layout_nointernet = (RelativeLayout) findViewById(R.id.relative_nointernet);
+        if (comprobarConexion()) {
+            layout_nointernet.setVisibility(View.GONE);
+        }else{
+            layout_nointernet.setVisibility(View.VISIBLE);
+        }
+        lyt_no_connection = (LinearLayout) findViewById(R.id.lyt_no_connection);
+        lyt_internet = (LinearLayout) findViewById(R.id.lyt_internet);
+        lyt_internet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                progress_bar.setVisibility(View.VISIBLE);
+                lyt_no_connection.setVisibility(View.GONE);
+                if (comprobarConexion()) {
+                    Intent abrirDeNuevo = new Intent(getApplicationContext(), buscar_empresa.class);
+                    startActivity(abrirDeNuevo);
+                } else {
+                    progress_bar.setVisibility(View.GONE);
+                    lyt_no_connection.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         back_drop = findViewById(R.id.back_drop);
         final FloatingActionButton fab_mic = (FloatingActionButton) findViewById(R.id.fab_mic);
         final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
@@ -100,17 +133,17 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         });
 
         queue = Volley.newRequestQueue(this);
-        lvItems = (ListView)findViewById(R.id.lv_items);
+        lvItems = (ListView) findViewById(R.id.lv_items);
         initToolbar();
         img = findViewById(R.id.image_1);
         queue = Volley.newRequestQueue(this);
-        buscarEmp= findViewById(R.id.et_search);
+        buscarEmp = findViewById(R.id.et_search);
         buscarEmp.clearFocus();
-        btnBuscarEmpr= findViewById(R.id.btnbuscarEmpr);
-        btnRefrescar= findViewById(R.id.btnrefres);
-        lvItems = (ListView)findViewById(R.id.lv_items);
-        listafiltro= new ArrayList<>();
-        listafiltro2= new ArrayList<>();
+        btnBuscarEmpr = findViewById(R.id.btnbuscarEmpr);
+        btnRefrescar = findViewById(R.id.btnrefres);
+        lvItems = (ListView) findViewById(R.id.lv_items);
+        listafiltro = new ArrayList<>();
+        listafiltro2 = new ArrayList<>();
         btnRefrescar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,14 +156,14 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             @Override
             public void onClick(View v) {
                 String datobusc = (String) buscarEmp.getText().toString();
-                if(datobusc!=null) {
+                if (datobusc != null) {
                     for (Iterator<datosEmpresa> it = listafiltro.iterator(); it.hasNext(); ) {
                         if (!it.next().getNombre().contains(datobusc))
                             it.remove(); // NOTE: Iterator's remove method, not ArrayList's, is used.
                     }
                     adaptador = new Adaptador(ctx, listafiltro);
                     lvItems.setAdapter(adaptador);
-                }else{
+                } else {
 
                 }
             }
@@ -138,6 +171,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
 
         obtenerEmpresas();
     }
+
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
         if (rotate) {
@@ -148,6 +182,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             back_drop.setVisibility(View.GONE);
         }
     }
+
     private void obtenerEmpresas() {
         Sesion session;
         session = new Sesion(getApplicationContext());
@@ -156,6 +191,7 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         req = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         queue.add(req);
     }
+
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_buscar);
         setSupportActionBar(toolbar);
@@ -171,14 +207,28 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onErrorResponse(VolleyError error) {
         if (error instanceof NetworkError) {
-            Intent noInternet = new Intent(getApplicationContext(), noItemInternetIcon.class);
-            startActivity(noInternet);
+            progress_bar.setVisibility(View.GONE);
+            layout_nointernet.setVisibility(View.VISIBLE);
         } else {
             Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean comprobarConexion() {
+        boolean connected = false;
+
+        ConnectivityManager connec = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+        for (int i = 0; i < redes.length; i++) {
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
     }
 
     @Override
@@ -190,10 +240,10 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
             JSONArray jsonArr = response.getJSONArray("data");
             JSONObject jsonObj = null;
             String id_empr = "";
-            String barrio = "" ;
-            String ciudad = "" ;
-            String nombre = "" ;
-            String nit = "" ;
+            String barrio = "";
+            String ciudad = "";
+            String nombre = "";
+            String nit = "";
             String dep = "";
             String tel = "";
             String sitioweb = "";
@@ -213,11 +263,11 @@ public class buscar_empresa extends AppCompatActivity implements Response.ErrorL
                 fecha_crea = jsonObj.getString("empr_fechacreacion");
                 fecha_ini = jsonObj.getString("empr_fechainicio");
                 logo = jsonObj.getString("empr_logo");
-                dato.add(new datosEmpresa(id_empr, nombre,nit,barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini, logo));
+                dato.add(new datosEmpresa(id_empr, nombre, nit, barrio + ", " + ciudad, dep, tel, sitioweb, fecha_crea, fecha_ini, logo));
             }
-            listafiltro=dato;
+            listafiltro = dato;
             adaptador = new Adaptador(this, dato);
-            ctx=this;
+            ctx = this;
             lvItems.setAdapter(adaptador);
 
         } catch (JSONException e) {

@@ -9,9 +9,9 @@
     tools:context=".GestionEmpresa.buscar_empresa">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/barraPrinc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/barraPrinc">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_buscar"
@@ -52,15 +52,15 @@
                 android:layout_height="?attr/actionBarSize"
                 app:contentInsetStartWithNavigation="0dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-            
+
 
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:background="@color/colorPrimary"
                 app:layout_collapseMode="parallax" />
 
             <LinearLayout
@@ -88,6 +88,7 @@
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
@@ -122,10 +123,9 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="Buscar unidad productiva"
+                        android:inputType="text"
                         android:maxLines="1"
-                        android:singleLine="true"
-                        android:inputType="text">
-                    </EditText>
+                        android:singleLine="true"></EditText>
 
                     <ImageButton
                         android:id="@+id/btnbuscarEmpr"
@@ -147,17 +147,83 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <RelativeLayout
+        android:id="@+id/relative_nointernet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:id="@+id/lyt_no_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:tint="@color/grey_20"
+                app:srcCompat="@drawable/ic_signal_wifi_off" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:text="Sin internet"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/grey_90"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/lyt_internet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_marginRight="@dimen/spacing_medium"
+                    android:tint="@color/grey_90"
+                    app:srcCompat="@drawable/ic_refrescar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clic para reintentar"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/grey_90" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 
     <ListView
-        android:layout_marginTop="200dp"
         android:id="@+id/lv_items"
+        android:layout_below="@id/relative_nointernet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
         android:orientation="vertical">
 
     </ListView>
+
     <View
         android:id="@+id/back_drop"
         android:layout_width="match_parent"
@@ -165,12 +231,13 @@
         android:background="@color/overlay_dark_30"
         android:clickable="true"
         android:fitsSystemWindows="true" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:gravity="end|right"
         android:orientation="vertical">
 
@@ -191,10 +258,10 @@
                 app:contentPadding="@dimen/spacing_medium">
 
                 <TextView
+                    android:id="@+id/volver"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:id="@+id/volver"
                     android:gravity="center"
                     android:text="Ir al menú principal"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -205,10 +272,10 @@
                 android:id="@+id/fab_mic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_middle"
                 android:layout_marginLeft="@dimen/spacing_smlarge"
-                android:layout_marginRight="@dimen/spacing_smlarge"
                 android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginRight="@dimen/spacing_smlarge"
+                android:layout_marginBottom="@dimen/spacing_middle"
                 android:clickable="true"
                 android:tint="@color/grey_80"
                 app:backgroundTint="@android:color/white"
@@ -226,10 +293,10 @@
             android:id="@+id/fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_middle"
             android:layout_marginLeft="@dimen/spacing_smlarge"
-            android:layout_marginRight="@dimen/spacing_smlarge"
             android:layout_marginTop="@dimen/spacing_middle"
+            android:layout_marginRight="@dimen/spacing_smlarge"
+            android:layout_marginBottom="@dimen/spacing_middle"
             android:clickable="true"
             android:tint="@android:color/white"
             app:backgroundTint="@color/colorPrimary"
