@@ -491,7 +491,7 @@ public class reporteGrafico extends AppCompatActivity {
                 templatePDF.addparrafo("La empresa aun no cuenta con un reporte estadistico, debe diligenciar la encuesta...");
             }
             templatePDF.addtitulo("Resultados especificos");
-            templatePDF.creartabla(header,getResltEsp());
+            templatePDF.creartablapers(header,getResltEsp(),1);
             templatePDF.closeDocument();
             Toast.makeText(context,"PDF generado y guardado en "+Environment.getExternalStorageDirectory().toString()+"/recursosisp/",Toast.LENGTH_LONG).show();
         }
