@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.formato.isp.Clases.Area;
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
+import com.formato.isp.GestionDocumental.DetalleGestionDocumental;
 import com.formato.isp.R;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -218,7 +219,7 @@ public class TemplatePDF {
 
     }
 
-    public void creartablapers(String[] encabezado, ArrayList<String[]> clients) {
+    public void creartablapers(String[] encabezado, ArrayList<String[]> clients, int opc) {
         try {
 
             paragraph = new Paragraph();
@@ -256,7 +257,12 @@ public class TemplatePDF {
                     pdfPTable.addCell(pdfPCell);
                 }
             }
-            ArrayList<Area> areas = (ArrayList<Area>) menuEncuesta.areasEncuestadas;
+            ArrayList<Area> areas;
+            if(opc==1){
+            areas = (ArrayList<Area>) menuEncuesta.areasEncuestadas;
+            }else{
+                 areas = (ArrayList<Area>) menuEncuesta.areasEncuestadas;
+            }
             int aux = 0;
             int c = 0;
             int c2 = 0;
@@ -270,6 +276,7 @@ public class TemplatePDF {
                 if (datoentero >= 4 && datoentero<11) {
                     datoentero = datoentero + 1;
                 }
+               // Toast.makeText(context,"tamaño del array: "+areas.size(),Toast.LENGTH_SHORT).show();
                 while (aux < areas.size()) {
                     if (areas.get(aux).getAreaId() != 4) {
                         if (datoentero == areas.get(aux).getAreaId()) {
@@ -287,7 +294,96 @@ public class TemplatePDF {
                         c2++;
                         aux++;
                     }
-                    if (c2 == areas.size()) {
+                    if (c2 >= areas.size()) {
+                        pdfPCell = new PdfPCell(new Phrase("0%", letrapequeña));
+                        pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        pdfPCell.setFixedHeight(48);
+                        pdfPTable.addCell(pdfPCell);
+                    }
+
+                }
+
+            }
+
+
+            paragraph.add(pdfPTable);
+            document.add(paragraph);
+        } catch (Exception e) {
+            Log.e("creartablapers", e.toString());
+        }
+
+
+    }
+    public void creartablapers2(String[] encabezado, ArrayList<String[]> clients, ArrayList<Area> areas) {
+        try {
+            paragraph = new Paragraph();
+            paragraph.setSpacingBefore(10);
+            paragraph.setFont(letratexto);
+            PdfPTable pdfPTable = new PdfPTable(13);
+            pdfPTable.setWidthPercentage(100);
+            PdfPCell pdfPCell;
+            int indexC = 0;//columnas
+            while (indexC < encabezado.length) {
+                pdfPCell = new PdfPCell(new Phrase(encabezado[indexC], letrasubtitulo));
+                pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                pdfPCell.setBackgroundColor(BaseColor.GRAY);
+                if (indexC == 0) {
+                    pdfPCell.setColspan(3);
+                }
+                if (indexC == 1) {
+                    pdfPCell.setColspan(3);
+                }
+                if (indexC == 2) {
+                    pdfPCell.setColspan(4);
+                }
+                if (indexC == 3) {
+                    pdfPCell.setColspan(3);
+                }
+                pdfPTable.addCell(pdfPCell);
+                indexC++;
+            }
+            for (int indexrow = 0; indexrow < clients.size(); indexrow++) {
+                String[] row = clients.get(indexrow);
+                for (indexC = 0; indexC < 13; indexC++) {
+                    pdfPCell = new PdfPCell(new Phrase(row[indexC], letrapequeña));
+                    pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    pdfPCell.setFixedHeight(48);
+                    pdfPTable.addCell(pdfPCell);
+                }
+            }
+
+            int aux = 0;
+            int c = 0;
+            int c2 = 0;
+            String[] row = clients.get(0);
+
+            for (int cont = 0; cont < row.length; cont++) {
+                String[] dato = row[cont].split("-", 2);
+                int datoentero = Integer.parseInt(dato[0]);
+                aux = 0;
+                c2 = 0;
+                if (datoentero >= 4 && datoentero<11) {
+                    datoentero = datoentero + 1;
+                }
+                // Toast.makeText(context,"tamaño del array: "+areas.size(),Toast.LENGTH_SHORT).show();
+                while (aux < areas.size()) {
+                    if (areas.get(aux).getAreaId() != 4) {
+                        if (datoentero == areas.get(aux).getAreaId()) {
+                            pdfPCell = new PdfPCell(new Phrase(String.valueOf(areas.get(aux).getPromedioEscala()), letrapequeña));
+                            pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            pdfPCell.setFixedHeight(48);
+                            pdfPTable.addCell(pdfPCell);
+                            c++;
+                            aux = areas.size() + 2;
+                        } else {
+                            c2++;
+                            aux++;
+                        }
+                    } else {
+                        c2++;
+                        aux++;
+                    }
+                    if (c2 >= areas.size()) {
                         pdfPCell = new PdfPCell(new Phrase("0%", letrapequeña));
                         pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         pdfPCell.setFixedHeight(48);
