@@ -14,10 +14,21 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.formato.isp.Clases.Area;
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.GestionDocumental.DetalleGestionDocumental;
+import com.formato.isp.GestionFundacion.AppHelper;
+import com.formato.isp.GestionFundacion.VolleyMultipartRequest;
+import com.formato.isp.GestionFundacion.VolleySingleton;
+import com.formato.isp.MainActivity;
 import com.formato.isp.R;
+import com.formato.isp.resource;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -40,6 +51,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplatePDF {
 
