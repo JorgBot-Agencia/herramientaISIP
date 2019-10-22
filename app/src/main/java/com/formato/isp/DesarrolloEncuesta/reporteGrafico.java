@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,12 @@ import android.util.DisplayMetrics;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.formato.isp.Clases.*;
 import com.formato.isp.GestionDocumental.DetalleGestionDocumental;
 import com.formato.isp.GestionEmpresa.*;
@@ -28,6 +35,7 @@ import com.formato.isp.GestionFundacion.*;
 import com.formato.isp.MenuLateral.*;
 import com.formato.isp.PDF.*;
 import com.formato.isp.model.*;
+import com.formato.isp.resource;
 import com.formato.isp.utils.*;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -40,12 +48,15 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.formato.isp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -75,6 +86,7 @@ public class reporteGrafico extends AppCompatActivity {
     private ArrayList<RadarDataSet> areasyCriterios;
     private String[]header={"Capacitación","Construccion de marca","Gestión de mercados","Acceso a capital"};
     private String[]infor={"Fecha de diligenciamiento", "Diligenciado por:", "Contacto de la unidad"};
+    private Bitmap bimatcapture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,10 +166,12 @@ public class reporteGrafico extends AppCompatActivity {
         l.setForm(Legend.LegendForm.LINE);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         TemplatePDF tf = new TemplatePDF(this);
-        Bitmap bm=loadBitmapFromView(this, this.getWindow().getDecorView().findViewById(android.R.id.content) );
+        Bitmap bm=loadBitmapFromView(this, this.getWindow().getDecorView().findViewById(android.R.id.content));
+        bimatcapture=bm;
         String nom = infoDetallada.dato;
         tf.SaveImage(bm, nom);
         arrfoto.add(new fotoReporte(bm,nom));
+        pruebaRegistro(String.valueOf(infoDetallada.idRevision));
     }
 
     public void viewmPDF(){
@@ -508,5 +522,55 @@ public class reporteGrafico extends AppCompatActivity {
         Canvas c = new Canvas(returnedBitmap);
         v.draw(c);
         return returnedBitmap;
+    }
+    private void pruebaRegistro(String id) {
+        // loading or check internet connection or something...
+        // ... then
+        String url = resource.URLAPI + "/revision/?revi="+id;
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.PUT, url, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                Toast.makeText(context, "Organización Registrada", Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                NetworkResponse networkResponse = error.networkResponse;
+                String errorMessage = "Unknown error";
+                if (networkResponse == null) {
+                    if (error.getClass().equals(TimeoutError.class)) {
+                        errorMessage = "Request timeout";
+                    } else if (error.getClass().equals(NoConnectionError.class)) {
+                        errorMessage = "Failed to connect server";
+                    }
+                } else {
+                    String result = new String(networkResponse.data);
+                    if (networkResponse.statusCode == 404) {
+                        errorMessage = "Resource not found";
+                    } else if (networkResponse.statusCode == 401) {
+                        errorMessage = " Please login again";
+                    } else if (networkResponse.statusCode == 400) {
+                        errorMessage = " Check your inputs";
+                    } else if (networkResponse.statusCode == 500) {
+                        errorMessage = " Something is getting wrong";
+                    }
+                }
+                Log.i("Error", errorMessage);
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bimatcapture.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+                params.put("revi_imagen", new DataPart("file_avatar.jpg", byteArrayOutputStream.toByteArray(), "image/jpeg"));
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(context).addToRequestQueue(multipartRequest);
     }
 }
