@@ -6,16 +6,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -62,6 +72,10 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
     RequestQueue requestQueue;
     JsonObjectRequest request;
     private boolean avisoInsertar = false;
+    private RelativeLayout layout_nointernetMenu;
+    public ProgressBar progress_barMenu;
+    private LinearLayout lyt_no_connectionMenu;
+    private LinearLayout lyt_internetMenu;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
@@ -69,6 +83,33 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_encuesta);
+
+        progress_barMenu = (ProgressBar) findViewById(R.id.progress_barMenu);
+        progress_barMenu.setVisibility(View.VISIBLE);
+
+        layout_nointernetMenu = (RelativeLayout) findViewById(R.id.relative_nointernetMenu);
+        if (comprobarConexion()) {
+            layout_nointernetMenu.setVisibility(View.GONE);
+        } else {
+            layout_nointernetMenu.setVisibility(View.VISIBLE);
+        }
+        lyt_no_connectionMenu = (LinearLayout) findViewById(R.id.lyt_no_connectionMenu);
+        lyt_internetMenu = (LinearLayout) findViewById(R.id.lyt_internetMenu);
+        lyt_internetMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                progress_barMenu.setVisibility(View.VISIBLE);
+                lyt_no_connectionMenu.setVisibility(View.GONE);
+                if (comprobarConexion()) {
+                    Intent abrirDeNuevo = new Intent(getApplicationContext(), menuEncuesta.class);
+                    startActivity(abrirDeNuevo);
+                } else {
+                    progress_barMenu.setVisibility(View.GONE);
+                    lyt_no_connectionMenu.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
         parent_view = findViewById(android.R.id.content);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -86,6 +127,19 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
         loadingAndDisplayContent();
     }
 
+    private boolean comprobarConexion() {
+        boolean connected = false;
+
+        ConnectivityManager connec = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+        for (int i = 0; i < redes.length; i++) {
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+    }
+
     public void insertarDato() {
         p.show();
         Map params = new HashMap();
@@ -95,9 +149,15 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
             switch (infoDetallada.acumuladorPreguntas.get(i).getCriterio()) {
                 case 1:
                     String valores[] = infoDetallada.acumuladorPreguntas.get(i).getRespuesta().split("-");
-                    params.put("dato_hombres", valores[0]);
-                    params.put("dato_mujeres", valores[1]);
-                    params.put("dato_otro", 0);
+                    if (valores[0].equals("") && valores[0].equals("")) {
+                        params.put("dato_hombres", 0);
+                        params.put("dato_mujeres", 0);
+                        params.put("dato_otro", 0);
+                    } else {
+                        params.put("dato_hombres", valores[0]);
+                        params.put("dato_mujeres", valores[1]);
+                        params.put("dato_otro", 0);
+                    }
                     break;
                 case 2:
                 case 3:
@@ -110,13 +170,13 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
             params.put("dato_puntaje", 30);
             params.put("dato_observ", "NADA");
 
-            if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 26){
+            if (infoDetallada.acumuladorPreguntas.get(i).getValor() < 26) {
                 params.put("tipo_escala_ties_id", 1);
-            }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 51){
+            } else if (infoDetallada.acumuladorPreguntas.get(i).getValor() < 51) {
                 params.put("tipo_escala_ties_id", 2);
-            }else if(infoDetallada.acumuladorPreguntas.get(i).getValor() < 76){
+            } else if (infoDetallada.acumuladorPreguntas.get(i).getValor() < 76) {
                 params.put("tipo_escala_ties_id", 3);
-            }else{
+            } else {
                 params.put("tipo_escala_ties_id", 4);
             }
             params.put("esca_valor", infoDetallada.acumuladorPreguntas.get(i).getValor());
@@ -138,7 +198,7 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            showCustomDialog();
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(parent_view.getContext(), reporteGrafico.class);
@@ -211,7 +271,7 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
         float promedio = 0;
         for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++) {
             if (menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId) {
-                if(menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores() > 0){
+                if (menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores() > 0) {
                     valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
                     auxiliar = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
                     promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
@@ -293,5 +353,34 @@ public class menuEncuesta extends AppCompatActivity implements Response.ErrorLis
         p.hide();
         Intent intent = new Intent(getApplicationContext(), cargando.class);
         startActivity(intent);
+    }
+
+    private void showCustomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_gdpr_basic);
+        dialog.setCancelable(true);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        ((TextView) dialog.findViewById(R.id.tv_content)).setMovementMethod(LinkMovementMethod.getInstance());
+
+        ((Button) dialog.findViewById(R.id.bt_accept)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        ((Button) dialog.findViewById(R.id.bt_decline)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.hide();
+            }
+        });
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 }
