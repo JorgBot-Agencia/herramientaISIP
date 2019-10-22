@@ -33,11 +33,11 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
 import com.formato.isp.GestionFundacion.AppHelper;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.VolleyMultipartRequest;
 import com.formato.isp.GestionFundacion.VolleySingleton;
-import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
@@ -70,6 +70,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
     private EditText barrio;
     private EditText telefono;
     private EditText sitioweb;
+    private EditText resenahistorica;
+    private EditText dedicacion;
+    private EditText descripcion;
     ProgressDialog p;
 
     @Override
@@ -93,6 +96,9 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         sitioweb = (EditText)findViewById(R.id.sitioweb);
         foto_gallery = findViewById(R.id.foto_gallery2);
         btnSelectImage = findViewById(R.id.btnSeleccionar2);
+        resenahistorica = findViewById(R.id.resenahistorica);
+        descripcion = findViewById(R.id.descripcionempresa);
+        dedicacion = findViewById(R.id.dedicacion);
 
         fecha_crea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,35 +223,20 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
 
 
     private void crearEmpresa() {
-        Toast.makeText(this, "En proceso...", Toast.LENGTH_SHORT).show();
+
         if (validarCamposEmpresa()) {
-            /*Sesion session;
-            session = new Sesion(getApplicationContext());
-            Map params = new HashMap();
-            params.put("fundacion_fund_id", session.getIdFun());
-            params.put("empr_nit", nit.getText().toString());
-            params.put("empr_nombre", nombre.getText().toString());
-            params.put("empr_fechacreacion", fecha_crea.getText().toString());
-            params.put("empr_fechainicio", fecha_ini.getText().toString());
-            params.put("empr_barrio", barrio.getText().toString());
-            params.put("empr_ciudad", ciudad.getText().toString());
-            params.put("empr_depart", departamento.getText().toString());
-            params.put("empr_telefono", telefono.getText().toString());
-            params.put("empr_paginaweb", sitioweb.getText().toString());
-            //params.put("empr_logo", "https://cdn.pixabay.com/photo/2016/09/02/18/38/architecture-1639990_960_720.jpg");
-            req = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
-            queue.add(req);*/
             pruebaRegistro();
         }else{
             Toast.makeText(this, "Revisa los campos, por favor", Toast.LENGTH_SHORT).show();
-            p.hide();
+
         }
     }
 
     private boolean validarCamposEmpresa() {
         if(!nit.getText().toString().isEmpty() && !nombre.getText().toString().isEmpty() && !fecha_crea.getText().toString().isEmpty()
                 && !fecha_ini.getText().toString().isEmpty() && !departamento.getText().toString().isEmpty() && !ciudad.getText().toString().isEmpty()
-                && !barrio.getText().toString().isEmpty() && !telefono.getText().toString().isEmpty() && !sitioweb.getText().toString().isEmpty() ){
+                && !barrio.getText().toString().isEmpty() && !telefono.getText().toString().isEmpty() && !sitioweb.getText().toString().isEmpty()
+                && !resenahistorica.getText().toString().isEmpty() && !descripcion.getText().toString().isEmpty() && !dedicacion.getText().toString().isEmpty()){
                     if(Date.valueOf(fecha_crea.getText().toString()).before(Date.valueOf(fecha_ini.getText().toString())) ||
                             Date.valueOf(fecha_crea.getText().toString()).equals(Date.valueOf(fecha_ini.getText().toString()))){
                         return true;
@@ -280,6 +271,10 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         barrio.setText("");
         telefono.setText("");
         sitioweb.setText("");
+        resenahistorica.setText("");
+        dedicacion.setText("");
+        descripcion.setText("");
+        foto_gallery.setImageDrawable(getDrawable(R.drawable.ic_business_center_black_24dp));
     }
 
     private void pruebaRegistro() {
@@ -293,13 +288,13 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
                 Toast.makeText(getApplicationContext(), "Empresa Registrada", Toast.LENGTH_SHORT).show();
                 limpiarCampos();
                 p.hide();
+                Intent intent = new Intent(getApplicationContext(), menuEncuesta.class);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                p.hide();
-                Toast.makeText(getApplicationContext(), "Empresa Registrada", Toast.LENGTH_LONG).show();
-                limpiarCampos();
+
                 NetworkResponse networkResponse = error.networkResponse;
                 String errorMessage = "Unknown error";
                 if (networkResponse == null) {
@@ -343,6 +338,10 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
                 params.put("empr_depart", departamento.getText().toString());
                 params.put("empr_telefono", telefono.getText().toString());
                 params.put("empr_paginaweb", sitioweb.getText().toString());
+                params.put("empr_resehistorica", resenahistorica.getText().toString());
+                params.put("empr_dedica", dedicacion.getText().toString());
+                params.put("empr_descripcion", descripcion.getText().toString());
+
                 return params;
             }
             @Override

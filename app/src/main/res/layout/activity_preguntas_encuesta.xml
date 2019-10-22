@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/cardSecondary"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="5dp"
                 app:cardBackgroundColor="@color/colorTarjeta"
                 app:cardCornerRadius="15dp">
@@ -122,6 +122,197 @@
                                 android:textAlignment="center"
                                 android:textSize="14sp"
                                 android:textStyle="italic" />
+
+                            <LinearLayout
+                                android:id="@+id/lyt_form"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="15dp">
+
+                                <LinearLayout
+                                    android:id="@+id/layout_hombre"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageButton
+                                        android:id="@+id/imagen_hombre"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginTop="20dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/ic_wc_black_24dp"
+                                        android:tint="@color/colorLetraBlanco" />
+
+                                    <View
+                                        android:layout_width="15dp"
+                                        android:layout_height="match_parent" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/colorLetraBlanco"
+                                        android:hint="Hombres">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/cantidadHombresRespuesta"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="number"
+                                            android:textSize="14dp"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="15dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/layout_mujer"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageButton
+                                        android:id="@+id/imagen_mujer"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginTop="20dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/ic_wc_black_24dp"
+                                        android:tint="@color/colorLetraBlanco" />
+
+                                    <View
+                                        android:layout_width="15dp"
+                                        android:layout_height="match_parent" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/colorLetraBlanco"
+                                        android:hint="Mujeres">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/cantidadMujeresRespuesta"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:inputType="number"
+                                            android:textSize="14dp"/>
+
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/layout_porcentaje"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/cantidadPorcentajeRespuesta"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:layout_marginBottom="10dp"
+                                        android:text="0"
+                                        android:textAlignment="center"
+                                        android:textSize="14sp"
+                                        android:textStyle="italic" />
+
+                                    <SeekBar
+                                        android:id="@+id/seekbar"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:max="100"
+                                        android:thumb="@drawable/seek_thumb_accent_outline">
+                                    </SeekBar>
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="15dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/layout_dinero"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageButton
+                                        android:id="@+id/imagen_dinero"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginTop="20dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/ic_attach_money_black_24dp"
+                                        android:tint="@color/colorLetraBlanco" />
+
+                                    <View
+                                        android:layout_width="15dp"
+                                        android:layout_height="match_parent" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/colorLetraBlanco">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/cantidadDineroRespuesta"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hint="Cantidad de dinero"
+                                            android:inputType="number"
+                                            android:textSize="14sp" />
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="15dp" />
+
+                                <LinearLayout
+                                    android:id="@+id/layout_cantidad"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageButton
+                                        android:id="@+id/imagen_cantidad"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginTop="20dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/ic_apps_black_24dp"
+                                        android:tint="@color/colorLetraBlanco" />
+
+                                    <View
+                                        android:layout_width="15dp"
+                                        android:layout_height="match_parent" />
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/colorLetraBlanco">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/cantidadNumeroRespuesta"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hint="Cantidad"
+                                            android:inputType="number"
+                                            android:textSize="14sp" />
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:id="@+id/criterio"
@@ -376,8 +567,8 @@
                         android:layout_marginLeft="35dp"
                         android:layout_marginRight="35dp"
                         android:indeterminate="false"
-                        android:max="100"
-                        android:progress="40" />
+                        android:max="10"
+                        android:progress="4" />
 
                 </LinearLayout>
 
