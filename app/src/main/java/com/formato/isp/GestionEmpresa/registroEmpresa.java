@@ -274,6 +274,7 @@ public class registroEmpresa extends AppCompatActivity implements Response.Liste
         resenahistorica.setText("");
         dedicacion.setText("");
         descripcion.setText("");
+        foto_gallery.setImageDrawable(getDrawable(R.drawable.ic_business_center_black_24dp));
     }
 
     private void pruebaRegistro() {
