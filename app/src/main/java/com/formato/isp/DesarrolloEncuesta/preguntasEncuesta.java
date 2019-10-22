@@ -312,68 +312,132 @@ public class preguntasEncuesta extends AppCompatActivity {
         });
     }
 
-    private void enviarRespuesta(int parametro) {
+    public boolean validarMarcarGrupo() {
+        if (marcarGrupo) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean enviarRespuesta(int parametro) {
+        boolean saber = false;
         for (int i = 0; i < listaPreguntas.size(); i++) {
             if (i == parametro) {
                 switch (listaPreguntas.get(i).getCriterio()) {
                     case 1:
-                        listaPreguntas.get(i).setRespuesta(cantidadHombresRespuesta.getText().toString() + "-" + cantidadMujeresRespuesta.getText().toString());
-                        cantidadMujeresRespuesta.setText("");
-                        cantidadHombresRespuesta.setText("");
+                        if (!cantidadHombresRespuesta.getText().toString().equals("")) {
+                            if (!cantidadMujeresRespuesta.getText().toString().equals("")) {
+                                if (marcarGrupo) {
+                                    listaPreguntas.get(i).setRespuesta(cantidadHombresRespuesta.getText().toString() + "-" + cantidadMujeresRespuesta.getText().toString());
+                                    cantidadMujeresRespuesta.setText("");
+                                    cantidadHombresRespuesta.setText("");
+                                    marcarGrupo = false;
+                                    saber = true;
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Por favor ingrese la cantidad de mujeres", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Por favor ingrese la cantidad de hombres", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 2:
-                        listaPreguntas.get(i).setRespuesta(cantidadPorcentajeRespuesta.getText().toString());
-                        cantidadPorcentajeRespuesta.setText("0");
-                        porcentajeSeekBar.setProgress(0);
+                        if (!cantidadPorcentajeRespuesta.getText().toString().equals("")) {
+                            if (validarMarcarGrupo()) {
+                                listaPreguntas.get(i).setRespuesta(cantidadPorcentajeRespuesta.getText().toString());
+                                cantidadPorcentajeRespuesta.setText("0");
+                                porcentajeSeekBar.setProgress(0);
+                                marcarGrupo = false;
+                                saber = true;
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Por favor seleccione el porcentaje", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 3:
-                        listaPreguntas.get(i).setRespuesta(cantidadDineroRespuesta.getText().toString());
-                        cantidadDineroRespuesta.setText("");
+                        if (!cantidadDineroRespuesta.getText().toString().equals("")) {
+                            if (validarMarcarGrupo()) {
+                                listaPreguntas.get(i).setRespuesta(cantidadDineroRespuesta.getText().toString());
+                                cantidadDineroRespuesta.setText("");
+                                marcarGrupo = false;
+                                saber = true;
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Por favor ingrese la cantidad de dinero", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 4:
-                        listaPreguntas.get(i).setRespuesta(checked);
+                        if (!checked.equals("")) {
+                            if (validarMarcarGrupo()) {
+                                listaPreguntas.get(i).setRespuesta(checked);
+                                marcarGrupo = false;
+                                checked = "";
+                                saber = true;
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Debe seleccionar una opcion", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 5:
-                        listaPreguntas.get(i).setRespuesta(cantidadNumeroRespuesta.getText().toString());
-                        cantidadNumeroRespuesta.setText("");
+                        if (!cantidadNumeroRespuesta.getText().toString().equals("")) {
+                            if (validarMarcarGrupo()) {
+                                listaPreguntas.get(i).setRespuesta(cantidadNumeroRespuesta.getText().toString());
+                                cantidadNumeroRespuesta.setText("");
+                                marcarGrupo = false;
+                                saber = true;
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Por favor ingrese la cantidad", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
             }
         }
+        return saber;
     }
 
     private void nextStep(int progress) {
         txtAdicional.setText("");
-        indicadorContenido.setText("Indicador de la pregunta");
-        //indicadorId.setText("Número de indicador");
-        descripcionPregunta.setText("Descripción de la pregunta");
-        contenidoPregunta.setText("Formulación de pregunta");
-        status.setText("Número de pregunta");
         progressBar.setProgress(progress);
 
         if (progress < MAX_STEP) {
-            //status.setText("PREGUNTA " + obtenerId(progress));
-            status.setText("PREGUNTA " + cc++);
-            contenidoPregunta.setText(obtenerContenido(progress));
-            indicadorContenido.setText(obtenerContenidoIndicador(progress));
-            descripcionPregunta.setText(obtenerDescripcion(progress));
-            //indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
-            crearComponente(obtenerIdCriterio(progress));
-
             if (progress > 0) {
-                areaProceso.setAreaAvance(progress);
-                asignarValor(valor, progress - 1);
-                enviarRespuesta(progress - 1);
-                if (!marcarGrupo) {
-                    Toast.makeText(getApplicationContext(), "Debe asignar una escala a este indicador.", Toast.LENGTH_SHORT).show();
+                if (enviarRespuesta(progress - 1)) {
+                    contenidoPregunta.setText(obtenerContenido(progress));
+                    status.setText("PREGUNTA " + cc);
+                    cc++;
+                    indicadorContenido.setText(obtenerContenidoIndicador(progress));
+                    descripcionPregunta.setText(obtenerDescripcion(progress));
+                    crearComponente(obtenerIdCriterio(progress));
+                    areaProceso.setAreaAvance(progress);
+                    asignarValor(valor, progress - 1);
+                    progress = progress + 1;
+                    current_step = progress;
+                    ViewAnimation.fadeOutIn(status);
                 }
+            } else {
+                contenidoPregunta.setText(obtenerContenido(progress));
+                indicadorContenido.setText(obtenerContenidoIndicador(progress));
+                descripcionPregunta.setText(obtenerDescripcion(progress));
+                crearComponente(obtenerIdCriterio(progress));
+                status.setText("PREGUNTA " + cc++);
+                progress = progress + 1;
+                current_step = progress;
+                ViewAnimation.fadeOutIn(status);
             }
-            progress = progress + 1;
-            current_step = progress;
-            ViewAnimation.fadeOutIn(status);
-
         } else {
-            areaProceso.setAreaAvance(areaProceso.getAreaAvance()+1);
+            areaProceso.setAreaAvance(areaProceso.getAreaAvance() + 1);
             infoDetallada.acumuladorPreguntas.addAll(listaPreguntas);
             menuEncuesta.areasEncuestadas.add(new Area(areaProceso.getAreaId(), areaProceso.getTotalIndicadores(), areaProceso.getAreaAvance(), areaProceso.getPromedioEscala()));
             Intent abrirProgress = new Intent(this, menuEncuesta.class);
@@ -383,21 +447,17 @@ public class preguntasEncuesta extends AppCompatActivity {
 
     private void backStep(int progress) {
         txtAdicional.setText("");
-        //indicadorContenido.setText("Indicador de la pregunta");
-        //indicadorId.setText("Número de indicador");
         descripcionPregunta.setText("Descripción de la pregunta");
         contenidoPregunta.setText("Formulación de pregunta");
         status.setText("Número de pregunta");
         progressBar.setProgress(progress);
 
         if (progress < MAX_STEP) {
-            status.setText("PREGUNTA " + cc++);
             contenidoPregunta.setText(obtenerContenido(progress));
-            //indicadorContenido.setText(obtenerContenidoIndicador(progress));
+            indicadorContenido.setText(obtenerContenidoIndicador(progress));
             descripcionPregunta.setText(obtenerDescripcion(progress));
-            //indicadorId.setText("INDICADOR " + obtenerIdIndicador(progress));
             crearComponente(obtenerIdCriterio(progress));
-
+            status.setText("PREGUNTA " + cc++);
             progress = progress + 1;
             current_step = progress;
             ViewAnimation.fadeOutIn(status);
