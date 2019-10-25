@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.formato.isp.Clases.Area;
 import com.formato.isp.R;
 import com.formato.isp.utils.ViewAnimation;
+import com.formato.isp.MenuLateral.*;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -67,25 +68,29 @@ public class cargando extends AppCompatActivity {
         loadingAndDisplayContent();
     }
 
-    public int buscarArea(int areaId){
+    public int buscarArea(int areaId) {
         int retorno = 0;
+        float auxiliar = 0;
         int valor = 0;
         float promedio = 0;
-        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++){
-            if(menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId){
-                valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
-                retorno = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
-                promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
-                menuEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
+        for (int i = 0; i < menuEncuesta.areasEncuestadas.size(); i++) {
+            if (menuEncuesta.areasEncuestadas.get(i).getAreaId() == areaId) {
+                if(menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores() > 0){
+                    valor = 100 / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                    auxiliar = valor * menuEncuesta.areasEncuestadas.get(i).getAreaAvance();
+                    promedio = menuEncuesta.areasEncuestadas.get(i).getPromedioEscala() / menuEncuesta.areasEncuestadas.get(i).getTotalIndicadores();
+                    menuEncuesta.areasEncuestadas.get(i).setPromedioEscala(promedio);
+                }
             }
         }
+        retorno = Math.round(auxiliar);
         return retorno;
     }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setTitle("Visualización de porcentajes");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorPrimary);
     }
@@ -100,7 +105,8 @@ public class cargando extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+            startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(parent_view.getContext(), reporteGrafico.class);
@@ -178,7 +184,11 @@ public class cargando extends AppCompatActivity {
                 JSONObject jsonComp = jsonComponente.getJSONObject(j);
                 JSONObject jsonObj = jsonComponente.getJSONObject(j).getJSONObject("componente");
                 if (Integer.parseInt(numeroComponente[0]) == jsonObj.getInt("comp_id")) {
-                        items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), "Sin iniciar", jsonComp.getInt("area_logo"), buscarArea(jsonComp.getInt("area_id")), true));  // add section
+                    String valor = "No fue realizada";
+                    if(menuEncuesta.buscarAreaBoolean(jsonComp.getInt("area_id"))){
+                        valor = "Realizada";
+                    }
+                    items.add(new FolderFile(jsonComp.getInt("area_id"),jsonComp.getString("area_nombre"), valor, jsonComp.getInt("area_logo"), buscarArea(jsonComp.getInt("area_id")), true));  // add section
 
                 }
             }

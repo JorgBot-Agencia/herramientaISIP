@@ -7,10 +7,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,21 +36,39 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.formato.isp.DesarrolloEncuesta.menuEncuesta;
+import com.formato.isp.MenuLateral.menuprincipal;
+import com.formato.isp.Pregunta;
 import com.formato.isp.R;
 import com.formato.isp.resource;
 import com.formato.isp.utils.Tools;
+import com.formato.isp.utils.ViewAnimation;
+import com.github.mikephil.charting.data.RadarDataSet;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class infoDetallada extends AppCompatActivity {
-
+public class infoDetallada extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONObject> {
+    public static String dato;
     private Button btnIniciar;
     private Button btnRegistroPersona;
     private ViewPager view_pager;
@@ -62,28 +85,74 @@ public class infoDetallada extends AppCompatActivity {
     private TextView nombre_empr;
     private TextView ubicacion_empr;
     private AppBarLayout abl;
+    private boolean rotate = false;
+    private TextView irInicio;
+    private View lyt_mic;
+    private View back_drop;
     private ListView lvInfo;
+    private int n;
+    private int idEmpresa;
+    public static List<Pregunta> acumuladorPreguntas;
     ArrayList<String> infoEmpresa;
     ArrayList<String> infoPersonal;
     RequestQueue queue;
+    RequestQueue RequestQueue;
     String url;
     JsonRequest req;
+    JsonRequest request;
+    String URI = resource.URLAPI +"/revision";
+    public static int idRevision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_detallada);
+        menuEncuesta.areasEncuestadas.clear();
+        Bundle bundle = getIntent().getExtras();
+        dato=bundle.getString("name");
+        idEmpresa=Integer.parseInt(bundle.getString("idEmpresa"));
         initToolbar();
         initComponent();
         cargarPref();
         datosempresa();
+        acumuladorPreguntas = new ArrayList<>();
+        back_drop = findViewById(R.id.back_drop);
+        final FloatingActionButton fab_mic = (FloatingActionButton) findViewById(R.id.fab_mic);
+        final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+        lyt_mic = findViewById(R.id.lyt_mic);
+        ViewAnimation.initShowOut(lyt_mic);
+        back_drop.setVisibility(View.GONE);
+
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleFabMode(v);
+            }
+        });
+        fab_mic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
+
+        irInicio = findViewById(R.id.volver);
+        irInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), menuprincipal.class);
+                startActivity(intent);
+            }
+        });
+
         queue = Volley.newRequestQueue(this);
+        RequestQueue = Volley.newRequestQueue(this);
         btnIniciar = findViewById(R.id.btn_start);
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent abrirEncuesta = new Intent(view.getContext(), menuEncuesta.class);
-                startActivity(abrirEncuesta);
+                crearRevision();
             }
         });
         btnRegistroPersona = (Button)findViewById(R.id.registro_persona);
@@ -108,44 +177,8 @@ public class infoDetallada extends AppCompatActivity {
                         datosempresa();
                         break;
                     case ("Personal"):
-                        url = resource.URLAPI + "/persona/?empr="+ id;
-                        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    infoPersonal = new ArrayList<>();
-                                    JSONArray jsonArr = response.getJSONArray("data");
-                                    JSONObject jsonObj = null;
-                                    String nom = "" ;
-                                    String ape = "" ;
-                                    String tel = "" ;
-                                    for (int i = 0; i < jsonArr.length(); i++) {
-                                        jsonObj = jsonArr.getJSONObject(i);
-                                        nom = jsonObj.getString("pers_nombre");
-                                        ape = jsonObj.getString("pers_apellido");
-                                        tel = jsonObj.getString("pers_telefono");
-                                        infoPersonal.add(nom + " " + ape + " - " + tel);
-                                    }
-                                    ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoPersonal);
-                                    lvInfo = (ListView) findViewById(R.id.lv_info);
-                                    lvInfo.setAdapter(adapter);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                if (error instanceof NetworkError) {
-                                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "No se han registrado pERSONAS", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        queue.add(req);
-
+                        preguntaExcell();
+                        datoPersonal();
                         break;
                 }
 
@@ -163,12 +196,42 @@ public class infoDetallada extends AppCompatActivity {
         });
     }
 
+    public void crearRevision(){
+        Map params = new HashMap();
+        params.put("revi_descripcion", "Prueba Huver2");
+        params.put("revi_fechainicio", "2019-10-19");
+        params.put("revi_fechafinal", "2019-10-19");
+        params.put("revi_prioridad", 1);
+        params.put("revi_estado", 0);
+        params.put("empresa_empr_id", idEmpresa);
+        request = new JsonObjectRequest(Request.Method.POST, URI, new JSONObject(params), this, this);
+        queue.add(request);
+    }
+
+    private void toggleFabMode(View v) {
+        rotate = ViewAnimation.rotateFab(v, !rotate);
+        if (rotate) {
+            ViewAnimation.showIn(lyt_mic);
+            back_drop.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimation.showOut(lyt_mic);
+            back_drop.setVisibility(View.GONE);
+        }
+    }
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar2);
+        Toolbar toolbar = findViewById(R.id.toolbar_info);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Tools.setSystemBarColor(this, R.color.colorPrimary);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -186,7 +249,25 @@ public class infoDetallada extends AppCompatActivity {
         adapter.addFragment(PlaceholderFragment.newInstance(2), "Personal");
         viewPager.setAdapter(adapter);
     }
-
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        if (error instanceof NetworkError) {
+            Toast.makeText(getApplicationContext(),"Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Error al crear la revisión", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onResponse(JSONObject response) {
+        Toast.makeText(getApplicationContext(),"Revisión creada", Toast.LENGTH_SHORT).show();
+        try {
+            idRevision = response.getJSONObject("data").getInt("revi_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Intent abrirEncuesta = new Intent(getApplicationContext(), menuEncuesta.class);
+        startActivity(abrirEncuesta);
+    }
     public static class PlaceholderFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -265,4 +346,128 @@ public class infoDetallada extends AppCompatActivity {
         lvInfo = (ListView) findViewById(R.id.lv_info);
         lvInfo.setAdapter(adapter);
     }
+
+    public void datoPersonal(){
+        url = resource.URLAPI + "/persona/?empr="+ id;
+        req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (android.os.Build.VERSION.SDK_INT > 9) {
+                        infoPersonal = new ArrayList<>();
+                        JSONArray jsonArr = response.getJSONArray("data");
+                        JSONObject jsonObj = null;
+                        String nombre = "" ;
+                        String ape = "" ;
+                        String tel = "" ;
+                        //EXCELL
+                        Workbook wb = new HSSFWorkbook();
+                        CellStyle style = wb.createCellStyle();
+                        style.setFillBackgroundColor(IndexedColors.VIOLET.getIndex());
+                        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                        style.setAlignment(CellStyle.ALIGN_CENTER);
+                        Cell c = null;
+                        //New Sheet
+                        Sheet sheet1 = null;
+                        sheet1 = wb.createSheet("reporte");
+                        // Generate column headings
+                        Row row = sheet1.createRow(0);
+                        c = row.createCell(0);
+                        c.setCellValue("Documento");
+                        c.setCellStyle(style);
+                        c = row.createCell(1);
+                        c.setCellValue("Nombres");
+                        c.setCellStyle(style);
+                        c = row.createCell(2);
+                        c.setCellValue("Apellidos");
+                        c.setCellStyle(style);
+                        c = row.createCell(3);
+                        c.setCellValue("Teléfono");
+                        c.setCellStyle(style);
+                        c = row.createCell(4);
+                        c.setCellValue("Dirección");
+                        c.setCellStyle(style);
+                        for (int i = 0; i < jsonArr.length(); i++) {
+                            jsonObj = jsonArr.getJSONObject(i);
+                            nombre = jsonObj.getString("pers_nombre");
+                            ape = jsonObj.getString("pers_apellido");
+                            tel = jsonObj.getString("pers_telefono");
+                            infoPersonal.add(nombre + " " + ape + " - " + tel);
+                            row = sheet1.createRow(i+1);
+                            c = row.createCell(0);
+                            c.setCellValue(jsonObj.getString("pers_documento"));
+                            c = row.createCell(1);
+                            c.setCellValue(nombre);
+                            c = row.createCell(2);
+                            c.setCellValue(ape);
+                            c = row.createCell(3);
+                            c.setCellValue(tel);
+                            c = row.createCell(4);
+                            c.setCellValue(jsonObj.getString("pers_direccion"));
+                        }
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, infoPersonal);
+                        lvInfo = (ListView) findViewById(R.id.lv_info);
+                        lvInfo.setAdapter(adapter);
+                        if(n == 1){
+                            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "PersonalDeLaEmpresa" + nom + ".xls");
+                            FileOutputStream os = null;
+
+                            try {
+                                os = new FileOutputStream(file);
+                                wb.write(os);
+                                Toast.makeText(getApplicationContext(),"Creado en: " + file, Toast.LENGTH_LONG).show();
+                            } catch (IOException e) {
+                                Toast.makeText(getApplicationContext(),"Error al crear " + file, Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(),"Falló al guardar " + file, Toast.LENGTH_LONG).show();
+                            } finally {
+                                try {
+                                    if (null != os)
+                                        os.close();
+                                } catch (Exception ex) {
+                                }
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), "Por favor verifica tu conexión a internet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No se han registrado personas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        queue.add(req);
+
+    }
+
+    public void preguntaExcell(){
+        n = 0;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Desea exportar un Excell con todos los datos del Personal?").setCancelable(false)
+                .setPositiveButton(Html.fromHtml("<font color='#4784ba'>Cancelar</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        n = 0;
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(Html.fromHtml("<font color='#4784ba'>Aceptar</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        n = 1;
+                        datoPersonal();
+                    }
+                });
+        AlertDialog des = builder.create();
+        des.setTitle("Exportar datos");
+        des.show();
+    }
+
 }

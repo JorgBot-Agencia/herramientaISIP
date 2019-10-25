@@ -71,16 +71,23 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/grey_90" />
 
-                <Button
-                    android:id="@+id/btngenerarpdf"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/boton"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:layout_width="200dp"
+                <TextView
+                    android:id="@+id/IdNN"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Generar Reporte PDF"></Button>
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="Para visualizar y generar PDF seleccione la revisión:"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="@color/grey_90" />
 
-
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    android:background="@color/light_blue_900"
+                    app:layout_collapseMode="parallax" />
 
 
                 <LinearLayout

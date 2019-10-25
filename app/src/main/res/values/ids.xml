@@ -4,4 +4,7 @@
     <item name="radio2" type="id"/>
     <item name="radio3" type="id"/>
     <item name="radio4" type="id"/>
+
+    <item name="radioSi" type="id"/>
+    <item name="radioNo" type="id"/>
 </resources>

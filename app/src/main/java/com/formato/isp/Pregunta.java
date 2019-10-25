@@ -2,19 +2,14 @@ package com.formato.isp;
 
 public class Pregunta {
 
-    public Pregunta(int preguntaId, String preguntaContenido, String preguntaDescripcion, int indicadorId, String indicadorContenido, int criterio, int areaId, float valor) {
-        this.preguntaId = preguntaId;
-        this.preguntaContenido = preguntaContenido;
-        this.preguntaDescripcion = preguntaDescripcion;
-        this.indicadorId = indicadorId;
-        this.indicadorContenido = indicadorContenido;
-        this.criterio = criterio;
-        this.areaId = areaId;
-        this.valor = valor;
-    }
-
     private int preguntaId;
     private String preguntaContenido;
+    private String preguntaDescripcion;
+    private int indicadorId;
+    private String indicadorContenido;
+    private int criterio;
+    private int areaId;
+    private float valor;
 
     public int getPreguntaId() {
         return preguntaId;
@@ -80,10 +75,26 @@ public class Pregunta {
         this.valor = valor;
     }
 
-    private String preguntaDescripcion;
-    private int indicadorId;
-    private String indicadorContenido;
-    private int criterio;
-    private int areaId;
-    private float valor;
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
+
+    private String respuesta;
+
+    public Pregunta(int preguntaId, String preguntaContenido, String preguntaDescripcion, int indicadorId, String indicadorContenido, int criterio, int areaId, float valor, String respuesta) {
+        this.preguntaId = preguntaId;
+        this.preguntaContenido = preguntaContenido;
+        this.preguntaDescripcion = preguntaDescripcion;
+        this.indicadorId = indicadorId;
+        this.indicadorContenido = indicadorContenido;
+        this.criterio = criterio;
+        this.areaId = areaId;
+        this.valor = valor;
+        this.respuesta = respuesta;
+    }
+
 }

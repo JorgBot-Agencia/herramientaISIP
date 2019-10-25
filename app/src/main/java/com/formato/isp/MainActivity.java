@@ -6,12 +6,28 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
+import android.view.PixelCopy;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +40,17 @@ import com.android.volley.toolbox.Volley;
 import com.formato.isp.GestionFundacion.Sesion;
 import com.formato.isp.GestionFundacion.registroFundacion;
 import com.formato.isp.MenuLateral.menuprincipal;
+import com.formato.isp.PDF.TemplatePDF;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
 
         p = new ProgressDialog(this);
-        p.setMessage("Cargando...");
+        p.setMessage("Validando credenciales...");
         p.setCancelable(false);
         usuario = (EditText)findViewById(R.id.txtUsuario);
         usuario.clearFocus();

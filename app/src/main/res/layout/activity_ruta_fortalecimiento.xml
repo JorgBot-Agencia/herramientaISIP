@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DesarrolloEncuesta.rutaFortalecimiento"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".DesarrolloEncuesta.rutaFortalecimiento">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:id="@+id/barraPrinc">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_ruta"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
@@ -23,11 +23,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ListView
-        android:id="@+id/listRuta"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:scrollingCache="true"
-        />
+
+            <ExpandableListView
+                android:groupIndicator="@null"
+                android:id="@+id/expandible_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></ExpandableListView>
+
+
 </LinearLayout>
