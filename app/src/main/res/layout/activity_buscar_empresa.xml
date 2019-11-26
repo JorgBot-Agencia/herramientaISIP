@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_3"
+    android:fitsSystemWindows="true"
+    tools:context=".GestionEmpresa.buscar_empresa">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/barraPrinc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_buscar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetStartWithNavigation="0dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginBottom="20dp"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="15dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="vertical"
+                android:padding="20dp"
+                app:layout_collapseMode="parallax">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Búsqueda de unidad productiva"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Seleccione la unidad productiva"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="15dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="3dp"
+                app:layout_collapseMode="pin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <ImageButton
+                        android:id="@+id/btnrefres"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:src="@drawable/ic_refrescar"
+                        android:tint="@color/grey_60" />
+
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="Buscar unidad productiva"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"></EditText>
+
+                    <ImageButton
+                        android:id="@+id/btnbuscarEmpr"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:src="@drawable/ic_search"
+                        android:tint="@color/grey_60" />
+
+                    <View
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_nointernet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:id="@+id/lyt_no_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:tint="@color/grey_20"
+                app:srcCompat="@drawable/ic_signal_wifi_off" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:text="Sin internet"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/grey_90"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/lyt_internet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/spacing_large"
+                    android:layout_height="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:layout_marginRight="@dimen/spacing_medium"
+                    android:tint="@color/grey_90"
+                    app:srcCompat="@drawable/ic_refrescar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clic para reintentar"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/grey_90" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/lv_items"
+        android:layout_below="@id/toolbar_buscar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical">
+
+    </ListView>
+
+    <View
+        android:id="@+id/back_drop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_dark_30"
+        android:clickable="true"
+        android:fitsSystemWindows="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="end|right"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/lyt_mic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end|right"
+                android:layout_margin="@dimen/spacing_middle"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="2dp"
+                app:contentPadding="@dimen/spacing_medium">
+
+                <TextView
+                    android:id="@+id/volver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Ir al menú principal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_smlarge"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:layout_marginRight="@dimen/spacing_smlarge"
+                android:layout_marginBottom="@dimen/spacing_middle"
+                android:clickable="true"
+                android:tint="@color/grey_80"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="mini"
+                app:rippleColor="@android:color/black"
+                app:srcCompat="@drawable/iconmenuhome" />
+
+            <View
+                android:layout_width="@dimen/spacing_xmedium"
+                android:layout_height="0dp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_smlarge"
+            android:layout_marginTop="@dimen/spacing_middle"
+            android:layout_marginRight="@dimen/spacing_smlarge"
+            android:layout_marginBottom="@dimen/spacing_middle"
+            android:clickable="true"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="normal"
+            app:rippleColor="@android:color/white"
+            app:srcCompat="@drawable/ic_add" />
+
+    </LinearLayout>
+
+</RelativeLayout>

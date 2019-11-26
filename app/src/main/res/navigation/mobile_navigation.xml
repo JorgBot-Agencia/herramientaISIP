@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/inicio">
+
+    <!-- Un comentario de una sola línea
+     Aquí se agregan todos los fragmentos con sus atributos de referencia al codigo del
+     fragmento y a su vista
+     -->
+    <fragment
+        android:id="@+id/inicio"
+        android:name="com.formato.isp.MenuLateral.Inicio.inicio"
+        android:label="Inicio"
+        tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.formato.isp.MenuLateral.EmpresasPendientes.Empresas_pendFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.formato.isp.MenuLateral.salir.SalirFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_tools"
+        android:name="com.formato.isp.MenuLateral.EncuestasRealizadas.EncuestasFragment"
+        android:label="@string/menu_tools"
+        tools:layout="@layout/fragment_encuestasrealizadas" />
+    <fragment
+        android:id="@+id/gestion_documentalnavigation"
+        android:name="com.formato.isp.GestionDocumental.Gestion_documental"
+        android:label="Gestion documental"
+        tools:layout="@layout/gestion_documental_fragment" />
+    />
+    <fragment
+        android:id="@+id/detalle_gestion"
+        android:name="com.formato.isp.GestionDocumental.DetalleGestionDocumental"
+        android:label="Información detallada"
+        tools:layout="@layout/fragment_detalle_gestion_documental" />
+    />
+    <fragment
+        android:id="@+id/acerca"
+        android:name="com.formato.isp.MenuLateral.acerca"
+        android:label="Acerca de"
+        tools:layout="@layout/fragment_acerca" />
+</navigation>
